@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAIM CMS - Content Management System</title>
+    <link rel="stylesheet" href="style-luxury.css">
+    <link rel="stylesheet" href="cms-admin.css">
+</head>
+<body>
+    <!-- Admin Navigation -->
+    <nav class="cms-nav">
+        <div class="container">
+            <div class="nav-container">
+                <div class="nav-logo">DAIM CMS</div>
+                <div class="admin-user">
+                    <span>Admin User</span>
+                    <div class="user-avatar">👤</div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <aside class="cms-sidebar">
+        <div class="sidebar-menu">
+            <div class="menu-section">
+                <h3>🎵 Music Platform</h3>
+                <ul>
+                    <li><a href="#music-registration" class="menu-link active">音楽登録</a></li>
+                    <li><a href="#music-player" class="menu-link">音楽再生管理</a></li>
+                    <li><a href="#distribution-channels" class="menu-link">配信チャンネル</a></li>
+                </ul>
+            </div>
+            
+            <div class="menu-section">
+                <h3>🎧 DJ Management</h3>
+                <ul>
+                    <li><a href="#dj-registration" class="menu-link">DJ登録</a></li>
+                    <li><a href="#dj-profiles" class="menu-link">DJ紹介管理</a></li>
+                    <li><a href="#dj-content" class="menu-link">コンテンツ登録</a></li>
+                </ul>
+            </div>
+            
+            <div class="menu-section">
+                <h3>💎 Point System</h3>
+                <ul>
+                    <li><a href="#content-management" class="menu-link">コンテンツ管理</a></li>
+                    <li><a href="#content-distribution" class="menu-link">コンテンツ配信</a></li>
+                    <li><a href="#analytics" class="menu-link">分析・統計</a></li>
+                </ul>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="cms-main">
+        <!-- Music Registration Section -->
+        <section id="music-registration" class="cms-section active">
+            <div class="section-header">
+                <h1>音楽登録管理</h1>
+                <button class="btn-luxury btn-primary">新規楽曲追加</button>
+            </div>
+            
+            <div class="cms-grid">
+                <div class="cms-card">
+                    <h3>楽曲アップロード</h3>
+                    <div class="upload-area">
+                        <div class="upload-zone">
+                            <div class="upload-icon">🎵</div>
+                            <p>音楽ファイルをドラッグ&ドロップ</p>
+                            <p class="upload-formats">対応形式: MP3, WAV, FLAC</p>
+                            <button class="btn-luxury">ファイル選択</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="cms-card">
+                    <h3>楽曲情報入力</h3>
+                    <form class="music-form">
+                        <div class="form-group">
+                            <label>楽曲タイトル</label>
+                            <input type="text" class="form-input" placeholder="楽曲名を入力">
+                        </div>
+                        <div class="form-group">
+                            <label>アーティスト名</label>
+                            <input type="text" class="form-input" placeholder="アーティスト名">
+                        </div>
+                        <div class="form-group">
+                            <label>ジャンル</label>
+                            <select class="form-select">
+                                <option>Electronic</option>
+                                <option>Hip-Hop</option>
+                                <option>Pop</option>
+                                <option>Jazz</option>
+                                <option>Classical</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>価格設定</label>
+                            <input type="number" class="form-input" placeholder="価格（円）">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="cms-card">
+                <h3>登録済み楽曲一覧</h3>
+                <div class="data-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>楽曲名</th>
+                                <th>アーティスト</th>
+                                <th>ジャンル</th>
+                                <th>再生数</th>
+                                <th>売上</th>
+                                <th>ステータス</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>AI Dreams</td>
+                                <td>XI ELEVEN</td>
+                                <td>AI-Pop</td>
+                                <td>15,420</td>
+                                <td>¥54,570</td>
+                                <td><span class="status active">配信中</span></td>
+                                <td>
+                                    <button class="btn-small edit">編集</button>
+                                    <button class="btn-small delete">削除</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Neural Beats</td>
+                                <td>YAMATO MAYA</td>
+                                <td>Electronic</td>
+                                <td>8,903</td>
+                                <td>¥31,260</td>
+                                <td><span class="status active">配信中</span></td>
+                                <td>
+                                    <button class="btn-small edit">編集</button>
+                                    <button class="btn-small delete">削除</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Music Player Management -->
+        <section id="music-player" class="cms-section">
+            <div class="section-header">
+                <h1>音楽再生管理</h1>
+            </div>
+            
+            <div class="cms-grid">
+                <div class="cms-card">
+                    <h3>プレイリスト管理</h3>
+                    <div class="playlist-manager">
+                        <div class="playlist-list">
+                            <div class="playlist-item active">
+                                <div class="playlist-info">
+                                    <h4>AI Hits Collection</h4>
+                                    <p>12 tracks • 45:32</p>
+                                </div>
+                                <div class="playlist-actions">
+                                    <button class="btn-small">編集</button>
+                                </div>
+                            </div>
+                            <div class="playlist-item">
+                                <div class="playlist-info">
+                                    <h4>Electronic Vibes</h4>
+                                    <p>8 tracks • 31:15</p>
+                                </div>
+                                <div class="playlist-actions">
+                                    <button class="btn-small">編集</button>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn-luxury">新規プレイリスト作成</button>
+                    </div>
+                </div>
+                
+                <div class="cms-card">
+                    <h3>再生統計</h3>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-number">147,832</div>
+                            <div class="stat-label">総再生回数</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">23,456</div>
+                            <div class="stat-label">月間再生数</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">1,234</div>
+                            <div class="stat-label">アクティブユーザー</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Distribution Channels -->
+        <section id="distribution-channels" class="cms-section">
+            <div class="section-header">
+                <h1>音楽販売チャンネル管理</h1>
+                <button class="btn-luxury btn-primary">新規チャンネル追加</button>
+            </div>
+            
+            <div class="cms-grid">
+                <div class="cms-card">
+                    <h3>配信プラットフォーム</h3>
+                    <div class="platform-list">
+                        <div class="platform-item">
+                            <div class="platform-info">
+                                <div class="platform-icon">🎵</div>
+                                <div>
+                                    <h4>Spotify</h4>
+                                    <p>ストリーミング配信</p>
+                                </div>
+                            </div>
+                            <div class="platform-status">
+                                <span class="status active">接続済み</span>
+                                <button class="btn-small">管理</button>
+                            </div>
+                        </div>
+                        
+                        <div class="platform-item">
+                            <div class="platform-info">
+                                <div class="platform-icon">🎧</div>
+                                <div>
+                                    <h4>Apple Music</h4>
+                                    <p>ストリーミング配信</p>
+                                </div>
+                            </div>
+                            <div class="platform-status">
+                                <span class="status active">接続済み</span>
+                                <button class="btn-small">管理</button>
+                            </div>
+                        </div>
+                        
+                        <div class="platform-item">
+                            <div class="platform-info">
+                                <div class="platform-icon">💿</div>
+                                <div>
+                                    <h4>Bandcamp</h4>
+                                    <p>直接販売</p>
+                                </div>
+                            </div>
+                            <div class="platform-status">
+                                <span class="status pending">未接続</span>
+                                <button class="btn-small">接続</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="cms-card">
+                    <h3>売上レポート</h3>
+                    <div class="revenue-chart">
+                        <div class="chart-placeholder">
+                            <p>売上推移グラフ</p>
+                            <div class="chart-bars">
+                                <div class="bar" style="height: 60%"></div>
+                                <div class="bar" style="height: 80%"></div>
+                                <div class="bar" style="height: 45%"></div>
+                                <div class="bar" style="height: 90%"></div>
+                                <div class="bar" style="height: 75%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DJ Registration -->
+        <section id="dj-registration" class="cms-section">
+            <div class="section-header">
+                <h1>DJ登録管理</h1>
+                <button class="btn-luxury btn-primary">新規DJ登録</button>
+            </div>
+            
+            <div class="cms-grid">
+                <div class="cms-card">
+                    <h3>DJ情報入力</h3>
+                    <form class="dj-form">
+                        <div class="form-group">
+                            <label>DJ名</label>
+                            <input type="text" class="form-input" placeholder="DJ名を入力">
+                        </div>
+                        <div class="form-group">
+                            <label>プロフィール画像</label>
+                            <div class="image-upload">
+                                <div class="image-preview">📷</div>
+                                <button class="btn-luxury">画像選択</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>専門ジャンル</label>
+                            <div class="genre-tags">
+                                <span class="tag active">House</span>
+                                <span class="tag">Techno</span>
+                                <span class="tag">Trance</span>
+                                <span class="tag">Hip-Hop</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>自己紹介</label>
+                            <textarea class="form-textarea" placeholder="DJ紹介文を入力"></textarea>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="cms-card">
+                    <h3>登録済みDJ一覧</h3>
+                    <div class="dj-list">
+                        <div class="dj-item">
+                            <div class="dj-avatar">👤</div>
+                            <div class="dj-info">
+                                <h4>YAMATO MAYA</h4>
+                                <p>Electronic, AI-Music</p>
+                                <p>フォロワー: 12,540</p>
+                            </div>
+                            <div class="dj-actions">
+                                <button class="btn-small">編集</button>
+                                <button class="btn-small">詳細</button>
+                            </div>
+                        </div>
+                        
+                        <div class="dj-item">
+                            <div class="dj-avatar">👤</div>
+                            <div class="dj-info">
+                                <h4>Thomas Gold</h4>
+                                <p>Progressive House</p>
+                                <p>フォロワー: 8,920</p>
+                            </div>
+                            <div class="dj-actions">
+                                <button class="btn-small">編集</button>
+                                <button class="btn-small">詳細</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Content Management -->
+        <section id="content-management" class="cms-section">
+            <div class="section-header">
+                <h1>コンテンツ管理</h1>
+                <button class="btn-luxury btn-primary">新規コンテンツ作成</button>
+            </div>
+            
+            <div class="cms-grid">
+                <div class="cms-card">
+                    <h3>ポイント設定</h3>
+                    <div class="point-settings">
+                        <div class="point-item">
+                            <label>楽曲視聴</label>
+                            <input type="number" value="10" class="form-input-small"> ポイント
+                        </div>
+                        <div class="point-item">
+                            <label>楽曲購入</label>
+                            <input type="number" value="100" class="form-input-small"> ポイント
+                        </div>
+                        <div class="point-item">
+                            <label>DJフォロー</label>
+                            <input type="number" value="50" class="form-input-small"> ポイント
+                        </div>
+                        <div class="point-item">
+                            <label>コメント投稿</label>
+                            <input type="number" value="5" class="form-input-small"> ポイント
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="cms-card">
+                    <h3>コンテンツ配信設定</h3>
+                    <div class="distribution-settings">
+                        <div class="setting-item">
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                            <span>自動配信を有効にする</span>
+                        </div>
+                        <div class="setting-item">
+                            <label class="switch">
+                                <input type="checkbox">
+                                <span class="slider"></span>
+                            </label>
+                            <span>ソーシャルメディア連携</span>
+                        </div>
+                        <div class="setting-item">
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                            <span>メール通知</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="cms-admin.js"></script>
+</body>
+</html>

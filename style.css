@@ -1,0 +1,685 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #0a0a0a;
+    color: #ffffff;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Hero Section */
+.hero {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #6a5acd 100%);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 50% 50%, rgba(138, 43, 226, 0.3) 0%, transparent 70%);
+    z-index: 1;
+}
+
+.hero-content {
+    z-index: 2;
+    margin-bottom: 50px;
+}
+
+.hero h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    opacity: 0.9;
+}
+
+.signup-btn {
+    background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.1rem;
+    color: white;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.signup-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(255, 107, 107, 0.3);
+}
+
+.hero-visual {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    margin: 40px 0;
+    z-index: 2;
+}
+
+.waveform {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(255, 255, 255, 0.1) 25%, 
+        rgba(138, 43, 226, 0.3) 50%, 
+        rgba(255, 255, 255, 0.1) 75%, 
+        transparent 100%);
+    position: relative;
+}
+
+.waveform::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        #ff6b6b 20%, 
+        #ee5a24 40%, 
+        #6a5acd 60%, 
+        #2a5298 80%, 
+        transparent 100%);
+    box-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+}
+
+.hero-title {
+    font-size: 2.5rem;
+    color: #ff6b6b;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    z-index: 2;
+}
+
+/* About DAIM Section */
+.about-daim {
+    padding: 80px 0;
+    background: linear-gradient(180deg, #0a0a0a 0%, #1a1a2e 100%);
+}
+
+.about-daim h2 {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 50px;
+    color: #6a5acd;
+}
+
+.about-content p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 20px;
+    text-align: center;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Music Creation Section */
+.music-creation {
+    padding: 80px 0;
+    background: #1a1a2e;
+}
+
+.music-creation h2 {
+    font-size: 2.2rem;
+    text-align: center;
+    margin-bottom: 50px;
+    color: #ffffff;
+}
+
+.creation-interface {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 40px;
+    border-radius: 15px;
+    margin-bottom: 40px;
+    border: 1px solid rgba(106, 90, 205, 0.3);
+}
+
+.keywords-input {
+    margin-bottom: 30px;
+}
+
+.keywords-input label {
+    display: block;
+    font-size: 0.9rem;
+    color: #6a5acd;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.keywords-input input {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #6a5acd;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.3);
+    color: white;
+    font-size: 1rem;
+}
+
+.keywords-input input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+}
+
+.control-btn {
+    padding: 12px 20px;
+    border: 1px solid #6a5acd;
+    background: rgba(106, 90, 205, 0.1);
+    color: #ffffff;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.control-btn:hover {
+    background: rgba(106, 90, 205, 0.3);
+    transform: translateY(-2px);
+}
+
+.control-btn.primary {
+    background: linear-gradient(45deg, #6a5acd, #8a2be2);
+    border: none;
+}
+
+.section-subtitle {
+    font-size: 2rem;
+    text-align: center;
+    color: #ff6b6b;
+    margin-top: 40px;
+}
+
+/* How to Use Section */
+.how-to-use {
+    padding: 80px 0;
+    background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+}
+
+.how-to-use h2 {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 50px;
+    color: #6a5acd;
+}
+
+.howto-content > p {
+    font-size: 1.1rem;
+    text-align: center;
+    margin-bottom: 50px;
+    color: #ffffff;
+}
+
+.process-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.step {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 30px;
+    border-radius: 15px;
+    border: 1px solid rgba(106, 90, 205, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.step:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(106, 90, 205, 0.2);
+}
+
+.step h3 {
+    font-size: 1.3rem;
+    color: #ff6b6b;
+    margin-bottom: 15px;
+}
+
+.step p {
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Music Distribution Section */
+.music-distribution {
+    padding: 80px 0;
+    background: linear-gradient(180deg, #16213e 0%, #0f1419 100%);
+}
+
+.music-distribution h2 {
+    font-size: 2.2rem;
+    text-align: center;
+    margin-bottom: 50px;
+    color: #ffffff;
+}
+
+.distribution-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    align-items: center;
+}
+
+.distribution-text p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.distribution-status {
+    background: rgba(106, 90, 205, 0.2);
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #6a5acd;
+    text-align: center;
+}
+
+.distribution-status p {
+    color: #ff6b6b;
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+.distribution-visual {
+    display: flex;
+    justify-content: center;
+}
+
+.artist-image {
+    width: 300px;
+    height: 400px;
+    background: linear-gradient(135deg, #6a5acd 0%, #8a2be2 100%);
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+}
+
+.artist-image::before {
+    content: 'AI Generated Artist';
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 0.9rem;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 5px 15px;
+    border-radius: 20px;
+}
+
+/* AI Music Driver Section */
+.ai-music-driver {
+    padding: 80px 0;
+    background: #1a1a2e;
+}
+
+.ai-music-driver h2 {
+    font-size: 2.2rem;
+    text-align: center;
+    margin-bottom: 50px;
+    color: #6a5acd;
+}
+
+.driver-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    align-items: center;
+}
+
+.driver-info h3 {
+    color: #ff6b6b;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+.driver-info ul {
+    list-style: none;
+}
+
+.driver-info li {
+    margin-bottom: 10px;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+}
+
+.artist-image-large {
+    width: 400px;
+    height: 300px;
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+    border-radius: 15px;
+    position: relative;
+}
+
+.artist-image-large::before {
+    content: 'YAMATAMAYA';
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 10px 20px;
+    border-radius: 25px;
+}
+
+/* DEXUS Support Section */
+.dexus-support {
+    padding: 80px 0;
+    background: linear-gradient(180deg, #0f1419 0%, #1a1a2e 100%);
+}
+
+.dexus-support h2 {
+    font-size: 2.2rem;
+    text-align: center;
+    margin-bottom: 50px;
+    color: #ffffff;
+}
+
+.dexus-logo {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.dexus-logo h3 {
+    font-size: 3rem;
+    color: #6a5acd;
+    margin-bottom: 15px;
+    letter-spacing: 5px;
+}
+
+.dexus-logo p {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.artist-showcase-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+}
+
+.showcase-item {
+    text-align: center;
+}
+
+.showcase-item h4 {
+    color: #ff6b6b;
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+}
+
+.artist-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.artist-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.3s ease;
+}
+
+.artist-link:hover {
+    transform: scale(1.05);
+}
+
+.artist-thumbnail {
+    width: 200px;
+    height: 200px;
+    border-radius: 15px;
+    background: linear-gradient(135deg, #6a5acd 0%, #8a2be2 100%);
+    position: relative;
+}
+
+.xi-eleven::before {
+    content: 'XI';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.artist-card span {
+    color: white;
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.artist-gallery {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.gallery-item {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+    border-radius: 10px;
+}
+
+/* Discover Artists Section */
+.discover-artists {
+    padding: 80px 0;
+    background: #16213e;
+}
+
+.discover-artists h2 {
+    font-size: 2.2rem;
+    text-align: center;
+    margin-bottom: 50px;
+    color: #6a5acd;
+}
+
+.discover-features {
+    list-style: none;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.discover-features li {
+    margin-bottom: 15px;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.1rem;
+}
+
+.artist-scroll-preview {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 30px;
+    border-radius: 15px;
+    border: 1px solid rgba(106, 90, 205, 0.3);
+}
+
+.scroll-container {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding: 20px 0;
+}
+
+.artist-card-mini {
+    min-width: 150px;
+    height: 100px;
+    background: linear-gradient(135deg, #6a5acd 0%, #8a2be2 100%);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.artist-card-mini:hover {
+    transform: scale(1.05);
+}
+
+/* Features Section */
+.features {
+    padding: 80px 0;
+    background: #0a0a0a;
+}
+
+.features h2 {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 50px;
+    color: #6a5acd;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.feature-item {
+    text-align: center;
+    padding: 30px;
+    background: linear-gradient(135deg, rgba(106, 90, 205, 0.1) 0%, rgba(138, 43, 226, 0.1) 100%);
+    border-radius: 15px;
+    border: 1px solid rgba(106, 90, 205, 0.3);
+    transition: transform 0.3s ease;
+}
+
+.feature-item:hover {
+    transform: translateY(-10px);
+}
+
+.feature-item h3 {
+    font-size: 1.4rem;
+    color: #ff6b6b;
+    margin-bottom: 15px;
+}
+
+.feature-item p {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Footer */
+footer {
+    background: #000000;
+    padding: 30px 0;
+    text-align: center;
+    border-top: 1px solid rgba(106, 90, 205, 0.3);
+}
+
+footer p {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2rem;
+    }
+    
+    .hero-title {
+        font-size: 1.8rem;
+    }
+    
+    .about-daim h2,
+    .how-to-use h2,
+    .features h2,
+    .music-distribution h2,
+    .ai-music-driver h2,
+    .dexus-support h2,
+    .discover-artists h2 {
+        font-size: 2rem;
+    }
+    
+    .controls {
+        justify-content: center;
+    }
+    
+    .control-btn {
+        font-size: 0.8rem;
+        padding: 10px 15px;
+    }
+    
+    .creation-interface {
+        padding: 20px;
+    }
+    
+    .process-steps {
+        grid-template-columns: 1fr;
+    }
+    
+    .distribution-content,
+    .driver-content,
+    .artist-showcase-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .artist-image,
+    .artist-image-large {
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto;
+    }
+    
+    .dexus-logo h3 {
+        font-size: 2rem;
+        letter-spacing: 2px;
+    }
+    
+    .scroll-container {
+        gap: 10px;
+    }
+    
+    .artist-card-mini {
+        min-width: 120px;
+        height: 80px;
+        font-size: 0.9rem;
+    }
+}

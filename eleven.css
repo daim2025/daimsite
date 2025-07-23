@@ -1,0 +1,392 @@
+/* ELEVEN Artist Page Styles */
+
+/* Navigation */
+.artist-nav {
+    background: rgba(0, 0, 0, 0.9);
+    padding: 20px 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+}
+
+.artist-nav .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.back-link {
+    color: #6a5acd;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.back-link:hover {
+    color: #ff6b6b;
+}
+
+.artist-nav h1 {
+    color: #ffffff;
+    font-size: 2rem;
+    margin: 0;
+    letter-spacing: 3px;
+}
+
+/* Artist Hero Section */
+.artist-hero {
+    padding: 120px 0 80px;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #6a5acd 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+.hero-content {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 60px;
+    align-items: start;
+}
+
+.artist-main-image {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.artist-main-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.artist-info h1 {
+    font-size: 4rem;
+    color: #ffffff;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    letter-spacing: 5px;
+}
+
+.artist-description {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 40px;
+}
+
+/* Profile Section */
+.profile-section {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 30px;
+    border-radius: 15px;
+    margin-bottom: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.profile-section h2 {
+    color: #ff6b6b;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+}
+
+.profile-content p {
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.profile-details {
+    list-style: none;
+    padding: 0;
+}
+
+.profile-details li {
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 10px;
+    padding-left: 20px;
+    position: relative;
+}
+
+.profile-details li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: #6a5acd;
+}
+
+.profile-details strong {
+    color: #ff6b6b;
+}
+
+/* Artist Actions */
+.artist-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.action-btn {
+    padding: 15px 30px;
+    border: none;
+    border-radius: 25px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.action-btn.primary {
+    background: linear-gradient(45deg, #6a5acd, #8a2be2);
+    color: white;
+}
+
+.action-btn.secondary {
+    background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+    color: white;
+}
+
+.action-btn.nft {
+    background: linear-gradient(45deg, #2a5298, #1e3c72);
+    color: white;
+}
+
+.action-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Photo Gallery */
+.photo-gallery {
+    padding: 80px 0;
+    background: #1a1a2e;
+}
+
+.photo-gallery h2 {
+    font-size: 2.5rem;
+    text-align: center;
+    color: #6a5acd;
+    margin-bottom: 50px;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    grid-auto-rows: 250px;
+}
+
+.gallery-item {
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.gallery-item:hover {
+    transform: scale(1.05);
+}
+
+.gallery-item.main-photo {
+    grid-column: span 2;
+    grid-row: span 2;
+}
+
+.gallery-item.wide {
+    grid-column: span 2;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Social Media */
+.social-media {
+    padding: 80px 0;
+    background: linear-gradient(180deg, #16213e 0%, #0f1419 100%);
+}
+
+.social-media h2 {
+    font-size: 2.5rem;
+    text-align: center;
+    color: #ff6b6b;
+    margin-bottom: 50px;
+}
+
+.social-links {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.social-link:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.social-link.facebook:hover {
+    border-color: #1877f2;
+    background: rgba(24, 119, 242, 0.1);
+}
+
+.social-link.instagram:hover {
+    border-color: #e4405f;
+    background: rgba(228, 64, 95, 0.1);
+}
+
+.social-link.line:hover {
+    border-color: #00c300;
+    background: rgba(0, 195, 0, 0.1);
+}
+
+.social-link.tiktok:hover {
+    border-color: #000000;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.social-icon {
+    width: 30px;
+    height: 30px;
+}
+
+.social-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.social-link span {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+/* Latest News */
+.latest-news {
+    padding: 80px 0;
+    background: #1a1a2e;
+}
+
+.latest-news h2 {
+    font-size: 2.5rem;
+    text-align: center;
+    color: #6a5acd;
+    margin-bottom: 50px;
+}
+
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.news-item {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 30px;
+    border-radius: 15px;
+    border: 1px solid rgba(106, 90, 205, 0.3);
+    transition: transform 0.3s ease;
+}
+
+.news-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(106, 90, 205, 0.2);
+}
+
+.news-date {
+    color: #ff6b6b;
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.news-item h3 {
+    color: #ffffff;
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    line-height: 1.4;
+}
+
+.news-item p {
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.6;
+}
+
+/* Artist Footer */
+.artist-footer {
+    background: #000000;
+    padding: 40px 0;
+    text-align: center;
+    border-top: 1px solid rgba(106, 90, 205, 0.3);
+}
+
+.artist-footer p {
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .artist-nav h1 {
+        font-size: 1.5rem;
+        letter-spacing: 2px;
+    }
+    
+    .hero-content {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        text-align: center;
+    }
+    
+    .artist-info h1 {
+        font-size: 2.5rem;
+        letter-spacing: 3px;
+    }
+    
+    .gallery-grid {
+        grid-template-columns: 1fr;
+        grid-auto-rows: 200px;
+    }
+    
+    .gallery-item.main-photo,
+    .gallery-item.wide {
+        grid-column: span 1;
+        grid-row: span 1;
+    }
+    
+    .social-links {
+        grid-template-columns: 1fr;
+    }
+    
+    .news-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .action-btn {
+        font-size: 1rem;
+        padding: 12px 25px;
+    }
+}
