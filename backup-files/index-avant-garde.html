@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAIM - Future of Music</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif;
+            background: #000;
+            color: #fff;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Bento Grid Layout */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff, #666);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 20px 50px;
+            position: relative;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 900px;
+        }
+
+        .hero h1 {
+            font-size: clamp(60px, 10vw, 120px);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #fff, #888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 16px 32px;
+            border-radius: 100px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: #fff;
+            color: #000;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Bento Grid Section */
+        .bento-section {
+            padding: 100px 0;
+        }
+
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 60px;
+        }
+
+        .bento-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 40px;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .bento-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .bento-card.large {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+
+        .bento-card h3 {
+            font-size: 24px;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .bento-card p {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.8;
+        }
+
+        .section-title {
+            font-size: 48px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto 60px;
+        }
+
+        /* Features Grid */
+        .features {
+            padding: 100px 0;
+            background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.02));
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        @media (max-width: 768px) {
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .bento-card.large {
+                grid-column: span 1;
+                grid-row: span 1;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+
+        .feature-card {
+            text-align: center;
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 24px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+        }
+
+        .feature-card h3 {
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+
+        .feature-card p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 14px;
+        }
+
+        /* Artists Section */
+        .artists {
+            padding: 100px 0;
+        }
+
+        .artist-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 60px;
+        }
+
+        .artist-card {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 600;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .artist-card:hover {
+            transform: scale(1.05);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08));
+        }
+
+        /* Footer */
+        footer {
+            padding: 60px 0 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        footer p {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 14px;
+        }
+
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">DAIM</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#artists">Artists</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>DAIM</h1>
+            <p>Decentralized AI Music. 次世代の音楽創造プラットフォーム。</p>
+            <div class="btn-group">
+                <a href="#about" class="btn btn-primary">Get Started</a>
+                <a href="#features" class="btn btn-secondary">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section with Bento Grid -->
+    <section class="bento-section" id="about">
+        <div class="container">
+            <h2 class="section-title">音楽の未来を創る</h2>
+            <p class="section-subtitle">AIと人間のクリエイティビティが融合する新しい音楽体験</p>
+            
+            <div class="bento-grid">
+                <div class="bento-card large">
+                    <h3>🎵 AI Music Generation</h3>
+                    <p>最先端のAI技術により、あなたのアイデアを瞬時に音楽へ変換。感情やムードを理解し、プロフェッショナルクオリティの楽曲を生成します。</p>
+                </div>
+                
+                <div class="bento-card">
+                    <h3>🎹 Smart Studio</h3>
+                    <p>直感的なインターフェースで誰でも簡単に音楽制作が可能です。</p>
+                </div>
+                
+                <div class="bento-card">
+                    <h3>🌐 Global Network</h3>
+                    <p>世界中のアーティストとコラボレーション。</p>
+                </div>
+                
+                <div class="bento-card">
+                    <h3>⚡ Real-time Processing</h3>
+                    <p>リアルタイムで音楽を生成・編集。待ち時間なしで創造性を維持。</p>
+                </div>
+                
+                <div class="bento-card">
+                    <h3>🔒 Blockchain Rights</h3>
+                    <p>ブロックチェーンで著作権を保護。透明で公正な収益分配。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">Core Features</h2>
+            <p class="section-subtitle">革新的な機能で音楽制作を再定義</p>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>AI Composer</h3>
+                    <p>高度なニューラルネットワークによる作曲支援</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🎚️</div>
+                    <h3>Smart Mixing</h3>
+                    <p>自動ミキシング・マスタリング機能</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🎧</div>
+                    <h3>3D Audio</h3>
+                    <p>空間オーディオ対応の没入型体験</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Analytics</h3>
+                    <p>詳細な分析とインサイト</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Version Control</h3>
+                    <p>プロジェクトのバージョン管理</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">☁️</div>
+                    <h3>Cloud Sync</h3>
+                    <p>クラウド同期でどこでも作業可能</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Artists Section -->
+    <section class="artists" id="artists">
+        <div class="container">
+            <h2 class="section-title">Featured Artists</h2>
+            <p class="section-subtitle">DAIMで活動するアーティストたち</p>
+            
+            <div class="artist-grid">
+                <div class="artist-card">ELEVEN</div>
+                <div class="artist-card">YAMATO MAYA</div>
+                <div class="artist-card">Thomas Gold</div>
+                <div class="artist-card">Mr.Black</div>
+                <div class="artist-card">ポニョ王子</div>
+                <div class="artist-card">Coming Soon</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="bento-section" id="process">
+        <div class="container">
+            <h2 class="section-title">How It Works</h2>
+            <p class="section-subtitle">シンプルな3ステップで音楽制作を開始</p>
+            
+            <div class="bento-grid">
+                <div class="bento-card">
+                    <h3>1. アイデアを入力</h3>
+                    <p>作りたい音楽のイメージ、ジャンル、ムードをテキストで入力。AIがあなたのビジョンを理解します。</p>
+                </div>
+                
+                <div class="bento-card">
+                    <h3>2. AIが生成</h3>
+                    <p>最新のAIモデルが数秒で高品質な音楽を生成。リアルタイムで調整も可能です。</p>
+                </div>
+                
+                <div class="bento-card">
+                    <h3>3. カスタマイズ&共有</h3>
+                    <p>生成された音楽を編集し、完璧に仕上げてから世界中に配信。収益化も簡単です。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="features" id="pricing">
+        <div class="container">
+            <h2 class="section-title">Pricing Plans</h2>
+            <p class="section-subtitle">あなたのニーズに合わせた柔軟なプラン</p>
+            
+            <div class="feature-grid">
+                <div class="bento-card">
+                    <h3>Free</h3>
+                    <p style="font-size: 36px; margin: 20px 0;">¥0</p>
+                    <ul style="list-style: none; padding: 0; margin: 20px 0;">
+                        <li style="margin: 10px 0;">✓ 月10曲まで生成</li>
+                        <li style="margin: 10px 0;">✓ 基本的なエディット機能</li>
+                        <li style="margin: 10px 0;">✓ MP3エクスポート</li>
+                    </ul>
+                    <a href="#" class="btn btn-secondary" style="width: 100%; text-align: center;">Start Free</a>
+                </div>
+                
+                <div class="bento-card" style="border: 2px solid #fff;">
+                    <h3>Pro</h3>
+                    <p style="font-size: 36px; margin: 20px 0;">¥2,980/月</p>
+                    <ul style="list-style: none; padding: 0; margin: 20px 0;">
+                        <li style="margin: 10px 0;">✓ 無制限の楽曲生成</li>
+                        <li style="margin: 10px 0;">✓ 高度なエディット機能</li>
+                        <li style="margin: 10px 0;">✓ WAV/FLAC エクスポート</li>
+                        <li style="margin: 10px 0;">✓ 商用利用可能</li>
+                    </ul>
+                    <a href="#" class="btn btn-primary" style="width: 100%; text-align: center;">Get Pro</a>
+                </div>
+                
+                <div class="bento-card">
+                    <h3>Enterprise</h3>
+                    <p style="font-size: 36px; margin: 20px 0;">カスタム</p>
+                    <ul style="list-style: none; padding: 0; margin: 20px 0;">
+                        <li style="margin: 10px 0;">✓ 専用サポート</li>
+                        <li style="margin: 10px 0;">✓ API アクセス</li>
+                        <li style="margin: 10px 0;">✓ カスタムモデル</li>
+                        <li style="margin: 10px 0;">✓ ホワイトラベル対応</li>
+                    </ul>
+                    <a href="#" class="btn btn-secondary" style="width: 100%; text-align: center;">Contact Sales</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- News Section -->
+    <section class="bento-section" id="news">
+        <div class="container">
+            <h2 class="section-title">Latest Updates</h2>
+            <p class="section-subtitle">DAIMの最新ニュースとアップデート</p>
+            
+            <div class="bento-grid">
+                <div class="bento-card large">
+                    <span style="color: rgba(255, 255, 255, 0.5); font-size: 14px;">2024.08.13</span>
+                    <h3 style="margin: 10px 0;">新機能：リアルタイムコラボレーション</h3>
+                    <p>複数のアーティストが同時に作業できる革新的なコラボレーション機能をリリース。距離を超えた音楽制作が可能になりました。</p>
+                </div>
+                
+                <div class="bento-card">
+                    <span style="color: rgba(255, 255, 255, 0.5); font-size: 14px;">2024.08.10</span>
+                    <h3 style="margin: 10px 0;">ELEVEN 新曲リリース</h3>
+                    <p>DAIMを使用した最新トラックが公開されました。</p>
+                </div>
+                
+                <div class="bento-card">
+                    <span style="color: rgba(255, 255, 255, 0.5); font-size: 14px;">2024.08.05</span>
+                    <h3 style="margin: 10px 0;">パートナーシップ発表</h3>
+                    <p>大手レーベルとの提携により、さらなる成長へ。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="features" id="faq">
+        <div class="container">
+            <h2 class="section-title">FAQ</h2>
+            <p class="section-subtitle">よくある質問</p>
+            
+            <div style="max-width: 800px; margin: 0 auto;">
+                <div class="bento-card" style="margin-bottom: 20px;">
+                    <h3 style="margin-bottom: 10px;">DAIMで生成した音楽の著作権は？</h3>
+                    <p>Pro以上のプランでは、生成された音楽の商用利用権を含むすべての権利があなたに帰属します。</p>
+                </div>
+                
+                <div class="bento-card" style="margin-bottom: 20px;">
+                    <h3 style="margin-bottom: 10px;">どんなジャンルの音楽が作れますか？</h3>
+                    <p>ポップ、ロック、EDM、ジャズ、クラシックなど、あらゆるジャンルに対応。独自のスタイルも創造可能です。</p>
+                </div>
+                
+                <div class="bento-card" style="margin-bottom: 20px;">
+                    <h3 style="margin-bottom: 10px;">音楽制作の経験がなくても使えますか？</h3>
+                    <p>はい、DAIMは初心者にも使いやすく設計されています。テキストで指示するだけで高品質な音楽を生成できます。</p>
+                </div>
+                
+                <div class="bento-card" style="margin-bottom: 20px;">
+                    <h3 style="margin-bottom: 10px;">生成にかかる時間は？</h3>
+                    <p>通常、30秒の楽曲なら5-10秒程度で生成完了。長さや複雑さにより変動します。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="bento-section" id="contact">
+        <div class="container">
+            <h2 class="section-title">Get in Touch</h2>
+            <p class="section-subtitle">質問やフィードバックをお待ちしています</p>
+            
+            <div style="max-width: 600px; margin: 0 auto;">
+                <div class="bento-card">
+                    <form style="display: flex; flex-direction: column; gap: 20px;">
+                        <input type="text" placeholder="お名前" style="padding: 15px; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 10px; color: #fff;">
+                        <input type="email" placeholder="メールアドレス" style="padding: 15px; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 10px; color: #fff;">
+                        <textarea placeholder="メッセージ" rows="5" style="padding: 15px; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 10px; color: #fff; resize: vertical;"></textarea>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">送信</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="padding: 80px 0 40px; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+        <div class="container">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 40px;">
+                <div>
+                    <h3 style="margin-bottom: 20px; font-size: 24px;">DAIM</h3>
+                    <p style="color: rgba(255, 255, 255, 0.6);">Decentralized AI Music<br>音楽×AI×人間×未来</p>
+                </div>
+                
+                <div>
+                    <h4 style="margin-bottom: 20px;">Product</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin: 10px 0;"><a href="#features" style="color: rgba(255, 255, 255, 0.6); text-decoration: none;">Features</a></li>
+                        <li style="margin: 10px 0;"><a href="#pricing" style="color: rgba(255, 255, 255, 0.6); text-decoration: none;">Pricing</a></li>
+                        <li style="margin: 10px 0;"><a href="#" style="color: rgba(255, 255, 255, 0.6); text-decoration: none;">API</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 style="margin-bottom: 20px;">Company</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin: 10px 0;"><a href="#about" style="color: rgba(255, 255, 255, 0.6); text-decoration: none;">About</a></li>
+                        <li style="margin: 10px 0;"><a href="#news" style="color: rgba(255, 255, 255, 0.6); text-decoration: none;">News</a></li>
+                        <li style="margin: 10px 0;"><a href="#contact" style="color: rgba(255, 255, 255, 0.6); text-decoration: none;">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 style="margin-bottom: 20px;">Connect</h4>
+                    <div style="display: flex; gap: 20px;">
+                        <a href="#" style="color: rgba(255, 255, 255, 0.6); text-decoration: none;">Twitter</a>
+                        <a href="#" style="color: rgba(255, 255, 255, 0.6); text-decoration: none;">Discord</a>
+                        <a href="#" style="color: rgba(255, 255, 255, 0.6); text-decoration: none;">GitHub</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+                <p style="color: rgba(255, 255, 255, 0.4); font-size: 14px;">&copy; 2024 DAIM. All rights reserved. | Privacy Policy | Terms of Service</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

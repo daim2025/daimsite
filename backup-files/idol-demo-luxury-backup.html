@@ -1,0 +1,304 @@
+<!-- BACKUP: 削除されたHEROセクションとビデオ関連コード -->
+<!-- このファイルは、idol-demo-luxury.htmlから削除されたコードのバックアップです -->
+
+<!-- ======================================== -->
+<!-- HEROセクション（削除済み） -->
+<!-- ======================================== -->
+<!--
+<section class="hero-luxury">
+    <div class="container">
+        <div class="hero-grid">
+            <div class="hero-content">
+                <img src="images/logo_daim.svg" alt="DAIM Logo" class="hero-logo">
+                <p class="hero-subtitle">AI Music Creation Platform</p>
+                <h1 class="hero-title">アイドル向けデモ</h1>
+                <p class="hero-description">
+                    音楽自動生成のアプリの癖を踏まえて、アイドル向けの楽曲を制作しました。
+                    AIと人間のクリエイティビティが融合した新しい音楽体験をお楽しみください。
+                </p>
+                <div style="display: flex; gap: var(--space-md); flex-wrap: wrap;">
+                    <a href="#demo" class="btn-luxury btn-primary">
+                        <span>デモを聴く</span>
+                    </a>
+                    <a href="#about" class="btn-luxury">
+                        <span>詳細を見る</span>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="groove-visual" style="position: relative; z-index: 2;">
+                <div class="vinyl-record"></div>
+                <div class="groove-eq">
+                    <div class="eq-bar"></div>
+                    <div class="eq-bar"></div>
+                    <div class="eq-bar"></div>
+                    <div class="eq-bar"></div>
+                    <div class="eq-bar"></div>
+                    <div class="eq-bar"></div>
+                    <div class="eq-bar"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+-->
+
+<!-- ======================================== -->
+<!-- 背景ビデオ関連コード（削除済み） -->
+<!-- ======================================== -->
+<!--
+<!-- Background Video -->
+<div class="hero-video-container">
+    <video class="hero-video" autoplay muted loop playsinline onerror="this.style.display='none'; document.querySelector('.hero-video-fallback').style.display='block';" onloadedmetadata="this.playbackRate = 0.1;">
+        <source src="images/ym_movie.mp4" type="video/mp4">
+    </video>
+    <div class="hero-video-fallback"></div>
+    <div class="hero-video-overlay"></div>
+</div>
+-->
+
+<!-- ======================================== -->
+<!-- 削除されたCSSスタイル -->
+<!-- ======================================== -->
+<!--
+/* Enhanced Hero Section */
+.hero-luxury {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 100%);
+}
+
+.hero-luxury::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+/* Background Video Styles */
+.hero-video-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.hero-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.3) contrast(1.2) saturate(0.8);
+    animation: video-slow-motion 180s ease-in-out infinite;
+    /* Smooth video playback */
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -o-crisp-edges;
+    -ms-interpolation-mode: nearest-neighbor;
+}
+
+.hero-video-fallback {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
+        linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.6) 100%);
+    z-index: 0;
+    display: none;
+    animation: fallback-animation 15s ease-in-out infinite;
+}
+
+@keyframes fallback-animation {
+    0%, 100% {
+        background: 
+            radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+            radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
+            linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.6) 100%);
+    }
+    25% {
+        background: 
+            radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.07) 0%, transparent 50%),
+            radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+            linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.8) 100%);
+    }
+    50% {
+        background: 
+            radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
+            radial-gradient(circle at 10% 10%, rgba(255, 255, 255, 0.04) 0%, transparent 50%),
+            linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.5) 100%);
+    }
+    75% {
+        background: 
+            radial-gradient(circle at 30% 70%, rgba(255, 255, 255, 0.06) 0%, transparent 50%),
+            radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.04) 0%, transparent 50%),
+            linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.7) 100%);
+    }
+}
+
+.hero-video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 20%, rgba(0, 0, 0, 0.4) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(0, 0, 0, 0.3) 0%, transparent 50%),
+        linear-gradient(135deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.1) 100%);
+    z-index: 1;
+}
+
+@keyframes video-slow-motion {
+    0%, 100% {
+        transform: scale(1.01) rotate(0deg);
+        filter: brightness(0.3) contrast(1.2) saturate(0.8) hue-rotate(0deg);
+    }
+    12.5% {
+        transform: scale(1.005) rotate(0.05deg);
+        filter: brightness(0.32) contrast(1.22) saturate(0.82) hue-rotate(0.5deg);
+    }
+    25% {
+        transform: scale(1.015) rotate(0.1deg);
+        filter: brightness(0.35) contrast(1.25) saturate(0.85) hue-rotate(1deg);
+    }
+    37.5% {
+        transform: scale(1.02) rotate(0.08deg);
+        filter: brightness(0.38) contrast(1.28) saturate(0.88) hue-rotate(1.5deg);
+    }
+    50% {
+        transform: scale(1.025) rotate(-0.05deg);
+        filter: brightness(0.25) contrast(1.1) saturate(0.7) hue-rotate(-1deg);
+    }
+    62.5% {
+        transform: scale(1.018) rotate(-0.03deg);
+        filter: brightness(0.28) contrast(1.15) saturate(0.75) hue-rotate(-0.5deg);
+    }
+    75% {
+        transform: scale(1.012) rotate(0.02deg);
+        filter: brightness(0.32) contrast(1.2) saturate(0.8) hue-rotate(0.3deg);
+    }
+    87.5% {
+        transform: scale(1.008) rotate(0.06deg);
+        filter: brightness(0.35) contrast(1.25) saturate(0.85) hue-rotate(0.8deg);
+    }
+}
+
+/* Hero Logo Styles */
+.hero-logo {
+    width: 300px;
+    height: auto;
+    margin: 0 auto var(--space-xl);
+    filter: brightness(0) invert(1) drop-shadow(0 0 40px rgba(255, 255, 255, 0.4));
+    animation: logo-glow 3s ease-in-out infinite;
+}
+
+@keyframes logo-glow {
+    0%, 100% {
+        filter: brightness(0) invert(1) drop-shadow(0 0 40px rgba(255, 255, 255, 0.4));
+    }
+    50% {
+        filter: brightness(0) invert(1) drop-shadow(0 0 60px rgba(255, 255, 255, 0.7)) drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
+    }
+}
+-->
+
+<!-- ======================================== -->
+<!-- 削除されたJavaScript（ビデオ制御） -->
+<!-- ======================================== -->
+<!--
+<script>
+    // Video playback rate control and smooth playback
+    document.addEventListener('DOMContentLoaded', function() {
+        const video = document.querySelector('.hero-video');
+        if (video) {
+            // Smooth playback settings
+            video.style.willChange = 'transform';
+            video.style.backfaceVisibility = 'hidden';
+            video.style.transform = 'translateZ(0)';
+            video.style.perspective = '1000px';
+            
+            // Enable hardware acceleration
+            video.style.transform = 'translate3d(0, 0, 0)';
+            video.style.webkitTransform = 'translate3d(0, 0, 0)';
+            
+            // Smooth playback rate
+            const smoothPlaybackRate = 0.03; // 約33倍遅く
+            
+            video.addEventListener('loadedmetadata', function() {
+                this.playbackRate = smoothPlaybackRate;
+                console.log('Video playback rate set to:', this.playbackRate);
+            });
+            
+            video.addEventListener('play', function() {
+                this.playbackRate = smoothPlaybackRate;
+                console.log('Video started with playback rate:', this.playbackRate);
+            });
+            
+            video.addEventListener('canplay', function() {
+                this.playbackRate = smoothPlaybackRate;
+                console.log('Video can play with playback rate:', this.playbackRate);
+            });
+            
+            // Additional smooth playback events
+            video.addEventListener('playing', function() {
+                this.playbackRate = smoothPlaybackRate;
+            });
+            
+            video.addEventListener('ratechange', function() {
+                if (this.playbackRate !== smoothPlaybackRate) {
+                    this.playbackRate = smoothPlaybackRate;
+                }
+            });
+            
+            // Force smooth playback on any rate change
+            setInterval(() => {
+                if (video.playbackRate !== smoothPlaybackRate) {
+                    video.playbackRate = smoothPlaybackRate;
+                }
+            }, 1000);
+        }
+    });
+</script>
+-->
+
+<!-- ======================================== -->
+<!-- 変更履歴 -->
+<!-- ======================================== -->
+<!--
+変更日時: 2025年1月
+変更内容:
+1. HEROセクションの完全削除
+2. 背景ビデオ（ym_movie.mp4）の削除
+3. ビデオ関連のCSSアニメーション削除
+4. ビデオ制御JavaScriptの削除
+5. ロゴの光るアニメーション削除
+
+理由:
+- 映像はサイトのトップページでのみ使用
+- アイドル向けデモページは紹介コンテンツとして機能
+- よりシンプルで実用的な構成に変更
+
+注意:
+- このバックアップファイルは削除されたコードの記録用
+- 必要に応じて復元可能
+- 現在のページでは使用されていない
+-->
