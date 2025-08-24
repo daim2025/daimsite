@@ -1,0 +1,21 @@
+<svg width="120" height="40" viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- DF文字のモダンなスタイリング -->
+  <g fill="currentColor">
+    <!-- D文字 -->
+    <path d="M8 8h8c4 0 7 3 7 7s-3 7-7 7H8V8z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+    <path d="M8 8h8c4 0 7 3 7 7s-3 7-7 7H8V8z" fill="currentColor" opacity="0.1"/>
+    
+    <!-- F文字 -->
+    <path d="M32 8h12v3H35v8h8v3H35v8h-3V8z" fill="currentColor"/>
+  </g>
+  
+  <!-- モダンなアクセント要素 -->
+  <circle cx="60" cy="12" r="2" fill="currentColor" opacity="0.6"/>
+  <circle cx="65" cy="10" r="1.5" fill="currentColor" opacity="0.4"/>
+  
+  <!-- グラデーション風の下線 -->
+  <line x1="8" y1="35" x2="50" y2="35" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.8"/>
+</svg>
+
+
+
