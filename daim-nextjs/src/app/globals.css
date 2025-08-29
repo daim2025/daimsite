@@ -32,9 +32,16 @@ body {
 .__next-dev-indicator,
 [data-nextjs-dev-indicator],
 [data-next-mark-loading],
+[data-next-mark-loading="false"],
+[data-next-mark-loading="true"],
 svg[data-next-mark-loading],
+svg[data-next-mark-loading="false"],
+svg[data-next-mark-loading="true"],
 svg[viewBox="0 0 40 40"],
-svg[width="40"][height="40"] {
+svg[width="40"][height="40"],
+svg:has(path[stroke*="next_logo_paint"]),
+svg:has(defs linearGradient[id*="next_logo"]),
+svg:has(mask[id*="next_logo"]) {
   display: none !important;
   visibility: hidden !important;
   opacity: 0 !important;
@@ -42,12 +49,33 @@ svg[width="40"][height="40"] {
   position: absolute !important;
   left: -9999px !important;
   top: -9999px !important;
+  width: 0 !important;
+  height: 0 !important;
+  z-index: -9999 !important;
 }
 
 /* Hide any SVG with Next.js logo patterns */
 svg[id*="next_logo"],
 svg path[id*="next_logo"],
-svg defs[id*="next_logo"] {
+svg defs[id*="next_logo"],
+path[stroke*="next_logo_paint"],
+linearGradient[id*="next_logo_paint"],
+mask[id*="next_logo_mask"],
+g[transform*="translate"],
+path[class="paused"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
+/* Universal Next.js logo killer */
+*[data-next-mark-loading] {
+  display: none !important;
+}
+
+/* Hide specific Next.js UI containers */
+div:has(svg[data-next-mark-loading]),
+div:has(svg[viewBox="0 0 40 40"]) {
   display: none !important;
 }
 
