@@ -20,7 +20,7 @@ export default function Navigation() {
       <div className="container mx-auto px-4 py-4">
         <div className="nav-container flex justify-between items-center">
           <div className="nav-logo">
-            <a href="/" className="block hover:opacity-80 transition-opacity duration-300">
+            <Link href="/" className="block hover:opacity-80 transition-opacity duration-300">
               <Image
                 src="/images/logo_daim.svg"
                 alt="DAIM"
@@ -28,7 +28,7 @@ export default function Navigation() {
                 height={48}
                 className="h-10 w-auto brightness-0 invert drop-shadow-lg"
               />
-            </a>
+            </Link>
           </div>
           
           {/* Desktop Navigation */}
