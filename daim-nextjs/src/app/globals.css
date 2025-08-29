@@ -79,6 +79,25 @@ div:has(svg[viewBox="0 0 40 40"]) {
   display: none !important;
 }
 
+/* Hide Next.js badge by class name */
+.nextjs-badge {
+  display: none !important;
+}
+
+/* Additional common Next.js UI class names */
+.__next,
+.__next-error-boundary,
+.__next-build-watcher,
+.__next-prerender-indicator,
+.__nextjs_original-stack-frame,
+.nextjs-portal,
+.next-error,
+.next-dev-overlay {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
 
 
 /* Video Playback Rate Safety */
