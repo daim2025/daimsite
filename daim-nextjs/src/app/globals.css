@@ -98,6 +98,45 @@ div:has(svg[viewBox="0 0 40 40"]) {
   opacity: 0 !important;
 }
 
+/* Nuclear option: Hide ALL SVGs that could be Next.js logos */
+svg[fill="none"][viewBox="0 0 40 40"],
+svg[width="40"][height="40"][fill="none"],
+svg:has(g[transform*="translate"]):has(path[class="paused"]),
+svg:has(defs):has(linearGradient[id*="paint"]),
+svg:has(mask):has(path[stroke-dasharray]) {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
+  position: absolute !important;
+  left: -9999px !important;
+  z-index: -9999 !important;
+}
+
+/* Hide any element containing Next.js related text or attributes */
+*[class*="next"],
+*[id*="next"],
+*[data-testid*="next"] {
+  display: none !important;
+}
+
+/* Hide specific Next.js links and badges */
+a[href="https://nextjs.org/"],
+a[href^="https://nextjs.org"],
+a[target="_blank"][rel="noopener noreferrer"]:has(span),
+a:has(span:only-child) {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
+/* Hide spans containing just "N" (Next.js badge) */
+span:only-child:contains("N"),
+span[children="N"] {
+  display: none !important;
+}
+
 
 
 /* Video Playback Rate Safety */

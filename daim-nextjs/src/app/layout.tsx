@@ -59,19 +59,88 @@ export default function RootLayout({
     <html lang="ja">
       <body className={inter.className}>
         {children}
-        <style jsx global>{`
-          /* Hide Next.js development indicator */
-          [data-nextjs-dialog-overlay], 
-          [data-nextjs-toast],
-          [data-nextjs-portal] {
-            display: none !important;
-          }
-          
-          /* Hide development mode badge */
-          .__next-dev-indicator {
-            display: none !important;
-          }
-        `}</style>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              // Remove Next.js development UI and logos
+              function removeNextJSUI() {
+                // Remove by attribute
+                const elementsToRemove = [
+                  '[data-next-mark-loading]',
+                  '[data-nextjs-dialog-overlay]',
+                  '[data-nextjs-toast]',
+                  '[data-nextjs-portal]',
+                  '.__next-dev-indicator',
+                  '[data-nextjs-dev-indicator]',
+                  'svg[viewBox="0 0 40 40"]',
+                  'svg[width="40"][height="40"]',
+                  '.nextjs-badge',
+                  '.__next-build-watcher',
+                  '.__next-prerender-indicator'
+                ];
+                
+                elementsToRemove.forEach(selector => {
+                  const elements = document.querySelectorAll(selector);
+                  elements.forEach(el => {
+                    if (el) {
+                      el.remove();
+                      el.style.display = 'none';
+                      el.style.visibility = 'hidden';
+                      el.style.opacity = '0';
+                    }
+                  });
+                });
+                
+                // Remove SVGs containing Next.js logo patterns
+                const svgs = document.querySelectorAll('svg');
+                svgs.forEach(svg => {
+                  const hasNextLogo = svg.innerHTML.includes('next_logo_paint') || 
+                                     svg.innerHTML.includes('next_logo_mask') ||
+                                     svg.getAttribute('data-next-mark-loading') !== null;
+                  if (hasNextLogo) {
+                    svg.remove();
+                  }
+                });
+                
+                // Remove specific Next.js links
+                const nextLinks = document.querySelectorAll('a[href*="nextjs.org"]');
+                nextLinks.forEach(link => link.remove());
+                
+                // Remove links with specific pattern
+                const badgeLinks = document.querySelectorAll('a[target="_blank"][rel="noopener noreferrer"]');
+                badgeLinks.forEach(link => {
+                  const span = link.querySelector('span');
+                  if (span && span.textContent === 'N') {
+                    link.remove();
+                  }
+                });
+                
+                // Remove any span containing just "N" that might be a badge
+                const nSpans = document.querySelectorAll('span');
+                nSpans.forEach(span => {
+                  if (span.textContent.trim() === 'N' && span.children.length === 0) {
+                    span.parentElement?.remove();
+                  }
+                });
+              }
+              
+              // Run immediately
+              removeNextJSUI();
+              
+              // Run when DOM is ready
+              if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', removeNextJSUI);
+              }
+              
+              // Run periodically to catch dynamically added elements
+              setInterval(removeNextJSUI, 500);
+              
+              // Observer for new elements
+              const observer = new MutationObserver(removeNextJSUI);
+              observer.observe(document.body, { childList: true, subtree: true });
+            `,
+          }}
+        />
       </body>
     </html>
   );
