@@ -25,17 +25,33 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Hide Next.js development indicators */
+/* Hide all Next.js development UI and logos */
 [data-nextjs-dialog-overlay], 
 [data-nextjs-toast],
 [data-nextjs-portal],
 .__next-dev-indicator,
-[data-nextjs-dev-indicator] {
+[data-nextjs-dev-indicator],
+[data-next-mark-loading],
+svg[data-next-mark-loading],
+svg[viewBox="0 0 40 40"],
+svg[width="40"][height="40"] {
   display: none !important;
   visibility: hidden !important;
   opacity: 0 !important;
   pointer-events: none !important;
+  position: absolute !important;
+  left: -9999px !important;
+  top: -9999px !important;
 }
+
+/* Hide any SVG with Next.js logo patterns */
+svg[id*="next_logo"],
+svg path[id*="next_logo"],
+svg defs[id*="next_logo"] {
+  display: none !important;
+}
+
+
 
 /* Video Playback Rate Safety */
 .video-safe-playback {
