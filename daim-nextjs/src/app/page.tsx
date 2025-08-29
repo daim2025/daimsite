@@ -64,22 +64,22 @@ export default function TeaserPage() {
           
       {/* Main content */}
       <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4">
-        {/* Logo */}
-        <div className="mb-12">
-                <Image 
+                {/* Logo */}
+        <div className="mb-12 group">
+          <Image
             src="/images/logo_daim.svg"
             alt="DAIM"
             width={400}
             height={160}
-            className="brightness-0 invert drop-shadow-2xl"
+            className="brightness-0 invert drop-shadow-2xl filter transition-all duration-700 group-hover:scale-105 group-hover:drop-shadow-[0_0_30px_rgba(255,255,255,0.3)]"
             priority
             sizes="(max-width: 768px) 300px, 400px"
           />
-          </div>
+        </div>
           
                 {/* Coming Soon Message */}
         <div className="text-center">
-          <p className="text-2xl font-thin text-gray-700/30 tracking-[0.3em] uppercase">Coming Soon</p>
+          <p className="text-2xl font-thin text-gray-400/60 tracking-[0.3em] uppercase transition-all duration-500 hover:text-gray-300/80">Coming Soon</p>
         </div>
       </div>
     </div>
