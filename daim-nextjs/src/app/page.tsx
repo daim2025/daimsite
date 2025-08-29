@@ -41,20 +41,25 @@ export default function TeaserPage() {
           <div className="absolute top-1/3 right-1/5 w-1 h-1 bg-green-400/15 rounded-full animate-ping" style={{animationDelay: '1.5s', animationDuration: '4.5s'}}></div>
         </div>
 
-        {/* Audio waveform suggestion */}
+                {/* Audio waveform suggestion */}
         <div className="absolute bottom-0 left-0 w-full h-2 flex items-end justify-center space-x-1 opacity-[0.03]">
-          {[...Array(100)].map((_, i) => (
-                    <div 
-                      key={i} 
-              className="w-1 bg-white animate-pulse"
-              style={{
-                height: `${Math.random() * 8 + 2}px`,
-                animationDelay: `${i * 0.1}s`,
-                animationDuration: `${2 + Math.random() * 3}s`
-              }}
-                    ></div>
-                  ))}
-                </div>
+          {[...Array(100)].map((_, i) => {
+            // インデックスベースの固定値を使用してSSRとクライアントで同じ値になるようにする
+            const height = 2 + ((i * 7 + 13) % 8);
+            const duration = 2 + ((i * 3 + 7) % 3);
+            return (
+              <div 
+                key={i}
+                className="w-1 bg-white animate-pulse"
+                style={{
+                  height: `${height}px`,
+                  animationDelay: `${i * 0.1}s`,
+                  animationDuration: `${duration}s`
+                }}
+              ></div>
+            );
+          })}
+        </div>
           </div>
           
       {/* Main content */}
