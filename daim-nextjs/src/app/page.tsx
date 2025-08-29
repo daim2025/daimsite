@@ -26,7 +26,7 @@ export default function TeaserPage() {
       {/* Main content */}
       <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4">
         {/* Logo */}
-        <div className="mb-8">
+        <div className="mb-12">
           <Image
             src="/images/logo_daim.svg"
             alt="DAIM"
@@ -38,18 +38,8 @@ export default function TeaserPage() {
           />
         </div>
 
-        {/* Subtitle */}
-        <div className="text-center mb-12">
-          <h1 className="text-2xl md:text-3xl font-light text-slate-300 mb-4 tracking-wider">
-            Intelligent Music Platform
-          </h1>
-          <p className="text-lg text-slate-400 font-light max-w-2xl mx-auto">
-            Where artificial intelligence meets musical intuition
-          </p>
-        </div>
-
         {/* Coming Soon Message */}
-        <div className="text-center mb-16">
+        <div className="text-center">
           <div className="relative inline-block px-10 py-6 bg-gradient-to-r from-gray-950/90 to-slate-950/90 backdrop-blur-2xl border border-gray-800/40 rounded-3xl shadow-2xl">
             <div className="absolute inset-0 bg-gradient-to-r from-indigo-950/10 to-purple-950/10 rounded-3xl"></div>
             <div className="relative">
@@ -58,24 +48,6 @@ export default function TeaserPage() {
             </div>
           </div>
         </div>
-
-        {/* Minimalist animated element */}
-        <div className="flex items-center justify-center space-x-4">
-          {[...Array(3)].map((_, i) => (
-            <div 
-              key={i} 
-              className="w-2 h-2 bg-gradient-to-r from-gray-600 to-gray-500 rounded-full animate-pulse shadow-lg" 
-              style={{animationDelay: `${i * 0.7}s`, animationDuration: '3s'}}
-            ></div>
-          ))}
-        </div>
-      </div>
-
-      {/* Bottom text */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-center">
-        <p className="text-xs text-slate-500 font-light">
-          © 2025 DAIM. All rights reserved.
-        </p>
       </div>
     </div>
   );
