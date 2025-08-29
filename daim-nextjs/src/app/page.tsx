@@ -43,8 +43,7 @@ export default function TeaserPage() {
           <div className="relative inline-block px-10 py-6 bg-gradient-to-r from-gray-950/90 to-slate-950/90 backdrop-blur-2xl border border-gray-800/40 rounded-3xl shadow-2xl">
             <div className="absolute inset-0 bg-gradient-to-r from-indigo-950/10 to-purple-950/10 rounded-3xl"></div>
             <div className="relative">
-              <p className="text-xl font-medium text-gray-100 mb-2">Coming Soon</p>
-              <p className="text-sm text-gray-400 font-light">革新的な音楽創造体験をお届けします</p>
+              <p className="text-xl font-medium text-gray-100">Coming Soon</p>
             </div>
           </div>
         </div>
