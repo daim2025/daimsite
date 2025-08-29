@@ -57,7 +57,22 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        {children}
+        <style jsx global>{`
+          /* Hide Next.js development indicator */
+          [data-nextjs-dialog-overlay], 
+          [data-nextjs-toast],
+          [data-nextjs-portal] {
+            display: none !important;
+          }
+          
+          /* Hide development mode badge */
+          .__next-dev-indicator {
+            display: none !important;
+          }
+        `}</style>
+      </body>
     </html>
   );
 }
