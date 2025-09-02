@@ -117,3 +117,4 @@ NEXT_PUBLIC_APP_URL=https://your-domain.com
 - 配信スケジューリング
 - 詳細な分析機能
 - A/Bテスト機能
+

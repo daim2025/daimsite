@@ -8,8 +8,9 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-inter, 'Inter', 'Segoe UI', 'Roboto', sans-serif);
+  --font-mono: var(--font-jetbrains-mono, 'JetBrains Mono', 'Courier New', monospace);
+  --font-display: var(--font-space-grotesk, 'Space Grotesk', 'Inter', sans-serif);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -22,115 +23,38 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter, 'Inter', 'Segoe UI', 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif);
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: -0.01em;
 }
 
-/* Hide all Next.js development UI and logos */
-[data-nextjs-dialog-overlay], 
-[data-nextjs-toast],
-[data-nextjs-portal],
-.__next-dev-indicator,
-[data-nextjs-dev-indicator],
-[data-next-mark-loading],
-[data-next-mark-loading="false"],
-[data-next-mark-loading="true"],
-svg[data-next-mark-loading],
-svg[data-next-mark-loading="false"],
-svg[data-next-mark-loading="true"],
-svg[viewBox="0 0 40 40"],
-svg[width="40"][height="40"],
-svg:has(path[stroke*="next_logo_paint"]),
-svg:has(defs linearGradient[id*="next_logo"]),
-svg:has(mask[id*="next_logo"]) {
-  display: none !important;
-  visibility: hidden !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-  position: absolute !important;
-  left: -9999px !important;
-  top: -9999px !important;
-  width: 0 !important;
-  height: 0 !important;
-  z-index: -9999 !important;
+/* Typography Hierarchy */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-space-grotesk, 'Space Grotesk', 'Inter', sans-serif);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
 }
 
-/* Hide any SVG with Next.js logo patterns */
-svg[id*="next_logo"],
-svg path[id*="next_logo"],
-svg defs[id*="next_logo"],
-path[stroke*="next_logo_paint"],
-linearGradient[id*="next_logo_paint"],
-mask[id*="next_logo_mask"],
-g[transform*="translate"],
-path[class="paused"] {
-  display: none !important;
-  visibility: hidden !important;
-  opacity: 0 !important;
+.font-display {
+  font-family: var(--font-space-grotesk, 'Space Grotesk', 'Inter', sans-serif);
 }
 
-/* Universal Next.js logo killer */
-*[data-next-mark-loading] {
-  display: none !important;
+.font-mono {
+  font-family: var(--font-jetbrains-mono, 'JetBrains Mono', 'Courier New', monospace);
 }
 
-/* Hide specific Next.js UI containers */
-div:has(svg[data-next-mark-loading]),
-div:has(svg[viewBox="0 0 40 40"]) {
-  display: none !important;
-}
-
-/* Hide Next.js badge by class name */
-.nextjs-badge {
-  display: none !important;
-}
-
-/* Additional common Next.js UI class names */
-.__next,
-.__next-error-boundary,
-.__next-build-watcher,
-.__next-prerender-indicator,
-.__nextjs_original-stack-frame,
-.nextjs-portal,
-.next-error,
-.next-dev-overlay {
-  display: none !important;
-  visibility: hidden !important;
-  opacity: 0 !important;
-}
-
-/* Nuclear option: Hide ALL SVGs that could be Next.js logos */
-svg[fill="none"][viewBox="0 0 40 40"],
-svg[width="40"][height="40"][fill="none"],
-svg:has(g[transform*="translate"]):has(path[class="paused"]),
-svg:has(defs):has(linearGradient[id*="paint"]),
-svg:has(mask):has(path[stroke-dasharray]) {
-  display: none !important;
-  visibility: hidden !important;
-  opacity: 0 !important;
-  width: 0 !important;
-  height: 0 !important;
-  position: absolute !important;
-  left: -9999px !important;
-  z-index: -9999 !important;
-}
-
-/* Hide any element containing Next.js related text or attributes */
-*[class*="next"],
-*[id*="next"],
-*[data-testid*="next"] {
-  display: none !important;
-}
-
-/* Hide specific Next.js links and badges */
-a[href="https://nextjs.org/"],
-a[href^="https://nextjs.org"],
-a[target="_blank"][rel="noopener noreferrer"] {
-  display: none !important;
-  visibility: hidden !important;
-  opacity: 0 !important;
-}
-
-
+/* Professional Typography Weights */
+.font-hairline { font-weight: 100; }
+.font-thin { font-weight: 200; }
+.font-light { font-weight: 300; }
+.font-normal { font-weight: 400; }
+.font-medium { font-weight: 500; }
+.font-semibold { font-weight: 600; }
+.font-bold { font-weight: 700; }
+.font-extrabold { font-weight: 800; }
+.font-black { font-weight: 900; }
 
 /* Video Playback Rate Safety */
 .video-safe-playback {
@@ -924,4 +848,270 @@ a[target="_blank"][rel="noopener noreferrer"] {
 
 .powered-by:hover::after {
   width: 100%;
+}
+
+/* Professional Design Enhancements */
+
+/* Glass Morphism Effect */
+.glass-morphism {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* Professional Card Hover */
+.professional-card {
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform-style: preserve-3d;
+}
+
+.professional-card:hover {
+  transform: translateY(-8px) rotateX(5deg);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.15),
+    0 8px 16px rgba(0, 0, 0, 0.1),
+    0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Professional Gradient Text */
+.gradient-text {
+  background: linear-gradient(135deg, #94a3b8 0%, #60a5fa 50%, #3b82f6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% 200%;
+  animation: gradient-animation 3s ease infinite;
+}
+
+@keyframes gradient-animation {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Enhanced Button Styles */
+.btn-professional {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.btn-professional::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.6s ease;
+}
+
+.btn-professional:hover::before {
+  left: 100%;
+}
+
+.btn-professional:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 8px 25px rgba(100, 116, 139, 0.3),
+    0 4px 12px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, #475569 0%, #334155 100%);
+}
+
+.btn-professional:active {
+  transform: translateY(0);
+  box-shadow: 
+    0 4px 12px rgba(100, 116, 139, 0.2),
+    0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Enhanced Input Styles */
+.input-professional {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  font-weight: 400;
+}
+
+.input-professional:focus {
+  border-color: rgba(148, 163, 184, 0.5);
+  box-shadow: 
+    0 0 0 3px rgba(148, 163, 184, 0.1),
+    0 4px 12px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.input-professional::placeholder {
+  color: rgba(148, 163, 184, 0.6);
+  font-weight: 300;
+}
+
+/* Professional Typography Scale */
+.text-xs { font-size: 0.75rem; line-height: 1rem; }
+.text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+.text-base { font-size: 1rem; line-height: 1.5rem; }
+.text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+.text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+.text-2xl { font-size: 1.5rem; line-height: 2rem; }
+.text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+.text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
+.text-5xl { font-size: 3rem; line-height: 1; }
+.text-6xl { font-size: 3.75rem; line-height: 1; }
+
+/* Professional Spacing */
+.section-spacing { padding: 6rem 0; }
+.container-spacing { padding: 0 1.5rem; }
+
+/* Enhanced Animations */
+.fade-in-up {
+  animation: fadeInUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.slide-in-right {
+  animation: slideInRight 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Professional Navigation */
+.nav-professional {
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+  transition: all 0.3s ease;
+}
+
+.nav-professional.scrolled {
+  background: rgba(0, 0, 0, 0.95);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.nav-link-professional {
+  position: relative;
+  font-weight: 400;
+  letter-spacing: 0.3px;
+  transition: all 0.3s ease;
+}
+
+.nav-link-professional::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #94a3b8, #60a5fa);
+  transition: width 0.3s ease;
+}
+
+.nav-link-professional:hover::after {
+  width: 100%;
+}
+
+/* Enhanced Section Dividers */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(148, 163, 184, 0.3), transparent);
+  margin: 4rem 0;
+}
+
+/* Professional Status Indicators */
+.status-indicator {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.status-indicator::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  background: #22c55e;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+/* Enhanced Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #64748b, #475569);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #475569, #334155);
+}
+
+/* Professional Focus States */
+*:focus {
+  outline: none;
+}
+
+*:focus-visible {
+  outline: 2px solid rgba(148, 163, 184, 0.5);
+  outline-offset: 2px;
+}
+
+/* Enhanced Loading States */
+.loading-professional {
+  position: relative;
+  overflow: hidden;
+}
+
+.loading-professional::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  animation: loading-shimmer 1.5s infinite;
+}
+
+@keyframes loading-shimmer {
+  0% { left: -100%; }
+  100% { left: 100%; }
 }
