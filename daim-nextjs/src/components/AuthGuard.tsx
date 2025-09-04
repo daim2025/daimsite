@@ -15,20 +15,32 @@ export default function AuthGuard({ children }: AuthGuardProps) {
   useEffect(() => {
     // 認証状態をチェック
     const checkAuth = () => {
-      const authenticated = sessionStorage.getItem('authenticated');
-      return authenticated === 'true';
+      try {
+        if (typeof window !== 'undefined') {
+          const authenticated = sessionStorage.getItem('authenticated');
+          return authenticated === 'true';
+        }
+        return false;
+      } catch (error) {
+        return false;
+      }
     };
 
     const isAuth = checkAuth();
     setIsAuthenticated(isAuth);
 
-    // 未認証の場合は認証ページにリダイレクト
+    // 未認証で認証ページ以外の場合はリダイレクト
     if (!isAuth && pathname !== '/auth') {
-      router.push(`/auth?redirect=${encodeURIComponent(pathname)}`);
+      window.location.href = '/auth';
     }
-  }, [router, pathname]);
+  }, [pathname]);
 
-  // 認証状態の確認中
+  // 認証ページの場合はそのまま表示
+  if (pathname === '/auth') {
+    return <>{children}</>;
+  }
+
+  // 認証状態確認中
   if (isAuthenticated === null) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white flex items-center justify-center">
@@ -40,9 +52,15 @@ export default function AuthGuard({ children }: AuthGuardProps) {
     );
   }
 
-  // 未認証の場合は何も表示しない（リダイレクト中）
+  // 未認証の場合はリダイレクト中メッセージ
   if (!isAuthenticated) {
-    return null;
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-gray-300">認証ページにリダイレクト中...</p>
+        </div>
+      </div>
+    );
   }
 
   // 認証済みの場合はコンテンツを表示

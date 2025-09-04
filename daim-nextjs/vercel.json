@@ -1,4 +1,5 @@
 {
+  "name": "daim-site-free",
   "buildCommand": "npm run build",
   "outputDirectory": ".next",
   "framework": "nextjs",
