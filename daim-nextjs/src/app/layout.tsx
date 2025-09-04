@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/contexts/LanguageContext";
+import AuthGuard from "@/components/AuthGuard";
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -73,7 +74,9 @@ export default function RootLayout({
     <html lang="ja">
       <body className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} font-sans`}>
         <LanguageProvider>
-          {children}
+          <AuthGuard>
+            {children}
+          </AuthGuard>
         </LanguageProvider>
         <script
           dangerouslySetInnerHTML={{
