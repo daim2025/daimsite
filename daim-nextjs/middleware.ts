@@ -9,6 +9,11 @@ export function middleware(request: NextRequest) {
   const validPassword = process.env.BASIC_AUTH_PASSWORD || '0070'
   
   console.log('Valid user:', validUser)
+  console.log('Environment check:', {
+    NODE_ENV: process.env.NODE_ENV,
+    hasUsername: !!process.env.BASIC_AUTH_USERNAME,
+    hasPassword: !!process.env.BASIC_AUTH_PASSWORD
+  })
   
   // Basic認証をチェック
   const basicAuth = request.headers.get('authorization')
@@ -32,12 +37,19 @@ export function middleware(request: NextRequest) {
 
   console.log('Sending 401 response')
   // 認証が失敗した場合、Basic認証ダイアログを表示
-  return new NextResponse('Authentication required', {
+  const response = new NextResponse('Authentication required', {
     status: 401,
     headers: {
-      'WWW-Authenticate': 'Basic realm="DAIM Site"',
+      'WWW-Authenticate': 'Basic realm="Secure Area"',
+      'Content-Type': 'text/plain',
+      'Cache-Control': 'no-store',
     },
   })
+  
+  // ヘッダーを明示的に設定
+  response.headers.set('WWW-Authenticate', 'Basic realm="Secure Area"')
+  
+  return response
 }
 
 // すべてのページにBasic認証を適用
