@@ -72,7 +72,7 @@ export default function Home() {
         <div className="hero-video-container absolute inset-0">
           <video
             ref={heroVideoRef}
-            className={`hero-video w-full h-full object-cover brightness-[0.15] contrast-125 saturate-90 transition-all duration-500 ${
+            className={`hero-video w-full h-full object-cover brightness-[0.01] contrast-50 saturate-25 opacity-30 transition-all duration-500 ${
               videoError ? 'video-error' : isVideoLoaded ? 'video-playing' : 'video-loading'
             }`}
             autoPlay
@@ -84,7 +84,8 @@ export default function Home() {
           >
             <source src="/images/ym_movie.mp4" type="video/mp4" />
           </video>
-          <div className="hero-video-overlay absolute inset-0 bg-gradient-to-br from-black/40 via-black/30 to-black/40"></div>
+          <div className="hero-video-overlay absolute inset-0 bg-gradient-to-br from-black/90 via-black/85 to-black/90"></div>
+          <div className="absolute inset-0 bg-black/70"></div>
           
           {videoError && (
             <div className="absolute inset-0 flex items-center justify-center bg-black/50">
@@ -114,13 +115,10 @@ export default function Home() {
                 {t('hero.description')}
               </p>
               <div className="flex gap-6 flex-wrap">
-                <a href="#studio" className="btn-professional px-8 py-4 text-white font-semibold rounded-lg">
+                <a href="/studio" className="btn-professional px-8 py-4 text-white font-semibold rounded-lg">
                   <span>{t('hero.cta.studio')}</span>
                 </a>
-                <a href="/idol" className="px-8 py-4 border border-slate-400/30 text-white font-medium rounded-lg hover:bg-slate-400/10 transition-all duration-300 glass-morphism">
-                  <span>{t('hero.cta.idol')}</span>
-                </a>
-                <a href="#about" className="px-8 py-4 border border-slate-400/30 text-white font-medium rounded-lg hover:bg-slate-400/10 transition-all duration-300 glass-morphism">
+                <a href="https://discoverfeed.net" target="_blank" rel="noopener noreferrer" className="px-8 py-4 border border-slate-400/30 text-white font-medium rounded-lg hover:bg-slate-400/10 transition-all duration-300 glass-morphism">
                   <span>{t('hero.cta.more')}</span>
                 </a>
               </div>
