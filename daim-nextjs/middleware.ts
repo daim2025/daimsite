@@ -1,53 +1,39 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 export function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl
+  // 環境変数から認証情報を取得
+  const validUser = process.env.BASIC_AUTH_USERNAME || 'Admin'
+  const validPassword = process.env.BASIC_AUTH_PASSWORD || '0070'
   
-  // Basic認証の実装
+  // Basic認証をチェック
   const basicAuth = request.headers.get('authorization')
-  const url = request.nextUrl.clone()
-
-  // 静的ファイルやAPIルート、favicon等はBasic認証をスキップ
-  if (
-    pathname.startsWith('/_next') ||
-    pathname.startsWith('/api') ||
-    pathname.startsWith('/images') ||
-    pathname.startsWith('/audio') ||
-    pathname.includes('.') ||
-    pathname === '/favicon.ico'
-  ) {
-    return NextResponse.next()
-  }
-
-  // Basic認証のチェック
+  
   if (basicAuth) {
-    const authValue = basicAuth.split(' ')[1]
-    const [user, pwd] = atob(authValue).split(':')
-    
-    // 環境変数から認証情報を取得（デフォルト値付き）
-    const validUser = process.env.BASIC_AUTH_USERNAME || 'Admin'
-    const validPassword = process.env.BASIC_AUTH_PASSWORD || '0070'
-    
-    if (user === validUser && pwd === validPassword) {
-      return NextResponse.next()
+    try {
+      const authValue = basicAuth.split(' ')[1]
+      const [user, pwd] = atob(authValue).split(':')
+      
+      if (user === validUser && pwd === validPassword) {
+        return NextResponse.next()
+      }
+    } catch (error) {
+      // 認証ヘッダーの解析に失敗した場合
     }
   }
 
-  // 認証が必要な場合のレスポンス
+  // 認証が失敗した場合、Basic認証ダイアログを表示
   return new NextResponse('Authentication required', {
     status: 401,
     headers: {
       'WWW-Authenticate': 'Basic realm="DAIM Site"',
-      'Content-Type': 'text/plain',
     },
   })
 }
 
-// ミドルウェアが適用されるパスを設定
+// すべてのページにBasic認証を適用（静的ファイルやAPIは除外）
 export const config = {
   matcher: [
-    // 全てのパスにマッチ（静的ファイルとAPIは上記で除外）
-    '/((?!_next/static|_next/image|favicon.ico).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico|images|audio).*)',
   ],
 }
 
