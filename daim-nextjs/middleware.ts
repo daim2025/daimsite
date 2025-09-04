@@ -40,10 +40,16 @@ export function middleware(request: NextRequest) {
   })
 }
 
-// すべてのページにBasic認証を適用（静的ファイルやAPIは除外）
+// すべてのページにBasic認証を適用
 export const config = {
   matcher: [
-    '/((?!api|_next/static|_next/image|favicon.ico|images|audio).*)',
+    '/',
+    '/ponyo-prince',
+    '/studio',
+    '/contact',
+    '/idol',
+    '/admin',
+    '/unsubscribe'
   ],
 }
 
