@@ -54,7 +54,7 @@ export default function Footer() {
                   Decentralized AI Music
                 </p>
                 <p className="tagline-sub text-gray-300">
-                  音楽×AI×人間×未来
+                  音楽×AI×クリエイター×未来
                 </p>
               </div>
             </div>

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { sendContactEmail } from '@/lib/emailjs';
 
 // お問い合わせデータを保存するための簡単なストレージ（開発・テスト用）
 let contacts: Array<{
@@ -22,51 +23,6 @@ const validateEmail = (email: string) => {
   return emailRegex.test(email);
 };
 
-// 管理者への通知メール送信（複数宛先）
-async function sendNotificationEmail(contactData: any) {
-  try {
-    const recipients = [
-      'info@discoverfeed.net',
-      'koba@discoverfeed.net'
-    ];
-
-    const emailBody = `
-新しいお問い合わせが届きました。
-
-■ お問い合わせ内容
-- ID: ${contactData.id}
-- お名前: ${contactData.name}
-- メールアドレス: ${contactData.email}
-- 件名: ${contactData.subject}
-- 受信日時: ${new Date(contactData.createdAt).toLocaleString('ja-JP')}
-
-■ メッセージ内容:
-${contactData.message}
-
----
-このメールは DAIM お問い合わせフォームから自動送信されました。
-    `.trim();
-
-    // 実際のメール送信処理（開発環境では模擬）
-    if (process.env.NODE_ENV === 'development') {
-      console.log('=== EMAIL NOTIFICATION (DEV MODE) ===');
-      console.log(`To: ${recipients.join(', ')}`);
-      console.log(`Subject: 【DAIM】新しいお問い合わせ - ${contactData.subject}`);
-      console.log(`Body:\n${emailBody}`);
-      console.log('==========================================');
-      
-      return { success: true, message: 'Email notification sent (development mode)' };
-    }
-
-    // 本番環境では実際のメール送信サービス（SendGrid、AWS SES等）を使用
-    // 例: await sendEmailWithSendGrid(recipients, subject, emailBody);
-    
-    return { success: true, message: 'Email notifications sent to administrators' };
-  } catch (error) {
-    console.error('Failed to send notification email:', error);
-    return { success: false, error: error };
-  }
-}
 
 export async function POST(request: NextRequest) {
   try {
@@ -101,8 +57,13 @@ export async function POST(request: NextRequest) {
     // データを保存
     contacts.push(normalizedData);
 
-    // 管理者への通知メール送信（複数宛先）
-    const notificationResult = await sendNotificationEmail(normalizedData);
+    // EmailJSでメール送信
+    const emailResult = await sendContactEmail({
+      name: normalizedData.name,
+      email: normalizedData.email,
+      subject: normalizedData.subject,
+      message: normalizedData.message
+    });
     
     console.log('New contact received:', {
       id: normalizedData.id,
@@ -110,7 +71,8 @@ export async function POST(request: NextRequest) {
       email: normalizedData.email,
       subject: normalizedData.subject,
       createdAt: normalizedData.createdAt,
-      emailSent: notificationResult.success
+      emailSent: emailResult.success,
+      emailError: emailResult.success ? null : emailResult.error
     });
 
     return NextResponse.json(
