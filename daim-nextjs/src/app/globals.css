@@ -1,5 +1,30 @@
 @import "tailwindcss";
 
+/* Custom Animations */
+@keyframes eqBounce {
+  0%, 100% { 
+    transform: scaleY(1); 
+    opacity: 0.7;
+  }
+  50% { 
+    transform: scaleY(1.8); 
+    opacity: 1;
+  }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 20s linear infinite;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;

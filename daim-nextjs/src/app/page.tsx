@@ -125,20 +125,26 @@ export default function Home() {
             </div>
             
             <div className="groove-visual relative z-10 hidden md:block">
-              <div className="vinyl-record w-80 h-80 border-4 border-slate-400 border-opacity-30 rounded-full mx-auto relative bg-slate-400/5 backdrop-blur-xl">
+              <div className="vinyl-record w-80 h-80 border-4 border-slate-400 border-opacity-30 rounded-full mx-auto relative bg-slate-400/5 backdrop-blur-xl animate-spin-slow">
                 <div className="absolute inset-4 border-2 border-slate-400 border-opacity-20 rounded-full"></div>
                 <div className="absolute inset-8 border border-slate-400 border-opacity-10 rounded-full"></div>
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-4 h-4 bg-slate-400 rounded-full"></div>
+                  <div className="w-4 h-4 bg-slate-400 rounded-full animate-pulse"></div>
                 </div>
+                {/* Rotating grooves */}
+                <div className="absolute inset-6 border border-slate-400/10 rounded-full animate-spin" style={{animationDuration: '8s'}}></div>
+                <div className="absolute inset-12 border border-slate-400/5 rounded-full animate-spin" style={{animationDuration: '12s'}}></div>
+                {/* Tone arm */}
+                <div className="absolute top-8 right-8 w-16 h-1 bg-slate-400/50 rounded-full origin-right rotate-12 animate-pulse"></div>
               </div>
               <div className="groove-eq flex items-end justify-center gap-1 mt-8 h-20">
-                {[45, 65, 35, 70, 25, 60, 50].map((height, i) => (
+                {[45, 65, 35, 70, 25, 60, 50, 80, 30, 55].map((height, i) => (
                   <div 
                     key={i} 
-                    className="eq-bar w-2 bg-slate-400 rounded-t opacity-60 animate-pulse" 
+                    className="eq-bar w-2 bg-gradient-to-t from-slate-500 to-blue-400 rounded-t opacity-70 transition-all duration-300" 
                     style={{
                       height: `${height}px`, 
+                      animation: `eqBounce 0.8s ease-in-out infinite`,
                       animationDelay: `${i * 0.1}s`
                     }}
                   ></div>
