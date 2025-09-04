@@ -57,6 +57,49 @@ const translations = {
     'ponyo.cta': '詳細を見る',
     'ponyo.cta.description': '楽曲の詳細、歌詞、推し曲投票など',
 
+    // Ponyo Prince Page
+    'ponyopage.hero.number': '07',
+    'ponyopage.hero.subtitle': 'Artist Spotlight',
+    'ponyopage.hero.title': 'ぽにょ皇子',
+    
+    // Project Section
+    'ponyopage.project.title': 'PROJECT',
+    'ponyopage.project.subtitle': 'DJ ぽにょ皇子×AI音楽生成×DAIM Driver Team',
+    'ponyopage.project.subtitle2': 'First Demonstration',
+    'ponyopage.project.desc1': '開発中の自動音楽生成アプリを想定し、最新のAI技術をDAIMエンジン開発チームが活用して楽曲を作成した場合のデモンストレーション。',
+    'ponyopage.project.desc2': '第一弾は、DJ ぽにょ皇子の世界観を紐解きながら、どこまで、AIと音楽、カルチャーが融合できるかチャレンジします。',
+    'ponyopage.project.desc3': 'AIを使って次世代の楽曲制作の可能性を広げるには、いままでのようなAIだけで完結させるという文化に終止符を打ち、AIが生み出した作品に人がどこまで完成度を高めプロデュースしていけるのかが鍵です。',
+    
+    // About Section
+    'ponyopage.about.title': 'ABOUT',
+    'ponyopage.about.concept': '制作コンセプト',
+    'ponyopage.about.concept.desc1': 'AI音楽の可能性と人間の感性との融合',
+    'ponyopage.about.concept.desc2': 'このDAIMのプロジェクトの第一弾は、DJ、コスプレイヤー、アーティストとして活躍中のぽにょ皇子とDMCのクリエイター陣がタッグを組み、それぞれ知恵を出し合いながら彼女の世界感を元にプロジェクトを進行していきます。',
+    'ponyopage.about.profile': 'ARTIST PROFILE',
+    'ponyopage.about.profile.name': 'DJ ぽにょ皇子',
+    'ponyopage.about.profile.desc1': 'コスプレイヤーをはじめ、DJ、グラビア等、様々な活動をしているぽにょ皇子。フォロワー数35万人超え。DJだけでなくパワフルなMCもこなしながらフロアを沸かせる予測不能な彼女のパフォーマンスには目が離せない。',
+    'ponyopage.about.profile.desc2': '全国各地毎月多数のイベントに出演するなど精力的に活動中。DJanesAWARD2021国内ガールズDJランキング2021年度のランキング7位に君臨。',
+    'ponyopage.about.achievements1': '▽ 1stシングル「Put on your beat！！！」',
+    'ponyopage.about.achievements2': '▽ 2ndシングル「変幻自在」',
+    'ponyopage.about.achievements3': 'iTunes Store にて、リリースから24時間を待たずして日本国内 ダンスジャンル トップソングランキング 1位 を獲得。',
+    'ponyopage.about.events': '主催クラブイベント #ぽ祭 #過激波電脳東京 #ぽにょ皇子生誕祭',
+    
+    // Demo Music Section
+    'ponyopage.demo.title': 'A.I. DEMO MUSIC',
+    'ponyopage.demo.subtitle': 'AIによる生成音源',
+    'ponyopage.demo.preview': '音源プレビュー',
+    'ponyopage.demo.version': 'A.I.（Android Imagination）ver.6',
+    'ponyopage.demo.browser': 'お使いのブラウザは音声再生に対応していません。',
+    'ponyopage.demo.filename': 'AI-trance-rap-2.wav - ぽにょ皇子 AI音楽生成デモ',
+    'ponyopage.demo.future': '今後、ぽにょ皇子によるミキシングやアレンジを行い、楽曲として完成させていきます。',
+    
+    // SNS Section
+    'ponyopage.sns.title': 'SNS',
+    'ponyopage.sns.subtitle': 'ぽにょ皇子の公式アカウント',
+    'ponyopage.sns.follow': 'フォローする →',
+    'ponyopage.sns.subscribe': 'チャンネル登録 →',
+    'ponyopage.sns.youtube.name': 'ぽにょ皇子official',
+
     // Process Section
     'process.number': '03',
     'process.subtitle': 'Creation Process',
@@ -159,6 +202,49 @@ const translations = {
     'ponyo.ai.description': 'Under the theme of "A.I. (Android Imagination)", we conducted an AI music generation demonstration. Seven different versions of tracks were generated as theme songs for a fictional battle anime.',
     'ponyo.cta': 'View Details',
     'ponyo.cta.description': 'Song details, lyrics, and favorite track voting',
+
+    // Ponyo Prince Page
+    'ponyopage.hero.number': '07',
+    'ponyopage.hero.subtitle': 'Artist Spotlight',
+    'ponyopage.hero.title': 'Ponyo Prince',
+    
+    // Project Section
+    'ponyopage.project.title': 'PROJECT',
+    'ponyopage.project.subtitle': 'DJ Ponyo Prince × AI Music Generation × DAIM Driver Team',
+    'ponyopage.project.subtitle2': 'First Demonstration',
+    'ponyopage.project.desc1': 'A demonstration of music creation using the latest AI technology by the DAIM engine development team, assuming an automatic music generation app under development.',
+    'ponyopage.project.desc2': 'The first phase challenges how far AI, music, and culture can be fused while unraveling the worldview of DJ Ponyo Prince.',
+    'ponyopage.project.desc3': 'To expand the possibilities of next-generation music production using AI, the key is to break away from the culture of AI-only completion and see how far humans can enhance and produce works created by AI.',
+    
+    // About Section
+    'ponyopage.about.title': 'ABOUT',
+    'ponyopage.about.concept': 'Production Concept',
+    'ponyopage.about.concept.desc1': 'Fusion of AI music possibilities and human sensibility',
+    'ponyopage.about.concept.desc2': 'The first phase of this DAIM project involves DJ, cosplayer, and artist Ponyo Prince teaming up with DMC creators, combining their wisdom to proceed with the project based on her worldview.',
+    'ponyopage.about.profile': 'ARTIST PROFILE',
+    'ponyopage.about.profile.name': 'DJ Ponyo Prince',
+    'ponyopage.about.profile.desc1': 'Ponyo Prince is active in various fields including cosplay, DJing, and gravure modeling, with over 350,000 followers. Her unpredictable performances that combine powerful DJing and MC skills to energize the floor are captivating.',
+    'ponyopage.about.profile.desc2': 'She is actively performing at numerous events across the country every month. She ranked 7th in the DJanes AWARD 2021 domestic girls DJ ranking for 2021.',
+    'ponyopage.about.achievements1': '▽ 1st Single "Put on your beat!!!"',
+    'ponyopage.about.achievements2': '▽ 2nd Single "Hengenjizai"',
+    'ponyopage.about.achievements3': 'Achieved #1 on iTunes Store Japan Dance Genre Top Songs Ranking within 24 hours of release.',
+    'ponyopage.about.events': 'Host club events #PoMatsuri #Gekiha Denno Tokyo #Ponyo Prince Birthday Festival',
+    
+    // Demo Music Section
+    'ponyopage.demo.title': 'A.I. DEMO MUSIC',
+    'ponyopage.demo.subtitle': 'AI Generated Audio',
+    'ponyopage.demo.preview': 'Audio Preview',
+    'ponyopage.demo.version': 'A.I. (Android Imagination) ver.6',
+    'ponyopage.demo.browser': 'Your browser does not support audio playback.',
+    'ponyopage.demo.filename': 'AI-trance-rap-2.wav - Ponyo Prince AI Music Generation Demo',
+    'ponyopage.demo.future': 'In the future, mixing and arrangements by Ponyo Prince will be performed to complete the tracks.',
+    
+    // SNS Section
+    'ponyopage.sns.title': 'SNS',
+    'ponyopage.sns.subtitle': 'Ponyo Prince Official Accounts',
+    'ponyopage.sns.follow': 'Follow →',
+    'ponyopage.sns.subscribe': 'Subscribe →',
+    'ponyopage.sns.youtube.name': 'Ponyo Prince Official',
 
     // Process Section
     'process.number': '03',
