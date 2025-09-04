@@ -29,21 +29,7 @@ export default function PonyoPrincePage() {
             <div className="absolute inset-0 bg-[linear-gradient(rgba(59,130,246,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.1)_1px,transparent_1px)] bg-[size:50px_50px] animate-pulse"></div>
           </div>
           
-          {/* Floating Particles Effect */}
-          <div className="absolute inset-0">
-            {[...Array(20)].map((_, i) => (
-              <div 
-                key={i}
-                className="absolute w-1 h-1 bg-blue-400 rounded-full animate-ping"
-                style={{
-                  left: `${(i * 5.5) % 100}%`,
-                  top: `${(i * 4.8) % 100}%`,
-                  animationDelay: `${(i * 0.15) % 3}s`,
-                  animationDuration: `${2 + (i * 0.1) % 2}s`
-                }}
-              ></div>
-            ))}
-          </div>
+
         </div>
         
         {/* Content */}

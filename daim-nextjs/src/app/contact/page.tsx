@@ -77,27 +77,12 @@ export default function ContactPage() {
             <div className="absolute inset-0 bg-[linear-gradient(rgba(148,163,184,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.1)_1px,transparent_1px)] bg-[size:50px_50px] animate-pulse"></div>
           </div>
           
-          {/* Floating Particles Effect */}
-          <div className="absolute inset-0">
-            {[...Array(15)].map((_, i) => (
-              <div 
-                key={i}
-                className="absolute w-1 h-1 bg-slate-400 rounded-full animate-ping"
-                style={{
-                  left: `${(i * 6.5) % 100}%`,
-                  top: `${(i * 7.2) % 100}%`,
-                  animationDelay: `${(i * 0.2) % 4}s`,
-                  animationDuration: `${3 + (i * 0.1) % 2}s`
-                }}
-              ></div>
-            ))}
-          </div>
+
         </div>
         
         {/* Content */}
         <div className="container mx-auto px-4 relative z-10">
           <div className="text-center mb-16">
-            <div className="section-number text-6xl font-light text-gray-200 mb-4 drop-shadow-2xl">📧</div>
             <p className="section-subtitle text-gray-200 text-lg mb-2 font-medium tracking-wider">Contact Us</p>
             <h1 className="section-title text-4xl md:text-6xl font-display font-semibold mb-8 text-white drop-shadow-2xl">
               <span className="gradient-text">
@@ -114,58 +99,10 @@ export default function ContactPage() {
       {/* Contact Form Section */}
       <section className="section-luxury py-24">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <div className="grid md:grid-cols-2 gap-12 mb-12">
-              {/* Contact Information */}
-              <div>
-                <h2 className="text-3xl font-light mb-8 text-slate-200">Get in Touch</h2>
-                <p className="text-xl text-gray-300 leading-relaxed mb-8">
-                  DAIMに関するご質問、ご相談、お仕事のご依頼など、<br />
-                  お気軽にお問い合わせください。
-                </p>
-                
-                <div className="space-y-6">
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 bg-slate-400/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <svg className="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                      </svg>
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-medium text-slate-200 mb-2">Email</h3>
-                      <p className="text-gray-400">hello@daim.ai</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 bg-slate-400/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <svg className="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                      </svg>
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-medium text-slate-200 mb-2">営業時間</h3>
-                      <p className="text-gray-400">平日 9:00 - 18:00 JST</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 bg-slate-400/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <svg className="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                      </svg>
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-medium text-slate-200 mb-2">返信時間</h3>
-                      <p className="text-gray-400">24時間以内にご返信いたします</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Contact Form */}
-              <div className="bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-xl border border-white/20 rounded-3xl p-8 shadow-2xl">
-                <h3 className="text-2xl font-light mb-6 text-slate-200">メッセージを送信</h3>
+          <div className="max-w-2xl mx-auto">
+            {/* Contact Form */}
+            <div className="bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-xl border border-white/20 rounded-3xl p-8 shadow-2xl">
+              <h3 className="text-2xl font-light mb-6 text-slate-200 text-center">メッセージを送信</h3>
                 
                 {/* メッセージ表示 */}
                 {message && (
@@ -274,7 +211,6 @@ export default function ContactPage() {
                   </p>
                 </form>
               </div>
-            </div>
           </div>
         </div>
       </section>

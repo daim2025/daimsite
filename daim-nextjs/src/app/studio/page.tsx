@@ -65,21 +65,7 @@ export default function StudioPage() {
             <div className="absolute inset-0 bg-[linear-gradient(rgba(148,163,184,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.1)_1px,transparent_1px)] bg-[size:50px_50px] animate-pulse"></div>
           </div>
           
-          {/* Floating Particles Effect */}
-          <div className="absolute inset-0">
-            {[...Array(20)].map((_, i) => (
-              <div 
-                key={i}
-                className="absolute w-1 h-1 bg-slate-400 rounded-full animate-ping"
-                style={{
-                  left: `${(i * 5.5) % 100}%`,
-                  top: `${(i * 4.8) % 100}%`,
-                  animationDelay: `${(i * 0.15) % 3}s`,
-                  animationDuration: `${2 + (i * 0.1) % 2}s`
-                }}
-              ></div>
-            ))}
-          </div>
+
         </div>
         
         {/* Content */}
@@ -179,7 +165,7 @@ export default function StudioPage() {
                 </div>
               </div>
             </div>
-            
+
             {/* Turntables */}
             <div className="turntables-section mb-16">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -228,11 +214,11 @@ export default function StudioPage() {
                         <div className="pitch-value text-center mt-2 text-sm text-gray-400 font-mono">±8%</div>
                       </div>
                     </div>
-                  </div>
+                </div>
                 ))}
               </div>
-            </div>
-            
+              </div>
+              
             {/* Effects Rack */}
             <div className="effects-rack mb-16 relative">
               <div className="absolute inset-0 bg-gradient-to-r from-slate-500/20 to-blue-500/20 rounded-3xl blur-xl"></div>
@@ -261,12 +247,12 @@ export default function StudioPage() {
                       <div className="effect-status text-xs text-gray-500 mt-1">
                         {effect.active ? 'ACTIVE' : 'STANDBY'}
                       </div>
-                    </div>
+              </div>
                   ))}
                 </div>
               </div>
             </div>
-            
+
             {/* AI Generation Controls */}
             <div className="ai-controls text-center relative">
               <div className="absolute inset-0 bg-gradient-to-r from-slate-400/20 to-blue-500/20 rounded-3xl blur-2xl"></div>
@@ -340,10 +326,10 @@ export default function StudioPage() {
               )}
 
               <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="flex flex-col md:flex-row gap-4 max-w-md mx-auto">
-                  <input 
-                    type="email" 
-                    placeholder="your@email.com" 
+              <div className="flex flex-col md:flex-row gap-4 max-w-md mx-auto">
+                <input 
+                  type="email" 
+                  placeholder="your@email.com" 
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     disabled={isLoading}
@@ -363,8 +349,8 @@ export default function StudioPage() {
                     ) : (
                       '登録'
                     )}
-                  </button>
-                </div>
+                </button>
+              </div>
                 
                 {/* プライバシーポリシー */}
                 <p className="text-xs text-gray-400 text-center max-w-md mx-auto">

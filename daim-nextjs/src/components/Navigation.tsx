@@ -4,19 +4,21 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
   const isRootPage = pathname === '/';
+  const { language, setLanguage, t } = useLanguage();
 
   const navLinks = [
-    { href: '#about', label: 'About' },
-    { href: '/studio', label: 'Studio' },
-    { href: '#process', label: 'Process' },
-    { href: '#cms-features', label: 'Manage' },
-    { href: '#ponyo-prince-spotlight', label: 'ぽにょ皇子' },
-    { href: '/contact', label: 'Contact' },
+    { href: '#about', label: t('nav.about') },
+    { href: '/studio', label: t('nav.studio') },
+    { href: '#process', label: t('nav.process') },
+    { href: '#cms-features', label: 'CMS' },
+    { href: '#ponyo-prince-spotlight', label: t('nav.ponyo') },
+    { href: '/contact', label: t('nav.contact') },
   ];
 
   return (
@@ -37,7 +39,8 @@ export default function Navigation() {
           </div>
           
           {/* Desktop Navigation */}
-          <ul className="nav-links hidden md:flex space-x-8">
+          <div className="hidden md:flex items-center space-x-8">
+            <ul className="nav-links flex space-x-8">
             {navLinks.map((link, index) => (
               <li key={`nav-${index}-${link.label}`}>
                 {link.href.startsWith('#') ? (
@@ -57,7 +60,22 @@ export default function Navigation() {
                 )}
               </li>
             ))}
-          </ul>
+            </ul>
+
+            {/* Language Toggle */}
+            <div className="language-toggle">
+              <button
+                onClick={() => setLanguage(language === 'ja' ? 'en' : 'ja')}
+                className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 transition-all duration-300 text-white/90 hover:text-white font-medium"
+                aria-label="Switch Language"
+              >
+                <span className="text-sm font-mono">{language.toUpperCase()}</span>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/>
+                </svg>
+              </button>
+            </div>
+          </div>
 
           {/* Mobile Menu Button */}
           <button
@@ -97,9 +115,25 @@ export default function Navigation() {
                     >
                       {link.label}
                     </Link>
-                  )}
-                </li>
+                                  )}
+              </li>
               ))}
+              
+              {/* Mobile Language Toggle */}
+              <li className="pt-4 border-t border-white/10">
+                <button
+                  onClick={() => {
+                    setLanguage(language === 'ja' ? 'en' : 'ja');
+                    setIsMenuOpen(false);
+                  }}
+                  className="flex items-center gap-3 w-full px-2 py-2 rounded-lg bg-white/10 hover:bg-white/20 transition-all duration-300 text-white/90 hover:text-white font-medium"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/>
+                  </svg>
+                  <span className="font-mono">{language === 'ja' ? 'English' : '日本語'}</span>
+                </button>
+              </li>
             </ul>
           </div>
         )}
