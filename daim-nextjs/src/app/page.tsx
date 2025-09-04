@@ -14,8 +14,8 @@ export default function Home() {
   const handleVideoLoad = (e: React.SyntheticEvent<HTMLVideoElement>) => {
     try {
       const video = e.currentTarget;
-      // スローモーション設定（0.5倍速）
-      video.playbackRate = 0.5;
+      // 超スローモーション設定（0.2倍速）
+      video.playbackRate = 0.2;
       setIsVideoLoaded(true);
       
       // 再生開始を確実にする
@@ -42,7 +42,7 @@ export default function Home() {
     const video = heroVideoRef.current;
     if (video) {
       const setVideoSettings = () => {
-        video.playbackRate = 0.5; // スローモーション
+        video.playbackRate = 0.2; // 超スローモーション
       };
       
       // 動画が読み込まれたら設定適用
@@ -70,7 +70,7 @@ export default function Home() {
         <div className="hero-video-container absolute inset-0">
           <video
             ref={heroVideoRef}
-            className={`hero-video w-full h-full object-cover brightness-[0.2] contrast-125 saturate-90 transition-all duration-500 ${
+            className={`hero-video w-full h-full object-cover brightness-[0.15] contrast-125 saturate-90 transition-all duration-500 ${
               videoError ? 'video-error' : isVideoLoaded ? 'video-playing' : 'video-loading'
             }`}
             autoPlay

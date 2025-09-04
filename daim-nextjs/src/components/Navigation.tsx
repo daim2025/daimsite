@@ -26,15 +26,14 @@ export default function Navigation() {
       <div className="container mx-auto px-6 py-4">
         <div className="nav-container flex justify-between items-center">
           <div className="nav-logo">
-            <Link href="/" className="logo-link flex items-center gap-3 group">
+            <Link href="/" className="logo-link flex items-center group">
               <Image
                 src="/images/logo_daim.svg"
                 alt="DAIM"
-                width={44}
-                height={44}
-                className="logo-img transition-all duration-500 group-hover:scale-110 group-hover:rotate-12 brightness-0 invert"
+                width={100}
+                height={100}
+                className="logo-img transition-all duration-500 group-hover:scale-110 brightness-0 invert"
               />
-              <span className="logo-text text-xl font-display font-semibold text-white/95 group-hover:text-white transition-all duration-300 tracking-tight">DAIM</span>
             </Link>
           </div>
           
