@@ -4,8 +4,10 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import Image from 'next/image';
 import { useState, useRef, useEffect } from 'react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function Home() {
+  const { language, t } = useLanguage();
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [videoError, setVideoError] = useState(false);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
@@ -106,20 +108,20 @@ export default function Home() {
                 className="hero-logo mb-8 brightness-0 invert drop-shadow-2xl transition-all duration-500 hover:scale-105"
                 priority
               />
-              <p className="hero-subtitle text-xl font-medium text-gray-300 mb-4 tracking-wide">Intelligent Music Platform</p>
-              <h1 className="hero-title text-6xl md:text-8xl font-display font-bold mb-8 tracking-tight gradient-text">DAIM</h1>
+              <p className="hero-subtitle text-xl font-medium text-gray-300 mb-4 tracking-wide">{t('hero.subtitle')}</p>
+              <h1 className="hero-title text-6xl md:text-8xl font-display font-bold mb-8 tracking-tight gradient-text">{t('hero.title')}</h1>
               <p className="hero-description text-xl font-light text-gray-300 mb-12 max-w-2xl leading-relaxed tracking-wide">
-                Where artificial intelligence meets musical intuition. Experience the future of sound creation through sophisticated algorithms and creative innovation.
+                {t('hero.description')}
               </p>
               <div className="flex gap-6 flex-wrap">
                 <a href="#studio" className="btn-professional px-8 py-4 text-white font-semibold rounded-lg">
-                  <span>Enter Studio</span>
+                  <span>{t('hero.cta.studio')}</span>
                 </a>
                 <a href="/idol" className="px-8 py-4 border border-slate-400/30 text-white font-medium rounded-lg hover:bg-slate-400/10 transition-all duration-300 glass-morphism">
-                  <span>🎤 Idol Demo</span>
+                  <span>{t('hero.cta.idol')}</span>
                 </a>
                 <a href="#about" className="px-8 py-4 border border-slate-400/30 text-white font-medium rounded-lg hover:bg-slate-400/10 transition-all duration-300 glass-morphism">
-                  <span>Discover More</span>
+                  <span>{t('hero.cta.more')}</span>
                 </a>
               </div>
             </div>
@@ -149,53 +151,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* About DAIM */}
-      <section id="about" className="section-luxury py-24">
-        <div className="container mx-auto px-4">
-          <div className="section-header text-center mb-16">
-            <div className="section-number text-6xl font-light text-gray-400 mb-4">01</div>
-            <p className="section-subtitle text-gray-300 text-lg mb-2">Philosophy</p>
-            <h2 className="section-title text-4xl md:text-5xl font-display font-semibold">DAIMとは</h2>
-          </div>
-          
-          <div className="grid md:grid-cols-2 gap-16 items-center">
-            <div>
-              <p className="text-xl text-gray-300 mb-8 leading-relaxed">
-                DAIMは音楽×AI×クリエーター×未来をコンセプトとした洗練された音楽創造プラットフォームです。
-                <br /><br />
-                最先端のAI技術とクリエーターの感性を融合させ、誰でも直感的にプロフェッショナルな楽曲を制作できる環境を提供します。シンプルな操作で、深い音楽理論に基づいた sophisticated な楽曲を生み出すことができます。
-              </p>
-              
-              <div className="card-intelligent p-8 bg-white/5 rounded-xl border border-white/10">
-                <h3 className="card-title text-2xl font-display font-semibold mb-6">Intelligent Composition</h3>
-                <p className="card-description text-gray-300 leading-relaxed">
-                  最先端のAI技術と人間の感性を融合させ、誰でも直感的にプロフェッショナルな楽曲を制作できる環境を提供します。シンプルな操作で、深い音楽理論に基づいた sophisticated な楽曲を生み出すことができます。
-                </p>
-              </div>
-            </div>
-            
-            <div className="flex items-center justify-center">
-              <div className="w-80 h-80 border-2 border-slate-400 border-opacity-30 rounded-full flex items-center justify-center relative bg-slate-400/5 backdrop-blur-xl">
-                <div className="text-center">
-                  <div className="text-3xl font-light text-slate-400 mb-2">
-                    Intelligent<br />
-                    <span className="text-lg text-gray-300 font-light">Music Creation</span>
-                  </div>
-                </div>
-                <div className="absolute bottom-16 flex space-x-2">
-                  {[...Array(5)].map((_, i) => (
-                    <div 
-                      key={i} 
-                      className="w-2 h-2 bg-slate-400 rounded-full animate-pulse" 
-                      style={{animationDelay: `${i * 0.2}s`}}
-                    ></div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Studio Interface */}
       <section id="studio" className="section-luxury py-24 bg-black/30 relative overflow-hidden">
@@ -208,9 +163,9 @@ export default function Home() {
 
         <div className="container mx-auto px-4 relative z-10">
           <div className="section-header text-center mb-16">
-            <div className="section-number text-6xl font-light text-gray-400 mb-4">02</div>
-            <p className="section-subtitle text-gray-300 text-lg mb-2">Creation</p>
-            <h2 className="section-title text-4xl md:text-5xl font-display font-semibold">Intelligent Studio</h2>
+            <div className="section-number text-6xl font-light text-gray-400 mb-4">{t('studio.number')}</div>
+            <p className="section-subtitle text-gray-300 text-lg mb-2">{t('studio.subtitle')}</p>
+            <h2 className="section-title text-4xl md:text-5xl font-display font-semibold">{t('studio.title')}</h2>
           </div>
           
           <div className="dj-studio-interface max-w-7xl mx-auto">
@@ -421,196 +376,14 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Creation Process */}
-      <section id="process" className="section-luxury py-24">
-        <div className="container mx-auto px-4">
-          <div className="section-header text-center mb-16">
-            <div className="section-number text-6xl font-light text-gray-400 mb-4">03</div>
-            <p className="section-subtitle text-gray-300 text-lg mb-2">Methodology</p>
-            <h2 className="section-title text-4xl md:text-5xl font-display font-semibold">Creation Process</h2>
-          </div>
-          
-          <div className="mb-16">
-            <p className="text-xl text-gray-300 leading-relaxed text-center max-w-3xl mx-auto font-light">
-              DAIMでの音楽制作は、直感的でありながら深い音楽理論に基づいたインテリジェントなプロセスです。
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-3 gap-12">
-            <div className="card-intelligent text-center p-8 bg-white/5 rounded-xl border border-white/10">
-              <h3 className="card-title text-2xl font-display font-semibold mb-6">Inspiration Input</h3>
-              <p className="card-description text-gray-300 leading-relaxed">
-                あなたの音楽的インスピレーションを自然言語で入力。AIが音楽理論、感情表現、楽器編成を分析し、最適な音楽構造を提案します。
-              </p>
-            </div>
-            
-            <div className="card-intelligent text-center p-8 bg-white/5 rounded-xl border border-white/10">
-              <h3 className="card-title text-2xl font-display font-semibold mb-6">Intelligent Processing</h3>
-              <p className="card-description text-gray-300 leading-relaxed">
-                高度なアルゴリズムが和声進行、メロディライン、リズムパターンを生成。人間の感性とAIの論理的思考が融合した楽曲が誕生します。
-              </p>
-            </div>
-            
-            <div className="card-intelligent text-center p-8 bg-white/5 rounded-xl border border-white/10">
-              <h3 className="card-title text-2xl font-display font-semibold mb-6">Refinement & Export</h3>
-              <p className="card-description text-gray-300 leading-relaxed">
-                生成された楽曲を直感的に調整・編集。プロフェッショナル品質のマスタリングを施し、あらゆる形式で出力可能です。
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Professional Distribution */}
-      <section className="section-luxury py-24 bg-black/30">
-        <div className="container mx-auto px-4">
-          <div className="section-header text-center mb-16">
-            <div className="section-number text-6xl font-light text-gray-400 mb-4">04</div>
-            <p className="section-subtitle text-gray-300 text-lg mb-2">Distribution</p>
-            <h2 className="section-title text-4xl md:text-5xl font-display font-semibold">Professional Distribution</h2>
-          </div>
-          
-          <div className="grid md:grid-cols-2 gap-16 items-center">
-            <div>
-              <div className="card-intelligent p-8 bg-white/5 rounded-xl border border-white/10 mb-8">
-                <h3 className="card-title text-2xl font-display font-semibold mb-6">Global Reach</h3>
-                <p className="card-description text-gray-300 leading-relaxed">
-                  生成された楽曲を世界中のプラットフォームに配信。Spotify、Apple Music、YouTubeなど、あらゆるチャンネルでリスナーに届けることができます。
-                </p>
-              </div>
-              
-              <div className="card-intelligent p-8 bg-white/5 rounded-xl border border-white/10">
-                <h3 className="card-title text-2xl font-display font-semibold mb-6">Revenue Optimization</h3>
-                <p className="card-description text-gray-300 leading-relaxed">
-                  インテリジェントな分析ツールでリスナーの反応を追跡し、最適な配信戦略を提案。収益を最大化するためのデータドリブンなアプローチを提供します。
-                </p>
-              </div>
-            </div>
-            
-            <div className="flex items-center justify-center">
-              <div className="w-80 h-80 border-2 border-slate-400 border-opacity-30 rounded-full flex items-center justify-center relative bg-slate-400/5 backdrop-blur-xl">
-                <div className="text-center">
-                  <div className="text-3xl font-light text-slate-400 mb-2">
-                    Global<br />
-                    <span className="text-lg text-gray-300 font-light">Distribution</span>
-                  </div>
-                </div>
-                <div className="absolute bottom-16 flex space-x-2">
-                  {[...Array(5)].map((_, i) => (
-                    <div 
-                      key={i} 
-                      className="w-2 h-2 bg-slate-400 rounded-full animate-pulse" 
-                      style={{animationDelay: `${i * 0.2}s`}}
-                    ></div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Content Management */}
-      <section id="cms-features" className="section-luxury py-24 bg-black/30">
-        <div className="container mx-auto px-4">
-          <div className="section-header text-center mb-16">
-            <div className="section-number text-6xl font-light text-gray-400 mb-4">05</div>
-            <p className="section-subtitle text-gray-300 text-lg mb-2">Management</p>
-            <h2 className="section-title text-4xl md:text-5xl font-display font-semibold">Content Management</h2>
-          </div>
-          
-          <div className="grid md:grid-cols-3 gap-12">
-            <div className="card-intelligent text-center p-8 bg-white/5 rounded-xl border border-white/10">
-              <h3 className="card-title text-2xl font-display font-semibold mb-6">Track Management</h3>
-              <p className="card-description text-gray-300 leading-relaxed">
-                生成された楽曲を効率的に管理。メタデータの編集、タグ付け、カテゴリ分類など、プロフェッショナルな楽曲管理をサポートします。
-              </p>
-            </div>
-            
-            <div className="card-intelligent text-center p-8 bg-white/5 rounded-xl border border-white/10">
-              <h3 className="card-title text-2xl font-display font-semibold mb-6">Analytics Dashboard</h3>
-              <p className="card-description text-gray-300 leading-relaxed">
-                詳細なリスナー分析とパフォーマンス指標を提供。楽曲の反応、地域別の再生数、リスナーの行動パターンなどを可視化します。
-              </p>
-            </div>
-            
-            <div className="card-intelligent text-center p-8 bg-white/5 rounded-xl border border-white/10">
-              <h3 className="card-title text-2xl font-display font-semibold mb-6">Collaboration Tools</h3>
-              <p className="card-description text-gray-300 leading-relaxed">
-                チームでの楽曲制作をサポート。共同編集、コメント機能、バージョン管理など、効率的なコラボレーション環境を提供します。
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Idol Demo Section */}
-      <section className="section-luxury py-24 bg-black/20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-pink-500/5 via-purple-500/5 to-blue-500/5"></div>
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="text-center mb-16">
-            <div className="section-number text-6xl font-light text-gray-400 mb-4">06</div>
-            <p className="section-subtitle text-gray-300 text-lg mb-2">Demo</p>
-            <h2 className="section-title text-4xl md:text-5xl font-display font-semibold">Idol Demo</h2>
-            <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
-              We have created idol-oriented music using the latest AI technology. 
-              Experience the future of idol music creation.
-            </p>
-          </div>
-          
-          <div className="max-w-4xl mx-auto">
-            <div className="bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-xl border border-white/20 rounded-3xl p-8 md:p-12 shadow-2xl">
-              <div className="text-center mb-8">
-                <div className="text-6xl mb-4">🎤</div>
-                <h3 className="text-2xl font-light mb-4">STAMP - AI Generated Idol Music</h3>
-                <p className="text-gray-300 mb-6">
-                  writing: ShiroKoba<br/>
-                  AI Enhancement: DAIM Studio
-                </p>
-              </div>
-              
-              <div className="grid md:grid-cols-2 gap-8 items-center">
-                <div className="space-y-4">
-                  <div className="bg-white/5 rounded-lg p-4">
-                    <h4 className="text-lg font-medium mb-2">🎵 Musical Style</h4>
-                    <p className="text-gray-300 text-sm">Upbeat idol pop with electronic elements</p>
-                  </div>
-                  <div className="bg-white/5 rounded-lg p-4">
-                    <h4 className="text-lg font-medium mb-2">🎭 Target Audience</h4>
-                    <p className="text-gray-300 text-sm">Idol fans and pop music lovers</p>
-                  </div>
-                  <div className="bg-white/5 rounded-lg p-4">
-                    <h4 className="text-lg font-medium mb-2">🤖 AI Features</h4>
-                    <p className="text-gray-300 text-sm">Melody generation, arrangement, mixing</p>
-                  </div>
-                </div>
-                
-                <div className="text-center">
-                  <a 
-                    href="/idol" 
-                    className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-slate-500 to-blue-600 text-white font-bold rounded-2xl hover:from-slate-600 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg"
-                  >
-                    <span className="text-xl">🎧</span>
-                    <span>Listen to STAMP</span>
-                    <span className="text-xl">→</span>
-                  </a>
-                  <p className="text-gray-400 text-sm mt-4">
-                    Experience the full lyrics and AI-generated music
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Ponyo Prince Spotlight */}
       <section id="ponyo-prince-spotlight" className="section-luxury py-24">
         <div className="container mx-auto px-4">
           <div className="section-header text-center mb-16">
-            <div className="section-number text-6xl font-light text-gray-400 mb-4">07</div>
-            <p className="section-subtitle text-gray-300 text-lg mb-2">Artist Spotlight</p>
-            <h2 className="section-title text-4xl md:text-5xl font-display font-semibold">ぽにょ皇子</h2>
+            <div className="section-number text-6xl font-light text-gray-400 mb-4">{t('ponyo.number')}</div>
+            <p className="section-subtitle text-gray-300 text-lg mb-2">{t('ponyo.subtitle')}</p>
+            <h2 className="section-title text-4xl md:text-5xl font-display font-semibold">{t('ponyo.title')}</h2>
           </div>
           
           <div className="grid md:grid-cols-2 gap-16 items-center">
@@ -638,9 +411,9 @@ export default function Home() {
             
             <div>
               <div className="card-intelligent p-8 bg-white/5 rounded-xl border border-white/10 mb-8">
-                <h3 className="card-title text-2xl font-display font-semibold mb-6">Artist Profile</h3>
+                <h3 className="card-title text-2xl font-display font-semibold mb-6">{t('ponyo.profile.title')}</h3>
                 <p className="card-description text-gray-300 leading-relaxed mb-4">
-                  コスプレイヤー、DJ、グラビア等の様々な活動をしているぽにょ皇子。フォロワー数35万人超え。DJだけでなくパワフルなMCもこなしながらフロアを沸かせる予測不能なパフォーマンスには目が離せません。
+                  {t('ponyo.profile.description')}
                 </p>
                 <div className="bg-gradient-to-r from-slate-600/20 to-blue-700/20 rounded-lg p-4 border border-slate-500/20">
                   <p className="text-sm text-slate-300 font-medium mb-2">🏆 DJanesAWARD2021 国内ガールズDJランキング7位</p>
@@ -650,18 +423,18 @@ export default function Home() {
               </div>
               
               <div className="card-intelligent p-8 bg-white/5 rounded-xl border border-white/10">
-                <h3 className="card-title text-2xl font-display font-semibold mb-6">AI Music Generation</h3>
+                <h3 className="card-title text-2xl font-display font-semibold mb-6">{t('ponyo.ai.title')}</h3>
                 <p className="card-description text-gray-300 leading-relaxed mb-4">
-                  「A.I.（Android Imagination）」をテーマに、AI音楽生成デモンストレーションを実施。架空のバトルアニメの主題歌として、7つのバージョンの楽曲を生成しました。
+                  {t('ponyo.ai.description')}
                 </p>
                 <div className="text-center mt-6">
                   <a href="/ponyo-prince" className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-slate-500 to-blue-600 text-white font-bold rounded-2xl hover:from-slate-600 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg">
                     <span className="text-xl">🎵</span>
-                    <span>詳細を見る</span>
+                    <span>{t('ponyo.cta')}</span>
                     <span className="text-xl">→</span>
                   </a>
                   <p className="text-gray-400 text-sm mt-4">
-                    楽曲の詳細、歌詞、推し曲投票など
+                    {t('ponyo.cta.description')}
                   </p>
                 </div>
               </div>

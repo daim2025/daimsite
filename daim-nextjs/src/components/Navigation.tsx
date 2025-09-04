@@ -13,11 +13,8 @@ export default function Navigation() {
   const { language, setLanguage, t } = useLanguage();
 
   const navLinks = [
-    { href: '#about', label: t('nav.about') },
     { href: '/studio', label: t('nav.studio') },
-    { href: '#process', label: t('nav.process') },
-    { href: '#cms-features', label: 'CMS' },
-    { href: '#ponyo-prince-spotlight', label: t('nav.ponyo') },
+    { href: '/ponyo-prince', label: t('nav.ponyo') },
     { href: '/contact', label: t('nav.contact') },
   ];
 

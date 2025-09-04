@@ -3,8 +3,10 @@
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { useState } from 'react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function ContactPage() {
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -25,7 +27,7 @@ export default function ContactPage() {
     
     // バリデーション
     if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
-      setMessage('必須項目をすべて入力してください');
+      setMessage(t('contact.form.required'));
       setMessageType('error');
       return;
     }
@@ -47,16 +49,16 @@ export default function ContactPage() {
       const data = await response.json();
 
       if (response.ok) {
-        setMessage('お問い合わせを送信しました。確認後、担当者よりご連絡いたします。');
+        setMessage(t('contact.form.success'));
         setMessageType('success');
         setFormData({ name: '', email: '', subject: '', message: '' }); // フォームをクリア
       } else {
-        setMessage(data.error || '送信に失敗しました');
+        setMessage(data.error || t('contact.form.error'));
         setMessageType('error');
       }
     } catch (error) {
       console.error('Contact form error:', error);
-      setMessage('ネットワークエラーが発生しました。再度お試しください。');
+      setMessage(t('contact.form.network-error'));
       setMessageType('error');
     } finally {
       setIsLoading(false);
@@ -83,10 +85,10 @@ export default function ContactPage() {
         {/* Content */}
         <div className="container mx-auto px-4 relative z-10">
           <div className="text-center mb-16">
-            <p className="section-subtitle text-gray-200 text-lg mb-2 font-medium tracking-wider">Contact Us</p>
+            <p className="section-subtitle text-gray-200 text-lg mb-2 font-medium tracking-wider">{t('contact.subtitle')}</p>
             <h1 className="section-title text-4xl md:text-6xl font-display font-semibold mb-8 text-white drop-shadow-2xl">
               <span className="gradient-text">
-                お問い合わせ
+                {t('contact.title')}
               </span>
             </h1>
             
@@ -102,7 +104,7 @@ export default function ContactPage() {
           <div className="max-w-2xl mx-auto">
             {/* Contact Form */}
             <div className="bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-xl border border-white/20 rounded-3xl p-8 shadow-2xl">
-              <h3 className="text-2xl font-light mb-6 text-slate-200 text-center">メッセージを送信</h3>
+              <h3 className="text-2xl font-light mb-6 text-slate-200 text-center">{t('contact.form.title')}</h3>
                 
                 {/* メッセージ表示 */}
                 {message && (
@@ -119,7 +121,7 @@ export default function ContactPage() {
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
                       <label htmlFor="name" className="block text-sm font-medium text-slate-200 mb-2">
-                        お名前 <span className="text-red-400">*</span>
+                        {t('contact.form.name')} <span className="text-red-400">*</span>
                       </label>
                       <input
                         type="text"
@@ -136,7 +138,7 @@ export default function ContactPage() {
                     
                     <div>
                       <label htmlFor="email" className="block text-sm font-medium text-slate-200 mb-2">
-                        メールアドレス <span className="text-red-400">*</span>
+                        {t('contact.form.email')} <span className="text-red-400">*</span>
                       </label>
                       <input
                         type="email"
@@ -154,7 +156,7 @@ export default function ContactPage() {
                   
                   <div>
                     <label htmlFor="subject" className="block text-sm font-medium text-slate-200 mb-2">
-                      件名
+                      {t('contact.form.subject')}
                     </label>
                     <select
                       id="subject"
@@ -175,7 +177,7 @@ export default function ContactPage() {
                   
                   <div>
                     <label htmlFor="message" className="block text-sm font-medium text-slate-200 mb-2">
-                      メッセージ <span className="text-red-400">*</span>
+                      {t('contact.form.message')} <span className="text-red-400">*</span>
                     </label>
                     <textarea
                       id="message"
@@ -198,16 +200,16 @@ export default function ContactPage() {
                     {isLoading ? (
                       <div className="flex items-center justify-center gap-2">
                         <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                        送信中...
+                        {t('contact.form.sending')}
                       </div>
                     ) : (
-                      '送信する'
+                      t('contact.form.submit')
                     )}
                   </button>
                   
                   {/* プライバシーポリシー */}
                   <p className="text-xs text-gray-400 text-center">
-                    送信いただいた情報は、お問い合わせ対応の目的でのみ使用され、第三者に提供されることはありません。
+                    {t('contact.form.privacy')}
                   </p>
                 </form>
               </div>

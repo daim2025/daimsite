@@ -26,11 +26,12 @@ const translations = {
     'nav.contact': 'お問い合わせ',
 
     // Hero Section
-    'hero.subtitle': 'AI Music Creation Platform',
-    'hero.title': 'AI音楽制作プラットフォーム',
-    'hero.description': '誰でも簡単に、プロクオリティの音楽を制作できる革新的なAI音楽制作プラットフォームです。',
-    'hero.cta.primary': '無料で始める',
-    'hero.cta.secondary': 'デモを見る',
+    'hero.subtitle': 'Intelligent Music Platform',
+    'hero.title': 'DAIM',
+    'hero.description': 'Where artificial intelligence meets musical intuition. Experience the future of sound creation through sophisticated algorithms and creative innovation.',
+    'hero.cta.studio': 'Enter Studio',
+    'hero.cta.idol': '🎤 Idol Demo',
+    'hero.cta.more': 'Discover More',
 
     // About Section
     'about.number': '01',
@@ -39,10 +40,22 @@ const translations = {
     'about.description': 'DAIMは、AI技術を活用した次世代音楽制作プラットフォームです。プロデューサーからビギナーまで、誰もが直感的に音楽を制作できる環境を提供します。',
 
     // Studio Section
-    'studio.number': '02',
-    'studio.subtitle': 'Intelligent Studio',
-    'studio.title': 'AI-Powered Studio',
+    'studio.number': '01',
+    'studio.subtitle': 'Creation',
+    'studio.title': 'Intelligent Studio',
     'studio.description': '最先端のAI技術を駆使したスタジオ環境で、アイデアを瞬時に音楽に変換。',
+
+    // Ponyo Section
+    'ponyo.number': '02',
+    'ponyo.subtitle': 'Artist Spotlight',
+    'ponyo.title': 'ぽにょ皇子',
+    'ponyo.description': 'コスプレイヤー、DJ、グラビア等の様々な活動をしているぽにょ皇子。フォロワー数35万人超え。',
+    'ponyo.profile.title': 'Artist Profile',
+    'ponyo.profile.description': 'コスプレイヤーをはじめ、DJ、グラビア等、様々な活動をしているぽにょ皇子。フォロワー数35万人超え。DJだけでなくパワフルなMCもこなしながらフロアを沸かせる予測不能なパフォーマンスには目が離せません。',
+    'ponyo.ai.title': 'AI Music Generation',
+    'ponyo.ai.description': '「A.I.（Android Imagination）」をテーマに、AI音楽生成デモンストレーションを実施。架空のバトルアニメの主題歌として、7つのバージョンの楽曲を生成しました。',
+    'ponyo.cta': '詳細を見る',
+    'ponyo.cta.description': '楽曲の詳細、歌詞、推し曲投票など',
 
     // Process Section
     'process.number': '03',
@@ -116,11 +129,12 @@ const translations = {
     'nav.contact': 'Contact',
 
     // Hero Section
-    'hero.subtitle': 'AI Music Creation Platform',
-    'hero.title': 'AI Music Creation Platform',
-    'hero.description': 'An innovative AI music creation platform that enables anyone to easily produce professional-quality music.',
-    'hero.cta.primary': 'Get Started Free',
-    'hero.cta.secondary': 'Watch Demo',
+    'hero.subtitle': 'Intelligent Music Platform',
+    'hero.title': 'DAIM',
+    'hero.description': 'Where artificial intelligence meets musical intuition. Experience the future of sound creation through sophisticated algorithms and creative innovation.',
+    'hero.cta.studio': 'Enter Studio',
+    'hero.cta.idol': '🎤 Idol Demo',
+    'hero.cta.more': 'Discover More',
 
     // About Section
     'about.number': '01',
@@ -129,10 +143,22 @@ const translations = {
     'about.description': 'DAIM is a next-generation music production platform leveraging AI technology. We provide an environment where everyone from professionals to beginners can intuitively create music.',
 
     // Studio Section
-    'studio.number': '02',
-    'studio.subtitle': 'Intelligent Studio',
-    'studio.title': 'AI-Powered Studio',
+    'studio.number': '01',
+    'studio.subtitle': 'Creation',
+    'studio.title': 'Intelligent Studio',
     'studio.description': 'Transform your ideas into music instantly with our cutting-edge AI-powered studio environment.',
+
+    // Ponyo Section
+    'ponyo.number': '02',
+    'ponyo.subtitle': 'Artist Spotlight',
+    'ponyo.title': 'Ponyo Prince',
+    'ponyo.description': 'A multi-talented artist active as a cosplayer, DJ, and gravure model with over 350,000 followers.',
+    'ponyo.profile.title': 'Artist Profile',
+    'ponyo.profile.description': 'A multi-talented artist active as a cosplayer, DJ, and gravure model. With over 350,000 followers, her unpredictable performances that combine powerful DJ skills and MC abilities never fail to energize the crowd.',
+    'ponyo.ai.title': 'AI Music Generation',
+    'ponyo.ai.description': 'Under the theme of "A.I. (Android Imagination)", we conducted an AI music generation demonstration. Seven different versions of tracks were generated as theme songs for a fictional battle anime.',
+    'ponyo.cta': 'View Details',
+    'ponyo.cta.description': 'Song details, lyrics, and favorite track voting',
 
     // Process Section
     'process.number': '03',

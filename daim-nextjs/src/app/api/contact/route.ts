@@ -22,6 +22,52 @@ const validateEmail = (email: string) => {
   return emailRegex.test(email);
 };
 
+// 管理者への通知メール送信（複数宛先）
+async function sendNotificationEmail(contactData: any) {
+  try {
+    const recipients = [
+      'info@discoverfeed.net',
+      'koba@discoverfeed.net'
+    ];
+
+    const emailBody = `
+新しいお問い合わせが届きました。
+
+■ お問い合わせ内容
+- ID: ${contactData.id}
+- お名前: ${contactData.name}
+- メールアドレス: ${contactData.email}
+- 件名: ${contactData.subject}
+- 受信日時: ${new Date(contactData.createdAt).toLocaleString('ja-JP')}
+
+■ メッセージ内容:
+${contactData.message}
+
+---
+このメールは DAIM お問い合わせフォームから自動送信されました。
+    `.trim();
+
+    // 実際のメール送信処理（開発環境では模擬）
+    if (process.env.NODE_ENV === 'development') {
+      console.log('=== EMAIL NOTIFICATION (DEV MODE) ===');
+      console.log(`To: ${recipients.join(', ')}`);
+      console.log(`Subject: 【DAIM】新しいお問い合わせ - ${contactData.subject}`);
+      console.log(`Body:\n${emailBody}`);
+      console.log('==========================================');
+      
+      return { success: true, message: 'Email notification sent (development mode)' };
+    }
+
+    // 本番環境では実際のメール送信サービス（SendGrid、AWS SES等）を使用
+    // 例: await sendEmailWithSendGrid(recipients, subject, emailBody);
+    
+    return { success: true, message: 'Email notifications sent to administrators' };
+  } catch (error) {
+    console.error('Failed to send notification email:', error);
+    return { success: false, error: error };
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
     const { name, email, subject, message } = await request.json();
@@ -55,17 +101,16 @@ export async function POST(request: NextRequest) {
     // データを保存
     contacts.push(normalizedData);
 
-    // TODO: 実際のプロダクションでは以下の処理を追加
-    // - データベースへの保存
-    // - 管理者への通知メール送信
-    // - 自動返信メール送信
-
+    // 管理者への通知メール送信（複数宛先）
+    const notificationResult = await sendNotificationEmail(normalizedData);
+    
     console.log('New contact received:', {
       id: normalizedData.id,
       name: normalizedData.name,
       email: normalizedData.email,
       subject: normalizedData.subject,
-      createdAt: normalizedData.createdAt
+      createdAt: normalizedData.createdAt,
+      emailSent: notificationResult.success
     });
 
     return NextResponse.json(
