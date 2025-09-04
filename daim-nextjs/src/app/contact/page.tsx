@@ -4,6 +4,7 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { sendContactEmail } from '@/lib/emailjs';
 
 export default function ContactPage() {
   const { t } = useLanguage();
@@ -37,23 +38,24 @@ export default function ContactPage() {
     setMessageType('');
 
     try {
-      // お問い合わせAPIエンドポイントを呼び出し
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+      // EmailJSで直接メール送信
+      const emailResult = await sendContactEmail(formData);
+      
+      if (emailResult.success) {
+        // APIエンドポイントにデータも保存
+        const response = await fetch('/api/contact', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
 
-      const data = await response.json();
-
-      if (response.ok) {
         setMessage(t('contact.form.success'));
         setMessageType('success');
         setFormData({ name: '', email: '', subject: '', message: '' }); // フォームをクリア
       } else {
-        setMessage(data.error || t('contact.form.error'));
+        setMessage(emailResult.message || t('contact.form.error'));
         setMessageType('error');
       }
     } catch (error) {

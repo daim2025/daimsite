@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { sendContactEmail } from '@/lib/emailjs';
 
 // お問い合わせデータを保存するための簡単なストレージ（開発・テスト用）
 let contacts: Array<{
@@ -56,14 +55,6 @@ export async function POST(request: NextRequest) {
 
     // データを保存
     contacts.push(normalizedData);
-
-    // EmailJSでメール送信
-    const emailResult = await sendContactEmail({
-      name: normalizedData.name,
-      email: normalizedData.email,
-      subject: normalizedData.subject,
-      message: normalizedData.message
-    });
     
     console.log('New contact received:', {
       id: normalizedData.id,
@@ -71,8 +62,7 @@ export async function POST(request: NextRequest) {
       email: normalizedData.email,
       subject: normalizedData.subject,
       createdAt: normalizedData.createdAt,
-      emailSent: emailResult.success,
-      emailError: emailResult.success ? null : emailResult.error
+      note: 'Email will be sent from frontend'
     });
 
     return NextResponse.json(
