@@ -16,13 +16,13 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 const translations = {
   ja: {
     // Navigation
-    'nav.about': 'DAIMとは',
+    'nav.about': 'About',
     'nav.studio': 'Studio',
     'nav.process': 'Process',
     'nav.distribution': 'Distribution',
     'nav.cms': 'CMS',
     'nav.idol': 'Idol Demo',
-    'nav.ponyo': 'ぽにょ皇子',
+    'nav.ponyo': 'Project',
     'nav.contact': 'お問い合わせ',
 
     // Hero Section
@@ -58,12 +58,12 @@ const translations = {
     'ponyo.cta.description': '楽曲の詳細、歌詞、推し曲投票など',
 
     // Ponyo Prince Page
-    'ponyopage.hero.number': '07',
-    'ponyopage.hero.subtitle': 'Artist Spotlight',
+    'ponyopage.hero.number': '02',
+    'ponyopage.hero.subtitle': '1st.Project',
     'ponyopage.hero.title': 'ぽにょ皇子',
     
     // Project Section
-    'ponyopage.project.title': 'PROJECT',
+    'ponyopage.project.title': 'PROJECT 01',
     'ponyopage.project.subtitle': 'DJ ぽにょ皇子×AI音楽生成×DAIM Driver Team',
     'ponyopage.project.subtitle2': 'First Demonstration',
     'ponyopage.project.desc1': '開発中の自動音楽生成アプリを想定し、最新のAI技術をDAIMエンジン開発チームが活用して楽曲を作成した場合のデモンストレーション。',
@@ -126,8 +126,8 @@ const translations = {
     'idol.description': 'AI技術を活用したアイドル音楽制作のデモンストレーション。',
 
     // Ponyo Section
-    'ponyo.number': '07',
-    'ponyo.subtitle': 'Artist Showcase',
+    'ponyo.number': '02',
+    'ponyo.subtitle': '1st.Project',
     'ponyo.title': 'ぽにょ皇子',
     'ponyo.description': 'DAIMで制作されたアーティスト作品のショーケース。',
 
@@ -169,7 +169,7 @@ const translations = {
     'nav.distribution': 'Distribution',
     'nav.cms': 'CMS',
     'nav.idol': 'Idol Demo',
-    'nav.ponyo': 'Ponyo Prince',
+    'nav.ponyo': 'Project',
     'nav.contact': 'Contact',
 
     // Hero Section
@@ -205,12 +205,12 @@ const translations = {
     'ponyo.cta.description': 'Song details, lyrics, and favorite track voting',
 
     // Ponyo Prince Page
-    'ponyopage.hero.number': '07',
-    'ponyopage.hero.subtitle': 'Artist Spotlight',
+    'ponyopage.hero.number': '02',
+    'ponyopage.hero.subtitle': '1st.Project',
     'ponyopage.hero.title': 'Ponyo Prince',
     
     // Project Section
-    'ponyopage.project.title': 'PROJECT',
+    'ponyopage.project.title': 'PROJECT 01',
     'ponyopage.project.subtitle': 'DJ Ponyo Prince × AI Music Generation × DAIM Driver Team',
     'ponyopage.project.subtitle2': 'First Demonstration',
     'ponyopage.project.desc1': 'A demonstration of music creation using the latest AI technology by the DAIM engine development team, assuming an automatic music generation app under development.',
@@ -273,8 +273,8 @@ const translations = {
     'idol.description': 'Demonstration of idol music production utilizing AI technology.',
 
     // Ponyo Section
-    'ponyo.number': '07',
-    'ponyo.subtitle': 'Artist Showcase',
+    'ponyo.number': '02',
+    'ponyo.subtitle': '1st.Project',
     'ponyo.title': 'Ponyo Prince',
     'ponyo.description': 'Showcase of artist works created with DAIM.',
 

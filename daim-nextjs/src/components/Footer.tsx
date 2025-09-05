@@ -6,17 +6,15 @@ export default function Footer() {
       heading: 'Product',
       links: [
         { href: '/contact', label: 'Contact Us' },
+        { href: '/about', label: 'About' },
         { href: '/studio', label: 'Studio' },
-        { href: '/#about', label: 'About' },
-        { href: '/#process', label: 'Process' },
+        { href: '/ponyo-prince', label: 'Project' },
       ]
     },
     {
       heading: 'Artists',
       links: [
         { href: '/ponyo-prince', label: 'ぽにょ皇子' },
-        { href: '/idol', label: 'Idol Demo' },
-        { href: '/#cms-features', label: 'Manage' },
       ]
     },
     {

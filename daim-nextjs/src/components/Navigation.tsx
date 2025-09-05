@@ -14,6 +14,7 @@ export default function Navigation() {
 
   const navLinks = [
     { href: '/studio', label: t('nav.studio') },
+    { href: '/about', label: t('nav.about') },
     { href: '/ponyo-prince', label: t('nav.ponyo') },
     { href: '/contact', label: t('nav.contact') },
   ];

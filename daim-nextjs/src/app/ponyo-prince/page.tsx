@@ -37,7 +37,6 @@ export default function PonyoPrincePage() {
         {/* Content */}
         <div className="container mx-auto px-4 relative z-10">
           <div className="text-center mb-16">
-            <div className="section-number text-6xl font-light text-gray-200 mb-4 drop-shadow-2xl">{t('ponyopage.hero.number')}</div>
             <p className="section-subtitle text-gray-200 text-lg mb-2 font-medium tracking-wider">{t('ponyopage.hero.subtitle')}</p>
             <h1 className="section-title text-4xl md:text-6xl font-light mb-8 text-white drop-shadow-2xl">
               <span className="bg-gradient-to-r from-white via-blue-200 to-purple-200 bg-clip-text text-transparent">
@@ -83,12 +82,11 @@ export default function PonyoPrincePage() {
       <section className="section-luxury py-24 bg-black/30">
         <div className="container mx-auto px-4">
           <div className="section-header text-center mb-16">
-            <h2 className="section-title text-4xl md:text-5xl font-light mb-6">{t('ponyopage.about.title')}</h2>
           </div>
           
           <div className="grid md:grid-cols-2 gap-16 items-start">
             <div>
-              <div className="card-intelligent p-8 bg-white/5 rounded-xl border border-white/10 mb-8">
+              <div className="card-intelligent p-8 bg-white/5 rounded-xl border border-white/10">
                 <h3 className="card-title text-2xl font-light mb-6">{t('ponyopage.about.concept')}</h3>
                 <p className="card-description text-gray-300 leading-relaxed mb-4">
                   {t('ponyopage.about.concept.desc1')}
@@ -121,34 +119,136 @@ export default function PonyoPrincePage() {
         </div>
       </section>
 
-      {/* A.I. Demo Music */}
+      {/* Song Lyrics Section */}
       <section className="section-luxury py-24 bg-black/30">
         <div className="container mx-auto px-4">
-          <div className="section-header text-center mb-16">
-            <h2 className="section-title text-4xl md:text-5xl font-light mb-6">{t('ponyopage.demo.title')}</h2>
-            <p className="text-xl text-gray-300">{t('ponyopage.demo.subtitle')}</p>
-          </div>
-          
-          <div className="max-w-4xl mx-auto mb-8">
-            <div className="text-center mb-6">
-              <p className="text-sm text-slate-300 mb-4">
-                {t('ponyopage.demo.version')}
-              </p>
-              <div className="relative w-full aspect-video">
-                <iframe 
-                  src="https://player.vimeo.com/progressive_redirect/playback/1116039441/rendition/1080p/file.mp4?loc=external&log_user=0&signature=28225455a04df78658b7d22089ea1253bcccc7673c11d890406e60b542b3a814"
-                  className="absolute top-0 left-0 w-full h-full rounded-lg border border-slate-500/30"
-                  frameBorder="0"
-                  allow="autoplay; fullscreen; picture-in-picture"
-                  allowFullScreen
-                ></iframe>
+          <div className="max-w-4xl mx-auto">
+            <div className="card-intelligent p-8 bg-white/5 rounded-xl border border-white/10 text-center">
+              <div className="text-center mb-6">
+                <h3 className="text-2xl font-light mb-2 text-slate-300">初期楽曲</h3>
+                <p className="text-lg text-gray-300 font-medium">Title：A.I.（Android Imagination）</p>
               </div>
-              <p className="text-xs text-slate-400 mt-3">{t('ponyopage.demo.disclaimer')}</p>
+              
+              <div className="lyrics-content text-gray-300 leading-relaxed space-y-4 text-center max-w-2xl mx-auto">
+                <p>サイリウムが眩しい<br />
+                固いベッドの上<br />
+                戦いぬいていた記憶<br />
+                誰もいないこの部屋</p>
+                
+                <p>感覚が研ぎ澄まされて<br />
+                どこからか響いてくる<br />
+                機械のキシム音が<br />
+                やけに騒々しくてたまらない</p>
+                
+                <p>頭の中に響く声は<br />
+                あの時、あの場所の、<br />
+                あいつのいつもの声だけど<br />
+                何か何かが足りていない</p>
+                
+                <p>匂いも感じない<br />
+                暑さも冷たさも<br />
+                今は何も感じない<br />
+                あのあらい息づかいさえも</p>
+                
+                <p className="text-blue-300 font-medium">ヒューマノイドの夢は現実なの？<br />
+                感覚がないはずなのに湧き出る感情<br />
+                イマジネーションは誰のもの？<br />
+                色あふれる世界へ、さあ戻ろう</p>
+                
+                <p className="text-purple-300 font-bold">AI、色奪（Irodori）、AI、色奪（Irodori）、<br />
+                AI、色奪（Irodori）、AI、色奪（Irodori）</p>
+                
+                <p>心の中を伝うのは<br />
+                あの夜、あの歌の<br />
+                熱い言葉のリリックだけど<br />
+                微か微かにしか感じれない</p>
+                
+                <p>死んだんじゃない<br />
+                まだ死んじゃいない<br />
+                新しい命じゃない<br />
+                生まれ変わっちゃいないんだ</p>
+                
+                <p className="text-blue-300 font-medium">ヒューマノイドの夢は現実なの？<br />
+                感覚がないはずなのに湧き出る感情<br />
+                イマジネーションは誰のもの？<br />
+                色あふれる世界へ、さあ戻ろう</p>
+                
+                <p className="text-purple-300 font-bold">AI、色奪（Irodori）、AI、色奪（Irodori）、<br />
+                AI、色奪（Irodori）、AI、色奪（Irodori）</p>
+              </div>
+              
+              <div className="text-center mt-8 pt-6 border-t border-white/10">
+                <p className="text-sm text-slate-400">writing：DAIM Driver Shiro Koba</p>
+              </div>
             </div>
-            <div className="card-intelligent p-6 bg-white/5 rounded-xl border border-white/10 text-center">
-              <p className="card-description text-gray-300 leading-relaxed">
-                {t('ponyopage.demo.future')}
-              </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Song Setting Section - Full Width */}
+      <section className="section-luxury py-24 bg-black/30">
+        <div className="container mx-auto px-4">
+          <div className="max-w-6xl mx-auto">
+            <div className="card-intelligent p-8 bg-white/5 rounded-xl border border-white/10">
+              <h3 className="card-title text-4xl font-light mb-8 text-center">楽曲設定</h3>
+              <div className="space-y-8 text-gray-300 leading-relaxed">
+                <div className="grid md:grid-cols-2 gap-8">
+                  <div>
+                    <p>
+                      コスプレイヤー、DJ、グラビア等の、様々な活動をしているぽにょ皇子。<br />
+                      DJにおいては、アニソンDJとして活躍。<br />
+                      そこで、生成する楽曲をアニソンの主題歌らしいイメージで検討。<br />
+                      今回は、A.I.による楽曲自動生成に掛けて、「A.I.＝Android Imagination」として<br />
+                      世界観を設定。
+                    </p>
+                  </div>
+                  <div className="bg-gradient-to-r from-slate-600/20 to-blue-700/20 rounded-lg p-6 border border-slate-500/20">
+                    <p className="text-slate-300">
+                      近い未来、大国による争いが世界に広まってしまったら・・・<br />
+                      奪い合う大国と戦いたくない者との戦い・・・<br />
+                      そんな架空のバトルアニメの主題歌<br />
+                      戦いを止める鍵は、AIなのか、Humanなのか、それともヒューマノイドか・・・
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="text-center">
+                  <p>
+                    ぽにょ皇子2nd.シングル「変幻自在」の変幻性をコスプレから更に拡張し、バトルアニメ内で争いを止めるキャラクター設定。傷つきながらもヒューマノイドとして戦う姿を歌詞にした。
+                  </p>
+                </div>
+                
+                {/* Videos Section */}
+                <div className="grid md:grid-cols-2 gap-8 mt-8">
+                  {/* Introduction Video */}
+                  <div className="bg-black/30 rounded-lg p-6 border border-slate-500/20">
+                    <h4 className="text-xl font-medium text-slate-300 mb-4 text-center">紹介動画</h4>
+                    <div className="relative w-full aspect-video">
+                      <iframe 
+                        src="https://player.vimeo.com/video/1116091352?h=0&autoplay=0&title=0&byline=0&portrait=0"
+                        className="absolute top-0 left-0 w-full h-full rounded border border-slate-500/30"
+                        frameBorder="0"
+                        allow="autoplay; fullscreen; picture-in-picture"
+                        allowFullScreen
+                      ></iframe>
+                    </div>
+                  </div>
+                  
+                  {/* Song Video */}
+                  <div className="bg-black/30 rounded-lg p-6 border border-slate-500/20">
+                    <h4 className="text-xl font-medium text-slate-300 mb-4 text-center">楽曲動画</h4>
+                    <div className="relative w-full aspect-video">
+                      <iframe 
+                        src="https://player.vimeo.com/video/1116093914?h=0&autoplay=0&title=0&byline=0&portrait=0"
+                        className="absolute top-0 left-0 w-full h-full rounded border border-slate-500/30"
+                        frameBorder="0"
+                        allow="autoplay; fullscreen; picture-in-picture"
+                        allowFullScreen
+                      ></iframe>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

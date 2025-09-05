@@ -71,7 +71,6 @@ export default function StudioPage() {
         {/* Content */}
         <div className="container mx-auto px-4 relative z-10">
           <div className="text-center mb-16">
-            <div className="section-number text-6xl font-light text-gray-200 mb-4 drop-shadow-2xl">02</div>
             <p className="section-subtitle text-gray-200 text-lg mb-2 font-medium tracking-wider">Intelligent Studio</p>
             <h1 className="section-title text-4xl md:text-6xl font-light mb-8 text-white drop-shadow-2xl">
               <span className="bg-gradient-to-r from-white via-slate-200 to-blue-200 bg-clip-text text-transparent">
