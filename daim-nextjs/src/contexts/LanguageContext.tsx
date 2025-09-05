@@ -92,6 +92,7 @@ const translations = {
     'ponyopage.demo.browser': 'お使いのブラウザは音声再生に対応していません。',
     'ponyopage.demo.filename': 'AI-trance-rap-2.wav - ぽにょ皇子 AI音楽生成デモ',
     'ponyopage.demo.future': '今後、ぽにょ皇子によるミキシングやアレンジを行い、楽曲として完成させていきます。',
+    'ponyopage.demo.disclaimer': '＊この動画はAI生成した動画とCGによる動画となります',
     
     // SNS Section
     'ponyopage.sns.title': 'SNS',
@@ -238,6 +239,7 @@ const translations = {
     'ponyopage.demo.browser': 'Your browser does not support audio playback.',
     'ponyopage.demo.filename': 'AI-trance-rap-2.wav - Ponyo Prince AI Music Generation Demo',
     'ponyopage.demo.future': 'In the future, mixing and arrangements by Ponyo Prince will be performed to complete the tracks.',
+    'ponyopage.demo.disclaimer': '* This video is AI-generated video and CG video',
     
     // SNS Section
     'ponyopage.sns.title': 'SNS',

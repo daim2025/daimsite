@@ -130,27 +130,22 @@ export default function PonyoPrincePage() {
           </div>
           
           <div className="max-w-4xl mx-auto mb-8">
-            <div className="card-intelligent p-6 bg-white/5 rounded-xl border border-white/10 text-center">
-              <div className="mb-6">
-                <h3 className="text-xl font-light mb-4 text-slate-200">{t('ponyopage.demo.preview')}</h3>
-                <div className="bg-gradient-to-r from-slate-600/20 to-blue-700/20 rounded-lg p-6 border border-slate-500/20">
-                  <p className="text-sm text-slate-300 mb-4">
-                    {t('ponyopage.demo.version')}
-                  </p>
-                  <audio 
-                    controls 
-                    className="w-full h-12 rounded-lg bg-slate-800/50 border border-slate-500/30 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    preload="metadata"
-                    crossOrigin="anonymous"
-                  >
-                    <source src="/audio/AI-trance-rap-2.wav" type="audio/wav" />
-                    {t('ponyopage.demo.browser')}
-                  </audio>
-                  <div className="mt-3 text-xs text-slate-400">
-                    {t('ponyopage.demo.filename')}
-                  </div>
-                </div>
+            <div className="text-center mb-6">
+              <p className="text-sm text-slate-300 mb-4">
+                {t('ponyopage.demo.version')}
+              </p>
+              <div className="relative w-full aspect-video">
+                <iframe 
+                  src="https://player.vimeo.com/progressive_redirect/playback/1116039441/rendition/1080p/file.mp4?loc=external&log_user=0&signature=28225455a04df78658b7d22089ea1253bcccc7673c11d890406e60b542b3a814"
+                  className="absolute top-0 left-0 w-full h-full rounded-lg border border-slate-500/30"
+                  frameBorder="0"
+                  allow="autoplay; fullscreen; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
               </div>
+              <p className="text-xs text-slate-400 mt-3">{t('ponyopage.demo.disclaimer')}</p>
+            </div>
+            <div className="card-intelligent p-6 bg-white/5 rounded-xl border border-white/10 text-center">
               <p className="card-description text-gray-300 leading-relaxed">
                 {t('ponyopage.demo.future')}
               </p>
