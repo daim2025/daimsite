@@ -160,7 +160,7 @@ export default function ContactPage() {
                         onChange={handleChange}
                         disabled={isLoading}
                         className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
-                        placeholder="山田太郎"
+                        placeholder="ジョージ・ジャンセン"
                         required
                       />
                     </div>

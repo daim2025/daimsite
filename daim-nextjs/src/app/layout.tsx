@@ -95,7 +95,20 @@ export default function RootLayout({
                   'svg[width="40"][height="40"]',
                   '.nextjs-badge',
                   '.__next-build-watcher',
-                  '.__next-prerender-indicator'
+                  '.__next-prerender-indicator',
+                  // Additional selectors for Next.js badges
+                  'div[style*="position:fixed"][style*="bottom:16px"]',
+                  'div[style*="position:fixed"][style*="bottom: 16px"]',
+                  'div[style*="position: fixed"][style*="bottom: 16px"]',
+                  'div[style*="z-index: 99999"]',
+                  'div[style*="z-index:99999"]',
+                  'a[href*="vercel.com"]',
+                  'a[href*="nextjs.org"]',
+                  // Vercel badge selectors
+                  '[data-nextjs-toast-wrapper]',
+                  '[data-overlay]',
+                  '.vercel-badge',
+                  '.__next-badge'
                 ];
                 
                 elementsToRemove.forEach(selector => {
@@ -139,6 +152,36 @@ export default function RootLayout({
                 nSpans.forEach(span => {
                   if (span.textContent.trim() === 'N' && span.children.length === 0) {
                     span.parentElement?.remove();
+                  }
+                });
+                
+                // More aggressive removal of fixed position elements in bottom corners
+                const allDivs = document.querySelectorAll('div');
+                allDivs.forEach(div => {
+                  const style = window.getComputedStyle(div);
+                  const isFixed = style.position === 'fixed';
+                  const isBottomRight = (style.bottom === '16px' || style.bottom === '1rem') && 
+                                       (style.right === '16px' || style.right === '1rem');
+                  const isBottomLeft = (style.bottom === '16px' || style.bottom === '1rem') && 
+                                      (style.left === '16px' || style.left === '1rem');
+                  const hasHighZIndex = parseInt(style.zIndex) > 9999;
+                  
+                  if (isFixed && (isBottomRight || isBottomLeft) && (hasHighZIndex || div.innerHTML.includes('Next.js') || div.innerHTML.includes('Vercel'))) {
+                    div.remove();
+                  }
+                });
+                
+                // Remove any element with Vercel or Next.js branding
+                const allElements = document.querySelectorAll('*');
+                allElements.forEach(el => {
+                  const text = el.textContent || '';
+                  const innerHTML = el.innerHTML || '';
+                  if (text.includes('Powered by Vercel') || text.includes('Next.js') || 
+                      innerHTML.includes('next') || innerHTML.includes('vercel')) {
+                    const style = window.getComputedStyle(el);
+                    if (style.position === 'fixed' || style.position === 'absolute') {
+                      el.remove();
+                    }
                   }
                 });
               }
