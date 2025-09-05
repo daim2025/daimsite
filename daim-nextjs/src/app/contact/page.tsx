@@ -38,11 +38,23 @@ export default function ContactPage() {
     setMessageType('');
 
     try {
-      // EmailJSで直接メール送信
-      const emailResult = await sendContactEmail(formData);
-      
-      if (emailResult.success) {
-        // APIエンドポイントにデータも保存
+      let emailSent = false;
+      let apiSaved = false;
+
+      // EmailJSで直接メール送信を試行
+      try {
+        const emailResult = await sendContactEmail(formData);
+        if (emailResult.success) {
+          emailSent = true;
+        } else {
+          console.warn('EmailJS送信失敗:', emailResult.message);
+        }
+      } catch (emailError) {
+        console.warn('EmailJS送信エラー:', emailError);
+      }
+
+      // APIエンドポイントにデータを保存
+      try {
         const response = await fetch('/api/contact', {
           method: 'POST',
           headers: {
@@ -51,16 +63,31 @@ export default function ContactPage() {
           body: JSON.stringify(formData),
         });
 
-        setMessage(t('contact.form.success'));
+        if (response.ok) {
+          apiSaved = true;
+        } else {
+          console.warn('API保存失敗:', await response.text());
+        }
+      } catch (apiError) {
+        console.warn('API保存エラー:', apiError);
+      }
+
+      // 結果に基づいてメッセージを表示
+      if (emailSent && apiSaved) {
+        setMessage('お問い合わせを送信しました。確認後、担当者よりご連絡いたします。');
         setMessageType('success');
-        setFormData({ name: '', email: '', subject: '', message: '' }); // フォームをクリア
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      } else if (apiSaved) {
+        setMessage('お問い合わせを受け付けました。メール通知に遅延が生じる場合がありますが、確認後にご連絡いたします。');
+        setMessageType('success');
+        setFormData({ name: '', email: '', subject: '', message: '' });
       } else {
-        setMessage(emailResult.message || t('contact.form.error'));
+        setMessage('送信中に問題が発生しました。しばらく時間をおいて再度お試しください。');
         setMessageType('error');
       }
     } catch (error) {
       console.error('Contact form error:', error);
-      setMessage(t('contact.form.network-error'));
+      setMessage('送信中にエラーが発生しました。しばらく時間をおいて再度お試しください。');
       setMessageType('error');
     } finally {
       setIsLoading(false);
