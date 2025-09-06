@@ -21,6 +21,7 @@ export default function PonyoPrincePage() {
             fill 
             className="object-cover object-center"
             priority
+            unoptimized
           />
           <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-purple-900/40 to-blue-900/60"></div>
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/70"></div>
