@@ -1,9 +1,11 @@
 import Image from 'next/image';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function Footer() {
+  const { t } = useLanguage();
   const footerSections = [
     {
-      heading: 'Product',
+      heading: t('footer.product'),
       links: [
         { href: '/contact', label: 'Contact Us' },
         { href: '/about', label: 'About' },
@@ -12,13 +14,13 @@ export default function Footer() {
       ]
     },
     {
-      heading: 'Artists',
+      heading: t('footer.artists'),
       links: [
-        { href: '/ponyo-prince', label: 'ぽにょ皇子' },
+        { href: '/ponyo-prince', label: t('footer.ponyo') },
       ]
     },
     {
-      heading: 'Support',
+      heading: t('footer.support'),
       links: [
         { href: '#', label: 'Privacy Policy' },
         { href: '#', label: 'Terms of Service' },
@@ -52,7 +54,7 @@ export default function Footer() {
                   Decentralized AI Music
                 </p>
                 <p className="tagline-sub text-gray-300">
-                  音楽×AI×クリエイター×未来
+                  {t('footer.tagline')}
                 </p>
               </div>
             </div>
@@ -98,11 +100,11 @@ export default function Footer() {
         {/* Bottom Section */}
         <div className="footer-bottom flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="copyright text-gray-400 text-sm">
-            &copy; 2025 DAIM. All rights reserved.
+            {t('footer.copyright')}
           </p>
           <div className="footer-extra">
             <span className="powered-by text-gray-500 text-sm italic">
-              Powered by DiscoverFeed.
+              {t('footer.powered')}
             </span>
           </div>
         </div>

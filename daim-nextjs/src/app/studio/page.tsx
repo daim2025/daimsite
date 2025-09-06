@@ -3,8 +3,10 @@
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { useState } from 'react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function StudioPage() {
+  const { t } = useLanguage();
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState('');
@@ -14,7 +16,7 @@ export default function StudioPage() {
     e.preventDefault();
     
     if (!email.trim()) {
-      setMessage('メールアドレスを入力してください');
+      setMessage(t('studio.page.email.validation'));
       setMessageType('error');
       return;
     }
@@ -39,12 +41,12 @@ export default function StudioPage() {
         setMessageType('success');
         setEmail(''); // フォームをクリア
       } else {
-        setMessage(data.error || '登録に失敗しました');
+        setMessage(data.error || t('studio.email.error'));
         setMessageType('error');
       }
     } catch (error) {
       console.error('Newsletter signup error:', error);
-      setMessage('ネットワークエラーが発生しました。再度お試しください。');
+      setMessage(t('contact.form.network-error'));
       setMessageType('error');
     } finally {
       setIsLoading(false);
@@ -71,10 +73,10 @@ export default function StudioPage() {
         {/* Content */}
         <div className="container mx-auto px-4 relative z-10">
           <div className="text-center mb-16">
-            <p className="section-subtitle text-gray-200 text-lg mb-2 font-medium tracking-wider">Intelligent Studio</p>
+            <p className="section-subtitle text-gray-200 text-lg mb-2 font-medium tracking-wider">{t('studio.page.subtitle')}</p>
             <h1 className="section-title text-4xl md:text-6xl font-light mb-8 text-white drop-shadow-2xl">
               <span className="bg-gradient-to-r from-white via-slate-200 to-blue-200 bg-clip-text text-transparent">
-                AI-Powered Studio
+                {t('studio.page.title')}
               </span>
             </h1>
             
@@ -308,9 +310,9 @@ export default function StudioPage() {
           <div className="max-w-4xl mx-auto text-center">
             {/* Notification Signup */}
             <div className="bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-xl border border-white/20 rounded-3xl p-8 shadow-2xl">
-              <h3 className="text-2xl font-light mb-4 text-slate-200">アップデート通知</h3>
+              <h3 className="text-2xl font-light mb-4 text-slate-200">{t('studio.page.email.title')}</h3>
               <p className="text-gray-300 mb-6">
-                新機能のリリース時に通知を受け取るには、メールアドレスを登録してください
+                {t('studio.page.email.description')}
               </p>
               
               {/* メッセージ表示 */}
@@ -328,7 +330,7 @@ export default function StudioPage() {
               <div className="flex flex-col md:flex-row gap-4 max-w-md mx-auto">
                 <input 
                   type="email" 
-                  placeholder="your@email.com" 
+                  placeholder={t('studio.page.email.placeholder')} 
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     disabled={isLoading}
@@ -343,17 +345,17 @@ export default function StudioPage() {
                     {isLoading ? (
                       <div className="flex items-center gap-2">
                         <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                        登録中...
+                        {t('studio.page.email.loading')}
                       </div>
                     ) : (
-                      '登録'
+                      t('studio.page.email.button')
                     )}
                 </button>
               </div>
                 
                 {/* プライバシーポリシー */}
                 <p className="text-xs text-gray-400 text-center max-w-md mx-auto">
-                  メールアドレスはアップデート通知の送信のみに使用され、第三者に提供されることはありません。
+                  {t('studio.page.email.privacy')}
                 </p>
               </form>
             </div>

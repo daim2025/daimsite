@@ -126,60 +126,60 @@ export default function PonyoPrincePage() {
           <div className="max-w-4xl mx-auto">
             <div className="card-intelligent p-8 bg-white/5 rounded-xl border border-white/10 text-center">
               <div className="text-center mb-6">
-                <h3 className="text-2xl font-light mb-2 text-slate-300">初期楽曲</h3>
-                <p className="text-lg text-gray-300 font-medium">Title：A.I.（Android Imagination）</p>
+                <h3 className="text-2xl font-light mb-2 text-slate-300">{t('ponyopage.music.title')}</h3>
+                <p className="text-lg text-gray-300 font-medium">{t('ponyopage.music.song.title')}</p>
               </div>
               
               <div className="lyrics-content text-gray-300 leading-relaxed space-y-4 text-center max-w-2xl mx-auto">
-                <p>サイリウムが眩しい<br />
-                固いベッドの上<br />
-                戦いぬいていた記憶<br />
-                誰もいないこの部屋</p>
+                <p>{t('ponyopage.lyrics.verse1.line1')}<br />
+                {t('ponyopage.lyrics.verse1.line2')}<br />
+                {t('ponyopage.lyrics.verse1.line3')}<br />
+                {t('ponyopage.lyrics.verse1.line4')}</p>
                 
-                <p>感覚が研ぎ澄まされて<br />
-                どこからか響いてくる<br />
-                機械のキシム音が<br />
-                やけに騒々しくてたまらない</p>
+                <p>{t('ponyopage.lyrics.verse2.line1')}<br />
+                {t('ponyopage.lyrics.verse2.line2')}<br />
+                {t('ponyopage.lyrics.verse2.line3')}<br />
+                {t('ponyopage.lyrics.verse2.line4')}</p>
                 
-                <p>頭の中に響く声は<br />
-                あの時、あの場所の、<br />
-                あいつのいつもの声だけど<br />
-                何か何かが足りていない</p>
+                <p>{t('ponyopage.lyrics.verse3.line1')}<br />
+                {t('ponyopage.lyrics.verse3.line2')}<br />
+                {t('ponyopage.lyrics.verse3.line3')}<br />
+                {t('ponyopage.lyrics.verse3.line4')}</p>
                 
-                <p>匂いも感じない<br />
-                暑さも冷たさも<br />
-                今は何も感じない<br />
-                あのあらい息づかいさえも</p>
+                <p>{t('ponyopage.lyrics.verse4.line1')}<br />
+                {t('ponyopage.lyrics.verse4.line2')}<br />
+                {t('ponyopage.lyrics.verse4.line3')}<br />
+                {t('ponyopage.lyrics.verse4.line4')}</p>
                 
-                <p className="text-blue-300 font-medium">ヒューマノイドの夢は現実なの？<br />
-                感覚がないはずなのに湧き出る感情<br />
-                イマジネーションは誰のもの？<br />
-                色あふれる世界へ、さあ戻ろう</p>
+                <p className="text-blue-300 font-medium">{t('ponyopage.lyrics.chorus1.line1')}<br />
+                {t('ponyopage.lyrics.chorus1.line2')}<br />
+                {t('ponyopage.lyrics.chorus1.line3')}<br />
+                {t('ponyopage.lyrics.chorus1.line4')}</p>
                 
-                <p className="text-purple-300 font-bold">AI、色奪（Irodori）、AI、色奪（Irodori）、<br />
-                AI、色奪（Irodori）、AI、色奪（Irodori）</p>
+                <p className="text-purple-300 font-bold">{t('ponyopage.lyrics.hook')}<br />
+                {t('ponyopage.lyrics.hook')}</p>
                 
-                <p>心の中を伝うのは<br />
-                あの夜、あの歌の<br />
-                熱い言葉のリリックだけど<br />
-                微か微かにしか感じれない</p>
+                <p>{t('ponyopage.lyrics.verse5.line1')}<br />
+                {t('ponyopage.lyrics.verse5.line2')}<br />
+                {t('ponyopage.lyrics.verse5.line3')}<br />
+                {t('ponyopage.lyrics.verse5.line4')}</p>
                 
-                <p>死んだんじゃない<br />
-                まだ死んじゃいない<br />
-                新しい命じゃない<br />
-                生まれ変わっちゃいないんだ</p>
+                <p>{t('ponyopage.lyrics.verse6.line1')}<br />
+                {t('ponyopage.lyrics.verse6.line2')}<br />
+                {t('ponyopage.lyrics.verse6.line3')}<br />
+                {t('ponyopage.lyrics.verse6.line4')}</p>
                 
-                <p className="text-blue-300 font-medium">ヒューマノイドの夢は現実なの？<br />
-                感覚がないはずなのに湧き出る感情<br />
-                イマジネーションは誰のもの？<br />
-                色あふれる世界へ、さあ戻ろう</p>
+                <p className="text-blue-300 font-medium">{t('ponyopage.lyrics.chorus1.line1')}<br />
+                {t('ponyopage.lyrics.chorus1.line2')}<br />
+                {t('ponyopage.lyrics.chorus1.line3')}<br />
+                {t('ponyopage.lyrics.chorus1.line4')}</p>
                 
-                <p className="text-purple-300 font-bold">AI、色奪（Irodori）、AI、色奪（Irodori）、<br />
-                AI、色奪（Irodori）、AI、色奪（Irodori）</p>
+                <p className="text-purple-300 font-bold">{t('ponyopage.lyrics.hook')}<br />
+                {t('ponyopage.lyrics.hook')}</p>
               </div>
               
               <div className="text-center mt-8 pt-6 border-t border-white/10">
-                <p className="text-sm text-slate-400">writing：DAIM Driver Shiro Koba</p>
+                <p className="text-sm text-slate-400">{t('ponyopage.music.writer')}</p>
               </div>
             </div>
           </div>
@@ -191,31 +191,30 @@ export default function PonyoPrincePage() {
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="card-intelligent p-8 bg-white/5 rounded-xl border border-white/10">
-              <h3 className="card-title text-4xl font-light mb-8 text-center">楽曲設定</h3>
+              <h3 className="card-title text-4xl font-light mb-8 text-center">{t('ponyopage.settings.title')}</h3>
               <div className="space-y-8 text-gray-300 leading-relaxed">
                 <div className="grid md:grid-cols-2 gap-8">
                   <div>
                     <p>
-                      コスプレイヤー、DJ、グラビア等の、様々な活動をしているぽにょ皇子。<br />
-                      DJにおいては、アニソンDJとして活躍。<br />
-                      そこで、生成する楽曲をアニソンの主題歌らしいイメージで検討。<br />
-                      今回は、A.I.による楽曲自動生成に掛けて、「A.I.＝Android Imagination」として<br />
-                      世界観を設定。
+                      {t('ponyopage.settings.description1')}<br />
+                      {t('ponyopage.settings.description2')}<br />
+                      {t('ponyopage.settings.description3')}<br />
+                      {t('ponyopage.settings.description4')}
                     </p>
                   </div>
                   <div className="bg-gradient-to-r from-slate-600/20 to-blue-700/20 rounded-lg p-6 border border-slate-500/20">
                     <p className="text-slate-300">
-                      近い未来、大国による争いが世界に広まってしまったら・・・<br />
-                      奪い合う大国と戦いたくない者との戦い・・・<br />
-                      そんな架空のバトルアニメの主題歌<br />
-                      戦いを止める鍵は、AIなのか、Humanなのか、それともヒューマノイドか・・・
+                      {t('ponyopage.settings.story.line1')}<br />
+                      {t('ponyopage.settings.story.line2')}<br />
+                      {t('ponyopage.settings.story.line3')}<br />
+                      {t('ponyopage.settings.story.line4')}
                     </p>
                   </div>
                 </div>
                 
                 <div className="text-center">
                   <p>
-                    ぽにょ皇子2nd.シングル「変幻自在」の変幻性をコスプレから更に拡張し、バトルアニメ内で争いを止めるキャラクター設定。傷つきながらもヒューマノイドとして戦う姿を歌詞にした。
+                    {t('ponyopage.settings.character')}
                   </p>
                 </div>
                 
@@ -223,7 +222,7 @@ export default function PonyoPrincePage() {
                 <div className="grid md:grid-cols-2 gap-8 mt-8">
                   {/* Introduction Video */}
                   <div className="bg-black/30 rounded-lg p-6 border border-slate-500/20">
-                    <h4 className="text-xl font-medium text-slate-300 mb-4 text-center">紹介動画</h4>
+                    <h4 className="text-xl font-medium text-slate-300 mb-4 text-center">{t('ponyopage.videos.intro')}</h4>
                     <div className="relative w-full aspect-video">
                       <iframe 
                         src="https://player.vimeo.com/video/1116091352?h=0&autoplay=0&title=0&byline=0&portrait=0"
@@ -237,7 +236,7 @@ export default function PonyoPrincePage() {
                   
                   {/* Song Video */}
                   <div className="bg-black/30 rounded-lg p-6 border border-slate-500/20">
-                    <h4 className="text-xl font-medium text-slate-300 mb-4 text-center">楽曲動画</h4>
+                    <h4 className="text-xl font-medium text-slate-300 mb-4 text-center">{t('ponyopage.videos.song')}</h4>
                     <div className="relative w-full aspect-video">
                       <iframe 
                         src="https://player.vimeo.com/video/1116093914?h=0&autoplay=0&title=0&byline=0&portrait=0"

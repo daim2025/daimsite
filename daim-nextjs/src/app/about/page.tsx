@@ -3,8 +3,10 @@
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import Image from 'next/image';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function About() {
+  const { t } = useLanguage();
   return (
     <div className="font-mono min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white antialiased">
       <Navigation />
@@ -28,10 +30,10 @@ export default function About() {
               priority
             />
             <h1 className="text-5xl md:text-7xl font-black mb-6 tracking-tighter">
-              <span className="text-slate-400">DAIM</span><span className="font-light">とは</span>
+              <span className="text-slate-400">{t('about.page.title')}</span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-400 mb-8 font-light tracking-widest uppercase">
-              Decentralized AI Music
+              {t('about.page.subtitle')}
             </p>
           </div>
           
@@ -39,17 +41,17 @@ export default function About() {
             <div className="space-y-8">
               <div className="prose prose-invert max-w-none">
                 <p className="text-xl md:text-2xl text-gray-200 leading-relaxed mb-8 font-light">
-                  <strong className="text-slate-400 font-bold">音楽×AI×クリエーター×未来</strong>をコンセプトとした洗練された音楽創造プラットフォーム
+                  <strong className="text-slate-400 font-bold">{t('about.page.concept')}</strong>をコンセプトとした洗練された音楽創造プラットフォーム
                 </p>
                 <p className="text-lg text-gray-300 leading-relaxed mb-8">
-                  最先端のAI技術とクリエーターの感性を融合させ、誰でも直感的にプロフェッショナルな楽曲を制作できる環境を提供します。シンプルな操作で、深い音楽理論に基づいた sophisticated な楽曲を生み出すことができます。
+                  {t('about.page.description1')}
                 </p>
               </div>
               
               <div className="bg-gradient-to-r from-slate-400/10 to-purple-500/10 backdrop-blur-sm border border-white/10 rounded-2xl p-8">
-                <h3 className="text-xl font-bold mb-4 text-slate-400">Intelligent Composition</h3>
+                <h3 className="text-xl font-bold mb-4 text-slate-400">{t('about.page.intelligent.title')}</h3>
                 <p className="text-gray-300 leading-relaxed">
-                  最先端のAI技術と人間の感性を融合させ、誰でも直感的にプロフェッショナルな楽曲を制作できる環境を提供します。
+                  {t('about.page.intelligent.description')}
                 </p>
               </div>
             </div>
@@ -74,10 +76,10 @@ export default function About() {
       <section className="py-24 bg-black/20">
         <div className="container mx-auto px-6">
           <div className="text-center mb-20">
-            <div className="text-slate-400 text-sm font-bold tracking-wider mb-4 uppercase">Methodology</div>
-            <h2 className="text-3xl md:text-5xl font-bold mb-8 tracking-tight">Creation Process</h2>
+            <div className="text-slate-400 text-sm font-bold tracking-wider mb-4 uppercase">{t('about.process.methodology')}</div>
+            <h2 className="text-3xl md:text-5xl font-bold mb-8 tracking-tight">{t('about.process.title')}</h2>
             <p className="text-lg text-gray-300 max-w-3xl mx-auto leading-relaxed">
-              DAIMでの音楽制作は、直感的でありながら深い音楽理論に基づいたインテリジェントなプロセス
+              {t('about.process.description')}
             </p>
           </div>
           
@@ -86,9 +88,9 @@ export default function About() {
               <div className="w-16 h-16 bg-slate-400/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
                 <div className="text-2xl">💭</div>
               </div>
-              <h3 className="text-xl font-bold mb-4 text-slate-400">Inspiration Input</h3>
+              <h3 className="text-xl font-bold mb-4 text-slate-400">{t('about.process.inspiration.title')}</h3>
               <p className="text-gray-300 leading-relaxed text-sm">
-                音楽的インスピレーションを自然言語で入力。AIが音楽理論、感情表現、楽器編成を分析し、最適な音楽構造を提案
+                {t('about.process.inspiration.description')}
               </p>
             </div>
             
@@ -96,9 +98,9 @@ export default function About() {
               <div className="w-16 h-16 bg-purple-400/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
                 <div className="text-2xl">🧠</div>
               </div>
-              <h3 className="text-xl font-bold mb-4 text-purple-400">Intelligent Processing</h3>
+              <h3 className="text-xl font-bold mb-4 text-purple-400">{t('about.process.processing.title')}</h3>
               <p className="text-gray-300 leading-relaxed text-sm">
-                高度なアルゴリズムが和声進行、メロディライン、リズムパターンを生成。人間の感性とAIの論理的思考が融合
+                {t('about.process.processing.description')}
               </p>
             </div>
             
@@ -106,9 +108,9 @@ export default function About() {
               <div className="w-16 h-16 bg-green-400/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
                 <div className="text-2xl">🎵</div>
               </div>
-              <h3 className="text-xl font-bold mb-4 text-green-400">Refinement & Export</h3>
+              <h3 className="text-xl font-bold mb-4 text-green-400">{t('about.process.refinement.title')}</h3>
               <p className="text-gray-300 leading-relaxed text-sm">
-                生成された楽曲を直感的に調整・編集。プロフェッショナル品質のマスタリングを施し、あらゆる形式で出力可能
+                {t('about.process.refinement.description')}
               </p>
             </div>
           </div>
@@ -119,8 +121,8 @@ export default function About() {
       <section className="py-24">
         <div className="container mx-auto px-6">
           <div className="text-center mb-20">
-            <div className="text-slate-400 text-sm font-bold tracking-wider mb-4 uppercase">Distribution</div>
-            <h2 className="text-3xl md:text-5xl font-bold mb-8 tracking-tight">Professional Distribution</h2>
+            <div className="text-slate-400 text-sm font-bold tracking-wider mb-4 uppercase">{t('about.distribution.section')}</div>
+            <h2 className="text-3xl md:text-5xl font-bold mb-8 tracking-tight">{t('about.distribution.title')}</h2>
           </div>
           
           <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
@@ -130,10 +132,10 @@ export default function About() {
                   <div className="w-12 h-12 bg-blue-400/10 rounded-xl flex items-center justify-center mr-4">
                     <div className="text-xl">🌍</div>
                   </div>
-                  <h3 className="text-xl font-bold text-blue-400">Global Reach</h3>
+                  <h3 className="text-xl font-bold text-blue-400">{t('about.distribution.global.title')}</h3>
                 </div>
                 <p className="text-gray-300 leading-relaxed">
-                  生成された楽曲を世界中のプラットフォームに配信。Spotify、Apple Music、YouTubeなど、あらゆるチャンネルでリスナーに届けることができます。
+                  {t('about.distribution.global.description')}
                 </p>
               </div>
               
@@ -142,10 +144,10 @@ export default function About() {
                   <div className="w-12 h-12 bg-green-400/10 rounded-xl flex items-center justify-center mr-4">
                     <div className="text-xl">📈</div>
                   </div>
-                  <h3 className="text-xl font-bold text-green-400">Revenue Optimization</h3>
+                  <h3 className="text-xl font-bold text-green-400">{t('about.distribution.revenue.title')}</h3>
                 </div>
                 <p className="text-gray-300 leading-relaxed">
-                  インテリジェントな分析ツールでリスナーの反応を追跡し、最適な配信戦略を提案。収益を最大化するためのデータドリブンなアプローチを提供。
+                  {t('about.distribution.revenue.description')}
                 </p>
               </div>
             </div>
@@ -170,8 +172,8 @@ export default function About() {
       <section className="py-24 bg-black/20">
         <div className="container mx-auto px-6">
           <div className="text-center mb-20">
-            <div className="text-slate-400 text-sm font-bold tracking-wider mb-4 uppercase">Management</div>
-            <h2 className="text-3xl md:text-5xl font-bold mb-8 tracking-tight">Content Management</h2>
+            <div className="text-slate-400 text-sm font-bold tracking-wider mb-4 uppercase">{t('about.cms.section')}</div>
+            <h2 className="text-3xl md:text-5xl font-bold mb-8 tracking-tight">{t('about.cms.title')}</h2>
           </div>
           
           <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8">
@@ -179,9 +181,9 @@ export default function About() {
               <div className="w-16 h-16 bg-blue-400/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
                 <div className="text-2xl">🎵</div>
               </div>
-              <h3 className="text-xl font-bold mb-4 text-blue-400">Track Management</h3>
+              <h3 className="text-xl font-bold mb-4 text-blue-400">{t('about.cms.track.title')}</h3>
               <p className="text-gray-300 leading-relaxed text-sm">
-                生成された楽曲を効率的に管理。メタデータの編集、タグ付け、カテゴリ分類など、プロフェッショナルな楽曲管理をサポート
+                {t('about.cms.track.description')}
               </p>
             </div>
             
@@ -189,9 +191,9 @@ export default function About() {
               <div className="w-16 h-16 bg-purple-400/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
                 <div className="text-2xl">📊</div>
               </div>
-              <h3 className="text-xl font-bold mb-4 text-purple-400">Analytics Dashboard</h3>
+              <h3 className="text-xl font-bold mb-4 text-purple-400">{t('about.cms.analytics.title')}</h3>
               <p className="text-gray-300 leading-relaxed text-sm">
-                詳細なリスナー分析とパフォーマンス指標を提供。楽曲の反応、地域別の再生数、リスナーの行動パターンなどを可視化
+                {t('about.cms.analytics.description')}
               </p>
             </div>
             
@@ -199,9 +201,9 @@ export default function About() {
               <div className="w-16 h-16 bg-green-400/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
                 <div className="text-2xl">🤝</div>
               </div>
-              <h3 className="text-xl font-bold mb-4 text-green-400">Collaboration Tools</h3>
+              <h3 className="text-xl font-bold mb-4 text-green-400">{t('about.cms.collaboration.title')}</h3>
               <p className="text-gray-300 leading-relaxed text-sm">
-                チームでの楽曲制作をサポート。共同編集、コメント機能、バージョン管理など、効率的なコラボレーション環境を提供
+                {t('about.cms.collaboration.description')}
               </p>
             </div>
           </div>
