@@ -1,0 +1,1541 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>アイドル向けデモ - DAIM | Idol Demo - DAIM</title>
+    <link rel="stylesheet" href="style-luxury.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎼</text></svg>">
+    <style>
+        /* Enhanced Logo Styles */
+        .nav-logo img {
+            height: 40px;
+            width: auto;
+            filter: brightness(0) invert(1) drop-shadow(0 0 8px rgba(255, 255, 255, 0.6));
+            transition: all 0.3s ease;
+        }
+        
+        .nav-logo img:hover {
+            filter: brightness(0) invert(1) drop-shadow(0 0 12px rgba(255, 255, 255, 0.8));
+            transform: scale(1.05);
+        }
+        
+
+        
+        /* Enhanced Card Effects */
+        .card-intelligent {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-intelligent::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+            transition: left 0.6s ease;
+        }
+        
+        .card-intelligent:hover::before {
+            left: 100%;
+        }
+        
+        /* Enhanced Button Effects */
+        .btn-luxury {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-luxury::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .btn-luxury:hover::before {
+            left: 100%;
+        }
+        
+        /* Audio Player Styling */
+        .audio-player {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            backdrop-filter: blur(10px);
+        }
+        
+        .audio-player audio {
+            width: 100%;
+            height: 40px;
+        }
+        
+        /* Lyrics Video Styling */
+        .lyrics-video-container {
+            position: relative;
+            min-height: 700px;
+            border-radius: 0;
+            overflow: hidden;
+            margin: 50px 0;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+        }
+        
+        .lyrics-video-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        
+        .lyrics-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.6) contrast(1.05) saturate(0.95);
+            opacity: 0.8;
+        }
+        
+        .lyrics-video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(180deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.1) 30%, rgba(0, 0, 0, 0.1) 70%, rgba(0, 0, 0, 0.4) 100%),
+                radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.02) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.02) 0%, transparent 40%);
+            z-index: 2;
+        }
+        
+        .lyrics-content {
+            position: relative;
+            z-index: 3;
+            padding: 60px 40px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+        
+        .lyrics-header {
+            text-align: left;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .lyrics-title {
+            color: #ffffff;
+            font-size: 2.2em;
+            font-weight: 300;
+            margin-bottom: 10px;
+            text-shadow: none;
+            letter-spacing: 1px;
+            font-family: 'Georgia', serif;
+            opacity: 0.95;
+        }
+        
+        .lyrics-author {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95em;
+            font-weight: 400;
+            text-transform: none;
+            letter-spacing: 0.5px;
+            font-style: italic;
+        }
+        
+        .lyrics-text-container {
+            max-width: 700px;
+            margin: 0;
+        }
+        
+        .lyrics-text {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.8;
+            font-size: 1.05em;
+            font-weight: 300;
+        }
+        
+        .lyrics-verse {
+            margin-bottom: 20px;
+            padding: 15px 0;
+            background: transparent;
+            border-radius: 0;
+            backdrop-filter: none;
+            border: none;
+            border-left: 2px solid rgba(255, 255, 255, 0.1);
+            padding-left: 25px;
+            transition: all 0.4s ease;
+        }
+        
+        .lyrics-verse:hover {
+            background: transparent;
+            border-left-color: rgba(255, 255, 255, 0.3);
+            transform: none;
+            box-shadow: none;
+            padding-left: 30px;
+        }
+        
+        .lyrics-verse p {
+            margin: 0;
+            text-shadow: none;
+            font-weight: 300;
+        }
+        
+        /* Responsive Design for Lyrics */
+        @media (max-width: 768px) {
+            .lyrics-video-container {
+                min-height: 600px;
+                margin: 30px 0;
+            }
+            
+            .lyrics-content {
+                padding: 40px 25px;
+            }
+            
+            .lyrics-title {
+                font-size: 1.8em;
+            }
+            
+            .lyrics-text {
+                font-size: 1em;
+            }
+            
+            .lyrics-verse {
+                padding: 12px 0;
+                padding-left: 20px;
+            }
+            
+            .lyrics-verse:hover {
+                padding-left: 25px;
+            }
+        }
+        
+        /* Version Cards */
+        .version-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 25px;
+            margin: 25px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .version-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .version-title {
+            color: var(--accent-color);
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .version-description {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        /* Contact Form Styling */
+        .contact-form {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 16px;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .radio-item input[type="radio"] {
+            width: auto;
+            margin: 0;
+        }
+        
+        .submit-btn {
+            background: var(--accent-color);
+            color: #000;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .submit-btn:hover {
+            background: var(--accent-color-light);
+            transform: translateY(-2px);
+        }
+        
+        /* Language Switch Button */
+        .language-switch {
+            margin-left: 20px;
+        }
+        
+        .lang-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-primary);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .lang-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+        }
+        
+        /* Project Hero Section */
+        .project-hero {
+            padding: 80px 0;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.85) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .project-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
+            z-index: 1;
+        }
+        
+        .project-hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .project-hero-header {
+            margin-bottom: 40px;
+        }
+        
+        .project-number {
+            display: inline-block;
+            background: var(--accent-color);
+            color: #000;
+            font-size: 1.2em;
+            font-weight: 700;
+            padding: 8px 20px;
+            border-radius: 25px;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+        
+        .project-subtitle {
+            color: var(--accent-color);
+            font-size: 1.1em;
+            font-weight: 500;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .project-title {
+            color: var(--text-primary);
+            font-size: 3.5em;
+            font-weight: 700;
+            margin-bottom: 30px;
+            line-height: 1.2;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+        }
+        
+        .project-hero-description {
+            margin-bottom: 50px;
+        }
+        
+        .project-hero-description p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .project-hero-actions {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+        
+        .project-hero-actions .btn-luxury {
+            min-width: 180px;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+        }
+        
+        .project-hero-actions .btn-primary {
+            background: #ffffff;
+            color: #000000;
+            border: 2px solid #ffffff;
+            box-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);
+        }
+        
+        .project-hero-actions .btn-primary:hover {
+            background: transparent;
+            color: #ffffff;
+            border-color: #ffffff;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.4);
+        }
+        
+        .project-hero-actions .btn-luxury:not(.btn-primary) {
+            background: transparent;
+            color: var(--text-primary);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .project-hero-actions .btn-luxury:not(.btn-primary):hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-3px);
+        }
+        
+        .update-info {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 15px 30px;
+            display: inline-block;
+            font-size: 0.9em;
+            color: var(--text-tertiary);
+            backdrop-filter: blur(10px);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .project-hero {
+                padding: 60px 0;
+            }
+            
+            .project-title {
+                font-size: 2.5em;
+            }
+            
+            .project-hero-description p {
+                font-size: 1.1em;
+            }
+            
+            .project-hero-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .project-hero-actions .btn-luxury {
+                min-width: 200px;
+            }
+        }
+        
+        /* Footer Styling */
+        .footer-luxury {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            padding: 80px 0 40px;
+            margin-top: 100px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            position: relative;
+        }
+        
+        .footer-luxury::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.2) 50%, transparent 100%);
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 50px;
+            margin-bottom: 50px;
+        }
+        
+        .footer-section.main-section {
+            grid-column: 1;
+        }
+        
+        .footer-brand {
+            margin-bottom: 30px;
+        }
+        
+        .footer-logo {
+            height: 50px;
+            width: auto;
+            margin-bottom: 20px;
+            filter: brightness(0) invert(1) drop-shadow(0 0 10px rgba(255, 255, 255, 0.1));
+            transition: all 0.3s ease;
+        }
+        
+        .footer-logo:hover {
+            filter: brightness(0) invert(1) drop-shadow(0 0 15px rgba(255, 255, 255, 0.2));
+            transform: scale(1.05);
+        }
+        
+        .footer-tagline {
+            margin-bottom: 25px;
+        }
+        
+        .tagline-main {
+            color: #ffffff;
+            font-size: 1.1em;
+            font-weight: 500;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+        
+        .tagline-sub {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95em;
+            font-weight: 300;
+            line-height: 1.4;
+        }
+        
+        .footer-heading {
+            color: #ffffff;
+            margin-bottom: 25px;
+            font-size: 1.1em;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            position: relative;
+        }
+        
+        .footer-heading::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.3) 0%, transparent 100%);
+        }
+        
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 15px;
+        }
+        
+        .footer-link {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 300;
+            font-size: 0.95em;
+            position: relative;
+            padding-left: 0;
+        }
+        
+        .footer-link:hover {
+            color: #ffffff;
+            padding-left: 8px;
+        }
+        
+        .footer-link::before {
+            content: '→';
+            position: absolute;
+            left: -15px;
+            opacity: 0;
+            transition: all 0.3s ease;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .footer-link:hover::before {
+            opacity: 1;
+            left: -20px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 300;
+            font-size: 0.9em;
+            padding: 8px 12px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .social-link:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .social-icon {
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+        
+        .social-text {
+            font-size: 0.85em;
+        }
+        
+        .footer-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
+            margin: 40px 0;
+        }
+        
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 30px;
+        }
+        
+        .copyright {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9em;
+            font-weight: 300;
+            margin: 0;
+        }
+        
+        .footer-extra {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .made-with {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.85em;
+            font-weight: 300;
+            font-style: italic;
+        }
+        
+        /* Responsive Design for Footer */
+        @media (max-width: 768px) {
+            .footer-luxury {
+                padding: 60px 0 30px;
+                margin-top: 80px;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .footer-section {
+                text-align: center;
+            }
+            
+            .footer-heading::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            
+            .social-links {
+                justify-content: center;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .footer-content {
+                gap: 30px;
+            }
+            
+            .social-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+        
+        /* Feedback Form Styling */
+        .feedback-form {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 50px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.15);
+        }
+        
+        .feedback-form.compact {
+            max-width: 600px;
+            padding: 40px;
+        }
+        
+        .feedback-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .feedback-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        
+        .feedback-title {
+            color: #ffffff;
+            font-size: 1.8em;
+            font-weight: 300;
+            margin-bottom: 0;
+            letter-spacing: 1px;
+        }
+        
+        .feedback-form-content {
+            margin-bottom: 25px;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 25px;
+        }
+        
+        .form-group {
+            margin-bottom: 0;
+            flex: 1;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 12px;
+            color: #ffffff;
+            font-weight: 500;
+            font-size: 1em;
+            letter-spacing: 0.5px;
+        }
+        
+        .version-selection {
+            margin-bottom: 0;
+        }
+        
+        .version-row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .version-option {
+            position: relative;
+        }
+        
+        .version-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .version-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #ffffff;
+            font-size: 0.95em;
+            font-weight: 500;
+            min-width: 60px;
+        }
+        
+        .version-label:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .version-option input[type="radio"]:checked + .version-label {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.08) 100%);
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 300;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 16px 30px;
+            background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.9) 100%);
+            color: #000000;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
+        }
+        
+        .submit-btn:hover {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(255, 255, 255, 0.3);
+        }
+        
+        .submit-btn:active {
+            transform: translateY(-1px);
+        }
+        
+        .submit-icon {
+            font-size: 1.1em;
+        }
+        
+        .submit-text {
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        
+        .submit-message {
+            text-align: center;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: fadeInUp 0.5s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .message-icon {
+            font-size: 2em;
+            margin-bottom: 15px;
+            animation: celebration 1s ease-in-out;
+        }
+        
+        @keyframes celebration {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        
+        .message-text {
+            color: #ffffff;
+            font-size: 1em;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+        
+        /* Responsive Design for Feedback Form */
+        @media (max-width: 768px) {
+            .feedback-form.compact {
+                padding: 30px 20px;
+                margin: 0 15px;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .version-row {
+                justify-content: center;
+            }
+            
+            .feedback-title {
+                font-size: 1.5em;
+            }
+            
+            .submit-btn {
+                padding: 15px 25px;
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Luxury Navigation -->
+    <nav class="luxury-nav">
+        <div class="container">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <img src="images/logo_daim.svg" alt="DAIM">
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#studio" class="nav-link">Studio</a></li>
+                    <li><a href="#about" class="nav-link">About</a></li>
+                    <li><a href="#process" class="nav-link">Process</a></li>
+                    <li><a href="#eleven-spotlight" class="nav-link">Eleven</a></li>
+                    <li><a href="#cms-features" class="nav-link">Manage</a></li>
+                    <li class="language-switch">
+                        <button id="langToggle" class="lang-btn">
+                            <span class="lang-ja">EN</span>
+                            <span class="lang-en" style="display: none;">JP</span>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+
+    <!-- Project Info Section -->
+    <section class="section-luxury project-hero">
+        <div class="container">
+            <div class="project-hero-content">
+                <div class="project-hero-header">
+                    <div class="project-number">01</div>
+                    <p class="project-subtitle lang-ja">Project</p>
+                    <p class="project-subtitle lang-en" style="display: none;">Project</p>
+                    <h1 class="project-title lang-ja">アイドル向けデモ</h1>
+                    <h1 class="project-title lang-en" style="display: none;">Idol Demo</h1>
+                </div>
+                
+                <div class="project-hero-description">
+                    <p class="lang-ja">
+                        最新のAI技術を活用して、アイドル向けの楽曲を自動生成しました。
+                        音楽生成アプリの特性を理解し、それを活かした楽曲制作を行っています。
+                        AIが生成した楽曲に人間の感性を加えることで、独創的で魅力的な音楽作品を生み出しています。
+                    </p>
+                    <p class="lang-en" style="display: none;">
+                        We have created idol-oriented music using the latest AI technology.
+                        We understand the characteristics of music generation apps and create music that takes advantage of them.
+                        By adding human sensibility to AI-generated music, we create unique and attractive musical works.
+                    </p>
+                </div>
+                
+                <div class="project-hero-actions">
+                    <a href="#demo" class="btn-luxury btn-primary">
+                        <span class="lang-ja">デモを聴く</span>
+                        <span class="lang-en" style="display: none;">Listen to Demo</span>
+                    </a>
+                    <a href="#about" class="btn-luxury">
+                        <span class="lang-ja">詳細を見る</span>
+                        <span class="lang-en" style="display: none;">Learn More</span>
+                    </a>
+                </div>
+                
+                <div class="update-info">
+                    <span class="lang-ja">▶2025.8.17.0:35更新</span>
+                    <span class="lang-en" style="display: none;">▶Updated: 2025.8.17.0:35</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section-luxury">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-number">01</div>
+                <p class="section-subtitle">About</p>
+                <h2 class="section-title lang-ja">制作コンセプト</h2>
+                <h2 class="section-title lang-en" style="display: none;">Production Concept</h2>
+            </div>
+            
+            <div class="grid-luxury grid-2">
+                <div class="card-intelligent">
+                    <h3 class="card-title lang-ja">AI音楽生成の可能性</h3>
+                    <h3 class="card-title lang-en" style="display: none;">AI Music Generation Potential</h3>
+                    <p class="card-description lang-ja">
+                        最新のAI技術を活用して、アイドル向けの楽曲を自動生成しました。
+                        音楽生成アプリの特性を理解し、それを活かした楽曲制作を行っています。
+                    </p>
+                    <p class="card-description lang-en" style="display: none;">
+                        We have created idol-oriented music using the latest AI technology.
+                        We understand the characteristics of music generation apps and create music that takes advantage of them.
+                    </p>
+                </div>
+                
+                <div class="card-intelligent">
+                    <h3 class="card-title lang-ja">人間の感性との融合</h3>
+                    <h3 class="card-title lang-en" style="display: none;">Integration with Human Sensibility</h3>
+                    <p class="card-description lang-ja">
+                        AIが生成した楽曲に人間の感性を加えることで、
+                        独創的で魅力的な音楽作品を生み出しています。
+                    </p>
+                    <p class="card-description lang-en" style="display: none;">
+                        By adding human sensibility to AI-generated music,
+                        we create unique and attractive musical works.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lyrics Section -->
+    <section class="section-luxury">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-number">02</div>
+                <p class="section-subtitle">Lyrics</p>
+                <h2 class="section-title lang-ja">STAMP - 歌詞</h2>
+                <h2 class="section-title lang-en" style="display: none;">STAMP - Lyrics</h2>
+            </div>
+            
+            <div class="lyrics-video-container">
+                <!-- Video Background -->
+                <div class="lyrics-video-bg">
+                    <video class="lyrics-video" autoplay muted loop playsinline>
+                        <source src="images/mov_xi_2.mp4" type="video/mp4">
+                    </video>
+                    <div class="lyrics-video-overlay"></div>
+                </div>
+                
+                <!-- Lyrics Content -->
+                <div class="lyrics-content">
+                    <div class="lyrics-header">
+                        <div class="lyrics-title">Title: STAMP</div>
+                        <div class="lyrics-author">writing: ShiroKoba</div>
+                    </div>
+                    
+                    <div class="lyrics-text-container">
+                        <div class="lyrics-text lang-ja">
+                            <div class="lyrics-verse">
+                                <p>今日もいつもの帰り道<br>
+                                明日のことを考える<br>
+                                今日は少しも話せずに<br>
+                                あなたの笑顔遠目で見てた</p>
+                            </div>
+                            
+                            <div class="lyrics-verse">
+                                <p>私の大事なおし色は<br>
+                                さんしょくあるんだホントはね<br>
+                                私の大事なあなたには<br>
+                                一番の色、贈ります</p>
+                            </div>
+                            
+                            <div class="lyrics-verse">
+                                <p>ピンクだけが私じゃない<br>
+                                レモンに染まる時もある</p>
+                            </div>
+                            
+                            <div class="lyrics-verse">
+                                <p>でも<br>
+                                ホントはホントはホントは<br>
+                                大人の赤に染まりたい</p>
+                            </div>
+                            
+                            <div class="lyrics-verse">
+                                <p>ピンクだけが私じゃない<br>
+                                レモンで染まる時もある</p>
+                            </div>
+                            
+                            <div class="lyrics-verse">
+                                <p>やっぱり<br>
+                                ホントはホントはホントは<br>
+                                あなたと一緒に帰りたい</p>
+                            </div>
+                            
+                            <div class="lyrics-verse">
+                                <p>とっておきのスタンプ<br>
+                                あなただけに贈るけど<br>
+                                おし色のスタンプって<br>
+                                気づいてくれているかな</p>
+                            </div>
+                            
+                            <div class="lyrics-verse">
+                                <p>誰かが言ってたおまじない<br>
+                                心も届ける魔法のよう<br>
+                                おし色スタンプと一緒に<br>
+                                この手の平の中から贈ります</p>
+                            </div>
+                            
+                            <div class="lyrics-verse">
+                                <p>ピンクだけが私じゃない<br>
+                                レモンで染まる時もある</p>
+                            </div>
+                            
+                            <div class="lyrics-verse">
+                                <p>でも<br>
+                                ホントはホントはホントは<br>
+                                大人の赤に染まりたい</p>
+                            </div>
+                            
+                            <div class="lyrics-verse">
+                                <p>ピンクだけが私じゃない<br>
+                                レモンで染まる時もある</p>
+                            </div>
+                            
+                            <div class="lyrics-verse">
+                                <p>やっぱり<br>
+                                ホントはホントはホントは<br>
+                                あなたのスタンプ、私の頬に</p>
+                            </div>
+                        </div>
+                        
+                        <div class="lyrics-text lang-en" style="display: none;">
+                            <div class="lyrics-verse">
+                                <p>Today again on the usual way home<br>
+                                Thinking about tomorrow<br>
+                                Today I couldn't say anything<br>
+                                I saw your smile from afar</p>
+                            </div>
+                            
+                            <div class="lyrics-verse">
+                                <p>My precious lipstick color<br>
+                                Actually has three colors<br>
+                                For my precious you<br>
+                                I'll give you the best color</p>
+                            </div>
+                            
+                            <div class="lyrics-verse">
+                                <p>Pink isn't all of me<br>
+                                Sometimes I'm dyed in lemon</p>
+                            </div>
+                            
+                            <div class="lyrics-verse">
+                                <p>But<br>
+                                Really really really<br>
+                                I want to be dyed in adult red</p>
+                            </div>
+                            
+                            <div class="lyrics-verse">
+                                <p>Pink isn't all of me<br>
+                                Sometimes I'm dyed in lemon</p>
+                            </div>
+                            
+                            <div class="lyrics-verse">
+                                <p>After all<br>
+                                Really really really<br>
+                                I want to go home with you</p>
+                            </div>
+                            
+                            <div class="lyrics-verse">
+                                <p>My special stamp<br>
+                                I'll give it only to you<br>
+                                But about the lipstick stamp<br>
+                                Do you notice it?</p>
+                            </div>
+                            
+                            <div class="lyrics-verse">
+                                <p>Someone said it's a spell<br>
+                                Like magic that reaches the heart<br>
+                                Together with the lipstick stamp<br>
+                                I'll give it from the palm of my hand</p>
+                            </div>
+                            
+                            <div class="lyrics-verse">
+                                <p>Pink isn't all of me<br>
+                                Sometimes I'm dyed in lemon</p>
+                            </div>
+                            
+                            <div class="lyrics-verse">
+                                <p>But<br>
+                                Really really really<br>
+                                I want to be dyed in adult red</p>
+                            </div>
+                            
+                            <div class="lyrics-verse">
+                                <p>Pink isn't all of me<br>
+                                Sometimes I'm dyed in lemon</p>
+                            </div>
+                            
+                            <div class="lyrics-verse">
+                                <p>After all<br>
+                                Really really really<br>
+                                Your stamp on my cheek</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section id="demo" class="section-luxury">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-number">03</div>
+                <p class="section-subtitle">Demo</p>
+                <h2 class="section-title lang-ja">生成音源一覧</h2>
+                <h2 class="section-title lang-en" style="display: none;">Generated Audio List</h2>
+            </div>
+            
+            <div class="version-card">
+                <h3 class="version-title">STAMP ver.4</h3>
+                <p class="version-description">
+                    ポップな曲調で「聴かせる歌い方」に寄った仕上げに。
+                    ベース音源として膨らましやすそう。
+                </p>
+                <div class="audio-player">
+                    <audio controls>
+                        <source src="https://xdesign.co.jp/wp-content/uploads/2025/08/STAMP-4.wav" type="audio/wav">
+                        お使いのブラウザは音声再生に対応していません。
+                    </audio>
+                </div>
+            </div>
+            
+            <div class="version-card">
+                <h3 class="version-title">STAMP ver.5</h3>
+                <p class="version-description">
+                    グループソングとしてボーカルを複数人風に振ったパターン。
+                </p>
+                <div class="audio-player">
+                    <audio controls>
+                        <source src="https://xdesign.co.jp/wp-content/uploads/2025/08/STAMP-g1.wav" type="audio/wav">
+                        お使いのブラウザは音声再生に対応していません。
+                    </audio>
+                </div>
+            </div>
+            
+            <div class="version-card">
+                <h3 class="version-title">STAMP ver.6</h3>
+                <p class="version-description">
+                    生成時に初めからピッチや曲調に少し手を加えて、グループソング感を強めに振ってみたパターン。
+                </p>
+                <div class="audio-player">
+                    <audio controls>
+                        <source src="https://xdesign.co.jp/wp-content/uploads/2025/08/STAMP-6.wav" type="audio/wav">
+                        お使いのブラウザは音声再生に対応していません。
+                    </audio>
+                </div>
+            </div>
+            
+            <div class="version-card">
+                <h3 class="version-title">STAMP ver.7</h3>
+                <p class="version-description">
+                    複数人で歌う前提の歌詞なので、２小節毎に区切っているが（今日〜、私〜等）、
+                    自動生成できちんと読み取ってくれているのがよく分かるパターン。アイドルソングらしい仕上がり感。
+                </p>
+                <div class="audio-player">
+                    <audio controls>
+                        <source src="https://xdesign.co.jp/wp-content/uploads/2025/08/STAMP-7.wav" type="audio/wav">
+                        お使いのブラウザは音声再生に対応していません。
+                    </audio>
+                </div>
+            </div>
+            
+            <div class="version-card">
+                <h3 class="version-title">STAMP ver.8</h3>
+                <p class="version-description">
+                    少し疾走感を持たせた作り方。こうなると歌詞を作り直す必要が高まるか・・・
+                </p>
+                <div class="audio-player">
+                    <audio controls>
+                        <source src="https://xdesign.co.jp/wp-content/uploads/2025/08/STAMP-g2.wav" type="audio/wav">
+                        お使いのブラウザは音声再生に対応していません。
+                    </audio>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section-luxury">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-number">04</div>
+                <p class="section-subtitle">Feedback</p>
+                <h2 class="section-title lang-ja">フィードバック</h2>
+                <h2 class="section-title lang-en" style="display: none;">Feedback</h2>
+            </div>
+            
+            <div class="feedback-form compact">
+                <div class="feedback-header">
+                    <div class="feedback-icon">💝</div>
+                    <h3 class="feedback-title">
+                        <span class="lang-ja">よろしければポチッと</span>
+                        <span class="lang-en" style="display: none;">Please share your feedback</span>
+                    </h3>
+                </div>
+                
+                <form id="feedbackForm" class="feedback-form-content">
+                    <div class="form-row">
+                        <div class="form-group version-selection">
+                            <label class="form-label">
+                                <span class="lang-ja">お気に入りのバージョンを選択してください</span>
+                                <span class="lang-en" style="display: none;">Select your favorite version</span>
+                            </label>
+                            <div class="version-row">
+                                <div class="version-option">
+                                    <input type="radio" id="ver4" name="version" value="ver.4" required>
+                                    <label for="ver4" class="version-label">ver.4</label>
+                                </div>
+                                <div class="version-option">
+                                    <input type="radio" id="ver5" name="version" value="ver.5">
+                                    <label for="ver5" class="version-label">ver.5</label>
+                                </div>
+                                <div class="version-option">
+                                    <input type="radio" id="ver6" name="version" value="ver.6">
+                                    <label for="ver6" class="version-label">ver.6</label>
+                                </div>
+                                <div class="version-option">
+                                    <input type="radio" id="ver7" name="version" value="ver.7">
+                                    <label for="ver7" class="version-label">ver.7</label>
+                                </div>
+                                <div class="version-option">
+                                    <input type="radio" id="ver8" name="version" value="ver.8">
+                                    <label for="ver8" class="version-label">ver.8</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="nickname" class="form-label">
+                                <span class="lang-ja">ニックネーム</span>
+                                <span class="lang-en" style="display: none;">Nickname</span>
+                            </label>
+                            <input type="text" id="nickname" name="nickname" required class="form-input" placeholder="例: 音楽好き">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="submit" class="submit-btn">
+                            <span class="submit-icon">✨</span>
+                            <span class="submit-text">
+                                <span class="lang-ja">送信</span>
+                                <span class="lang-en" style="display: none;">Submit</span>
+                            </span>
+                        </button>
+                    </div>
+                </form>
+                
+                <div id="submitMessage" class="submit-message" style="display: none;">
+                    <div class="message-icon">🎉</div>
+                    <p class="message-text">
+                        <span class="lang-ja">ありがとうございます！フィードバックを送信しました。</span>
+                        <span class="lang-en" style="display: none;">Thank you! Your feedback has been submitted.</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-luxury">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section main-section">
+                    <div class="footer-brand">
+                        <img src="images/logo_daim.svg" alt="DAIM" class="footer-logo">
+                        <div class="footer-tagline">
+                            <p class="tagline-main">Decentralized AI Music</p>
+                            <p class="tagline-sub">音楽×AI×人間×未来</p>
+                        </div>
+                    </div>
+                    <div class="social-links">
+                        <a href="#" class="social-link" aria-label="Twitter">
+                            <span class="social-icon">𝕏</span>
+                            <span class="social-text">Twitter</span>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Discord">
+                            <span class="social-icon">🎮</span>
+                            <span class="social-text">Discord</span>
+                        </a>
+                        <a href="#" class="social-link" aria-label="GitHub">
+                            <span class="social-icon">💻</span>
+                            <span class="social-text">GitHub</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-heading">Product</h4>
+                    <ul class="footer-links">
+                        <li><a href="#studio" class="footer-link">Studio</a></li>
+                        <li><a href="#about" class="footer-link">About</a></li>
+                        <li><a href="#process" class="footer-link">Process</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-heading">Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#eleven-spotlight" class="footer-link">Eleven</a></li>
+                        <li><a href="#cms-features" class="footer-link">Manage</a></li>
+                        <li><a href="#contact" class="footer-link">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-heading">Legal</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">Privacy Policy</a></li>
+                        <li><a href="#" class="footer-link">Terms of Service</a></li>
+                        <li><a href="#" class="footer-link">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-divider"></div>
+            
+            <div class="footer-bottom">
+                <p class="copyright">
+                    &copy; 2025 DAIM. All rights reserved.
+                </p>
+                <div class="footer-extra">
+                    <span class="made-with">Made with ❤️ in Japan</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Language switching functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const langToggle = document.getElementById('langToggle');
+            const langJaElements = document.querySelectorAll('.lang-ja');
+            const langEnElements = document.querySelectorAll('.lang-en');
+            const langJaBtn = document.querySelector('.lang-ja');
+            const langEnBtn = document.querySelector('.lang-en');
+            
+            let currentLang = 'ja'; // Default language is Japanese
+            
+            function switchLanguage() {
+                if (currentLang === 'ja') {
+                    // Switch to English
+                    langJaElements.forEach(el => el.style.display = 'none');
+                    langEnElements.forEach(el => el.style.display = 'block');
+                    langJaBtn.style.display = 'none';
+                    langEnBtn.style.display = 'block';
+                    currentLang = 'en';
+                } else {
+                    // Switch to Japanese
+                    langJaElements.forEach(el => el.style.display = 'block');
+                    langEnElements.forEach(el => el.style.display = 'none');
+                    langJaBtn.style.display = 'block';
+                    langEnBtn.style.display = 'none';
+                    currentLang = 'ja';
+                }
+            }
+            
+            langToggle.addEventListener('click', switchLanguage);
+        });
+    </script>
+</body>
+</html>

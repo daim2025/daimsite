@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAIM - Intelligent Music Creation</title>
+    <link rel="stylesheet" href="style-luxury.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎼</text></svg>">
+    <style>
+        /* Enhanced Logo Styles */
+        .nav-logo img {
+            height: 40px;
+            width: auto;
+            filter: brightness(0) invert(1) drop-shadow(0 0 8px rgba(255, 255, 255, 0.6));
+            transition: all 0.3s ease;
+        }
+        
+        .nav-logo img:hover {
+            filter: brightness(0) invert(1) drop-shadow(0 0 12px rgba(255, 255, 255, 0.8));
+            transform: scale(1.05);
+        }
+        
+        .hero-logo {
+            width: 300px;
+            height: auto;
+            margin: 0 auto var(--space-xl);
+            filter: brightness(0) invert(1) drop-shadow(0 0 40px rgba(255, 255, 255, 0.4));
+            animation: logo-glow 3s ease-in-out infinite;
+        }
+        
+        @keyframes logo-glow {
+            0%, 100% {
+                filter: brightness(0) invert(1) drop-shadow(0 0 40px rgba(255, 255, 255, 0.4));
+            }
+            50% {
+                filter: brightness(0) invert(1) drop-shadow(0 0 60px rgba(255, 255, 255, 0.7)) drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
+            }
+        }
+        
+        .footer-logo {
+            height: 50px;
+            width: auto;
+            margin-bottom: var(--space-lg);
+            filter: brightness(1.2) contrast(1.1);
+        }
+        
+        /* Floating Symbol Background */
+        .floating-symbol {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            opacity: 0.05;
+            animation: float 8s ease-in-out infinite;
+            filter: brightness(0) invert(1);
+        }
+        
+        .floating-symbol:nth-child(1) {
+            top: 15%;
+            left: 8%;
+            animation-delay: 0s;
+        }
+        
+        .floating-symbol:nth-child(2) {
+            top: 55%;
+            right: 12%;
+            animation-delay: 3s;
+        }
+        
+        .floating-symbol:nth-child(3) {
+            bottom: 15%;
+            left: 15%;
+            animation-delay: 6s;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-25px) rotate(5deg); }
+        }
+        
+        /* Enhanced Hero Section */
+        .hero-luxury {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Background Video Styles */
+        .hero-video-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+        
+        .hero-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.3) contrast(1.2) saturate(0.8);
+            animation: video-slow-motion 180s ease-in-out infinite;
+            /* Smooth video playback */
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: -o-crisp-edges;
+            -ms-interpolation-mode: nearest-neighbor;
+        }
+        
+        .hero-video-fallback {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
+                linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.6) 100%);
+            z-index: 0;
+            display: none;
+            animation: fallback-animation 15s ease-in-out infinite;
+        }
+        
+        @keyframes fallback-animation {
+            0%, 100% {
+                background: 
+                    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
+                    linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.6) 100%);
+            }
+            25% {
+                background: 
+                    radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.07) 0%, transparent 50%),
+                    radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+                    linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.8) 100%);
+            }
+            50% {
+                background: 
+                    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
+                    radial-gradient(circle at 10% 10%, rgba(255, 255, 255, 0.04) 0%, transparent 50%),
+                    linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.5) 100%);
+            }
+            75% {
+                background: 
+                    radial-gradient(circle at 30% 70%, rgba(255, 255, 255, 0.06) 0%, transparent 50%),
+                    radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.04) 0%, transparent 50%),
+                    linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.7) 100%);
+            }
+        }
+        
+        .hero-video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(0, 0, 0, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 0, 0, 0.3) 0%, transparent 50%),
+                linear-gradient(135deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.1) 100%);
+            z-index: 1;
+        }
+        
+        @keyframes video-slow-motion {
+            0%, 100% {
+                transform: scale(1.01) rotate(0deg);
+                filter: brightness(0.3) contrast(1.2) saturate(0.8) hue-rotate(0deg);
+            }
+            12.5% {
+                transform: scale(1.005) rotate(0.05deg);
+                filter: brightness(0.32) contrast(1.22) saturate(0.82) hue-rotate(0.5deg);
+            }
+            25% {
+                transform: scale(1.015) rotate(0.1deg);
+                filter: brightness(0.35) contrast(1.25) saturate(0.85) hue-rotate(1deg);
+            }
+            37.5% {
+                transform: scale(1.02) rotate(0.08deg);
+                filter: brightness(0.38) contrast(1.28) saturate(0.88) hue-rotate(1.5deg);
+            }
+            50% {
+                transform: scale(1.025) rotate(-0.05deg);
+                filter: brightness(0.25) contrast(1.1) saturate(0.7) hue-rotate(-1deg);
+            }
+            62.5% {
+                transform: scale(1.018) rotate(-0.03deg);
+                filter: brightness(0.28) contrast(1.15) saturate(0.75) hue-rotate(-0.5deg);
+            }
+            75% {
+                transform: scale(1.012) rotate(0.02deg);
+                filter: brightness(0.32) contrast(1.2) saturate(0.8) hue-rotate(0.3deg);
+            }
+            87.5% {
+                transform: scale(1.008) rotate(0.06deg);
+                filter: brightness(0.35) contrast(1.25) saturate(0.85) hue-rotate(0.8deg);
+            }
+        }
+        
+        .hero-luxury::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
+            z-index: 2;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 3;
+        }
+        
+        /* Enhanced Card Effects */
+        .card-intelligent {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-intelligent::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+            transition: left 0.6s ease;
+        }
+        
+        .card-intelligent:hover::before {
+            left: 100%;
+        }
+        
+        /* Enhanced Button Effects */
+        .btn-luxury {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-luxury::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .btn-luxury:hover::before {
+            left: 100%;
+        }
+    </style>
+</head>
+<body>
+    <!-- Luxury Navigation -->
+    <nav class="luxury-nav">
+        <div class="container">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <img src="images/logo_daim.svg" alt="DAIM">
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#studio" class="nav-link">Studio</a></li>
+                    <li><a href="#about" class="nav-link">About</a></li>
+                    <li><a href="#process" class="nav-link">Process</a></li>
+                    <li><a href="#eleven-spotlight" class="nav-link">Eleven</a></li>
+                    <li><a href="#cms-features" class="nav-link">Manage</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-luxury">
+        <!-- Background Video -->
+        <div class="hero-video-container">
+            <video class="hero-video" autoplay muted loop playsinline onerror="this.style.display='none'; document.querySelector('.hero-video-fallback').style.display='block';" onloadedmetadata="this.playbackRate = 0.1;">
+                <source src="images/ym_movie.mp4" type="video/mp4">
+            </video>
+            <div class="hero-video-fallback"></div>
+            <div class="hero-video-overlay"></div>
+        </div>
+        
+        <div class="container">
+            <div class="hero-grid">
+                <div class="hero-content">
+                    <img src="images/logo_daim.svg" alt="DAIM Logo" class="hero-logo">
+                    <p class="hero-subtitle">Intelligent Music Platform</p>
+                    <h1 class="hero-title">DAIM</h1>
+                    <p class="hero-description">
+                        Where artificial intelligence meets musical intuition. Experience the future of sound creation through sophisticated algorithms and human creativity.
+                    </p>
+                    <div style="display: flex; gap: var(--space-md); flex-wrap: wrap;">
+                        <a href="#studio" class="btn-luxury btn-primary">
+                            <span>Enter Studio</span>
+                        </a>
+                        <a href="#about" class="btn-luxury">
+                            <span>Discover More</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="groove-visual" style="position: relative; z-index: 3;">
+                    <div class="vinyl-record"></div>
+                    <div class="groove-eq">
+                        <div class="eq-bar"></div>
+                        <div class="eq-bar"></div>
+                        <div class="eq-bar"></div>
+                        <div class="eq-bar"></div>
+                        <div class="eq-bar"></div>
+                        <div class="eq-bar"></div>
+                        <div class="eq-bar"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+    </section>
+
+    <!-- About DAIM -->
+    <section id="about" class="section-luxury">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-number">01</div>
+                <p class="section-subtitle">Philosophy</p>
+                <h2 class="section-title">DAIMとは</h2>
+            </div>
+            
+            <div class="grid-luxury grid-2" style="align-items: center;">
+                <div>
+                    <p style="font-size: var(--text-xl); color: var(--text-secondary); line-height: 1.8; margin-bottom: var(--space-lg); font-weight: 300;">
+                        DAIMは音楽×AI×人間×未来をコンセプトとした洗練された音楽創造プラットフォームです。
+                    </p>
+                    
+                    <div class="card-intelligent">
+                        <h3 class="card-title">Intelligent Composition</h3>
+                        <p class="card-description">
+                            最先端のAI技術と人間の感性を融合させ、誰でも直感的にプロフェッショナルな楽曲を制作できる環境を提供します。シンプルな操作で、深い音楽理論に基づいた sophisticated な楽曲を生み出すことができます。
+                        </p>
+                    </div>
+                </div>
+                
+                <div style="position: relative; height: 400px; display: flex; align-items: center; justify-content: center;">
+                    <div style="width: 300px; height: 300px; border: 2px solid var(--groove-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; background: rgba(212, 175, 55, 0.05); backdrop-filter: blur(20px);">
+                        <div style="font-family: 'Playfair Display', serif; font-size: var(--text-2xl); color: var(--groove-primary); text-align: center; font-weight: 600; letter-spacing: -0.01em;">
+                            Intelligent<br>
+                            <span style="font-size: var(--text-lg); color: var(--text-secondary); font-weight: 300;">Music Creation</span>
+                        </div>
+                        <div class="rhythm-dots" style="position: absolute; bottom: 40px;">
+                            <div class="rhythm-dot"></div>
+                            <div class="rhythm-dot"></div>
+                            <div class="rhythm-dot"></div>
+                            <div class="rhythm-dot"></div>
+                            <div class="rhythm-dot"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Studio Interface -->
+    <section id="studio" class="section-luxury">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-number">02</div>
+                <p class="section-subtitle">Creation</p>
+                <h2 class="section-title">Intelligent Studio</h2>
+            </div>
+            
+            <div class="studio-interface">
+                <div style="margin-bottom: var(--space-xl);">
+                    <label style="display: block; font-family: 'JetBrains Mono', monospace; font-size: var(--text-sm); color: var(--groove-primary); margin-bottom: var(--space-sm); text-transform: uppercase; letter-spacing: 0.1em;">Musical Vision</label>
+                    <input type="text" class="input-luxury" placeholder="Describe your musical inspiration...">
+                </div>
+                
+                <div class="controls-grid">
+                    <div class="control-elegant">
+                        <div class="control-knob"></div>
+                        <div class="control-label">Genre</div>
+                    </div>
+                    <div class="control-elegant">
+                        <div class="control-knob"></div>
+                        <div class="control-label">Mood</div>
+                    </div>
+                    <div class="control-elegant">
+                        <div class="control-knob"></div>
+                        <div class="control-label">Tempo</div>
+                    </div>
+                    <div class="control-elegant">
+                        <div class="control-knob"></div>
+                        <div class="control-label">Complexity</div>
+                    </div>
+                    <div class="control-elegant">
+                        <div class="control-knob"></div>
+                        <div class="control-label">Vocal</div>
+                    </div>
+                    <div class="control-elegant">
+                        <div class="control-knob"></div>
+                        <div class="control-label">Harmony</div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: var(--space-xl);">
+                    <button class="btn-luxury btn-primary" style="margin-right: var(--space-md);">
+                        <span>Generate Composition</span>
+                    </button>
+                    <button class="btn-luxury">
+                        <span>Fine Tune</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Creation Process -->
+    <section id="process" class="section-luxury">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-number">03</div>
+                <p class="section-subtitle">Methodology</p>
+                <h2 class="section-title">Creation Process</h2>
+            </div>
+            
+            <div style="margin-bottom: var(--space-2xl);">
+                <p style="font-size: var(--text-xl); color: var(--text-secondary); line-height: 1.8; text-align: center; max-width: 600px; margin: 0 auto; font-weight: 300;">
+                    DAIMでの音楽制作は、直感的でありながら深い音楽理論に基づいたインテリジェントなプロセスです。
+                </p>
+            </div>
+            
+            <div class="grid-luxury grid-3">
+                <div class="card-intelligent">
+                    <h3 class="card-title">Inspiration Input</h3>
+                    <p class="card-description">
+                        あなたの音楽的インスピレーションを自然言語で入力。AIが音楽理論、感情表現、楽器編成を分析し、最適な音楽構造を提案します。
+                    </p>
+                </div>
+                
+                <div class="card-intelligent">
+                    <h3 class="card-title">Intelligent Processing</h3>
+                    <p class="card-description">
+                        高度なアルゴリズムが和声進行、メロディライン、リズムパターンを生成。人間の感性とAIの論理的思考が融合した楽曲が誕生します。
+                    </p>
+                </div>
+                
+                <div class="card-intelligent">
+                    <h3 class="card-title">Refinement & Export</h3>
+                    <p class="card-description">
+                        生成された楽曲を直感的に調整・編集。プロフェッショナル品質のマスタリングを施し、あらゆる形式で出力可能です。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Professional Distribution -->
+    <section class="section-luxury">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-number">04</div>
+                <p class="section-subtitle">Distribution</p>
+                <h2 class="section-title">Professional Distribution</h2>
+            </div>
+            
+            <div class="grid-luxury grid-2" style="align-items: center;">
+                <div style="position: relative;">
+                    <div class="card-intelligent" style="margin-bottom: var(--space-lg);">
+                        <h3 class="card-title">Global Reach</h3>
+                        <p class="card-description">
+                            生成された楽曲を世界中のプラットフォームに配信。Spotify、Apple Music、YouTubeなど、あらゆるチャンネルでリスナーに届けることができます。
+                        </p>
+                    </div>
+                    
+                    <div class="card-intelligent">
+                        <h3 class="card-title">Revenue Optimization</h3>
+                        <p class="card-description">
+                            インテリジェントな分析ツールでリスナーの反応を追跡し、最適な配信戦略を提案。収益を最大化するためのデータドリブンなアプローチを提供します。
+                        </p>
+                    </div>
+                </div>
+                
+                <div style="position: relative; height: 400px; display: flex; align-items: center; justify-content: center;">
+                    <div style="width: 300px; height: 300px; border: 2px solid var(--groove-secondary); border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; background: rgba(192, 192, 192, 0.05); backdrop-filter: blur(20px);">
+                        <div style="font-family: 'Playfair Display', serif; font-size: var(--text-2xl); color: var(--groove-secondary); text-align: center; font-weight: 600; letter-spacing: -0.01em;">
+                            Global<br>
+                            <span style="font-size: var(--text-lg); color: var(--text-secondary); font-weight: 300;">Distribution</span>
+                        </div>
+                        <div class="rhythm-dots" style="position: absolute; bottom: 40px;">
+                            <div class="rhythm-dot"></div>
+                            <div class="rhythm-dot"></div>
+                            <div class="rhythm-dot"></div>
+                            <div class="rhythm-dot"></div>
+                            <div class="rhythm-dot"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Eleven Spotlight -->
+    <section id="eleven-spotlight" class="section-luxury">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-number">05</div>
+                <p class="section-subtitle">Artist Spotlight</p>
+                <h2 class="section-title">ELEVEN</h2>
+            </div>
+            
+            <div class="grid-luxury grid-2" style="align-items: center;">
+                <div style="position: relative; height: 400px; display: flex; align-items: center; justify-content: center;">
+                    <div style="width: 300px; height: 300px; border: 2px solid var(--groove-accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; background: rgba(232, 180, 184, 0.05); backdrop-filter: blur(20px);">
+                        <div style="font-family: 'Playfair Display', serif; font-size: var(--text-2xl); color: var(--groove-accent); text-align: center; font-weight: 600; letter-spacing: -0.01em;">
+                            ELEVEN<br>
+                            <span style="font-size: var(--text-lg); color: var(--text-secondary); font-weight: 300;">Artist</span>
+                        </div>
+                        <div class="rhythm-dots" style="position: absolute; bottom: 40px;">
+                            <div class="rhythm-dot"></div>
+                            <div class="rhythm-dot"></div>
+                            <div class="rhythm-dot"></div>
+                            <div class="rhythm-dot"></div>
+                            <div class="rhythm-dot"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="card-intelligent" style="margin-bottom: var(--space-lg);">
+                        <h3 class="card-title">Innovative Sound</h3>
+                        <p class="card-description">
+                            ELEVENは、DAIMのAI技術を活用して革新的なサウンドを創造するアーティストです。従来の音楽の枠を超え、新しい音楽体験をリスナーに提供しています。
+                        </p>
+                    </div>
+                    
+                    <div class="card-intelligent">
+                        <h3 class="card-title">Collaborative Creation</h3>
+                        <p class="card-description">
+                            AIと人間のクリエイティビティが融合した制作プロセスにより、独創的で深みのある楽曲を生み出しています。ELEVENの作品は、音楽の未来を示す先駆的な存在です。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CMS Features -->
+    <section id="cms-features" class="section-luxury">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-number">06</div>
+                <p class="section-subtitle">Management</p>
+                <h2 class="section-title">Content Management</h2>
+            </div>
+            
+            <div class="grid-luxury grid-3">
+                <div class="card-intelligent">
+                    <h3 class="card-title">Track Management</h3>
+                    <p class="card-description">
+                        生成された楽曲を効率的に管理。メタデータの編集、タグ付け、カテゴリ分類など、プロフェッショナルな楽曲管理をサポートします。
+                    </p>
+                </div>
+                
+                <div class="card-intelligent">
+                    <h3 class="card-title">Analytics Dashboard</h3>
+                    <p class="card-description">
+                        詳細なリスナー分析とパフォーマンス指標を提供。楽曲の反応、地域別の再生数、リスナーの行動パターンなどを可視化します。
+                    </p>
+                </div>
+                
+                <div class="card-intelligent">
+                    <h3 class="card-title">Collaboration Tools</h3>
+                    <p class="card-description">
+                        チームでの楽曲制作をサポート。共同編集、コメント機能、バージョン管理など、効率的なコラボレーション環境を提供します。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-luxury">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <img src="images/logo_daim.svg" alt="DAIM" class="footer-logo">
+                    <p style="color: var(--text-secondary); margin-bottom: var(--space-lg); font-weight: 300;">
+                        Decentralized AI Music<br>
+                        音楽×AI×人間×未来
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link">Twitter</a>
+                        <a href="#" class="social-link">Discord</a>
+                        <a href="#" class="social-link">GitHub</a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 style="margin-bottom: var(--space-lg); color: var(--text-primary); font-weight: 600;">Product</h4>
+                    <ul class="footer-links">
+                        <li><a href="#studio">Studio</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#process">Process</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 style="margin-bottom: var(--space-lg); color: var(--text-primary); font-weight: 600;">Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#eleven-spotlight">Eleven</a></li>
+                        <li><a href="#cms-features">Manage</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 style="margin-bottom: var(--space-lg); color: var(--text-primary); font-weight: 600;">Legal</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p style="color: var(--text-tertiary); font-size: var(--text-sm); text-align: center;">
+                    &copy; 2024 DAIM. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Video playback rate control and smooth playback
+        document.addEventListener('DOMContentLoaded', function() {
+            const video = document.querySelector('.hero-video');
+            if (video) {
+                // Smooth playback settings
+                video.style.willChange = 'transform';
+                video.style.backfaceVisibility = 'hidden';
+                video.style.transform = 'translateZ(0)';
+                video.style.perspective = '1000px';
+                
+                // Enable hardware acceleration
+                video.style.transform = 'translate3d(0, 0, 0)';
+                video.style.webkitTransform = 'translate3d(0, 0, 0)';
+                
+                // Smooth playback rate
+                const smoothPlaybackRate = 0.03; // 約33倍遅く
+                
+                video.addEventListener('loadedmetadata', function() {
+                    this.playbackRate = smoothPlaybackRate;
+                    console.log('Video playback rate set to:', this.playbackRate);
+                });
+                
+                video.addEventListener('play', function() {
+                    this.playbackRate = smoothPlaybackRate;
+                    console.log('Video started with playback rate:', this.playbackRate);
+                });
+                
+                video.addEventListener('canplay', function() {
+                    this.playbackRate = smoothPlaybackRate;
+                    console.log('Video can play with playback rate:', this.playbackRate);
+                });
+                
+                // Additional smooth playback events
+                video.addEventListener('playing', function() {
+                    this.playbackRate = smoothPlaybackRate;
+                });
+                
+                video.addEventListener('ratechange', function() {
+                    if (this.playbackRate !== smoothPlaybackRate) {
+                        this.playbackRate = smoothPlaybackRate;
+                    }
+                });
+                
+                // Force smooth playback on any rate change
+                setInterval(() => {
+                    if (video.playbackRate !== smoothPlaybackRate) {
+                        video.playbackRate = smoothPlaybackRate;
+                    }
+                }, 1000);
+            }
+        });
+    </script>
+</body>
+</html>
