@@ -89,28 +89,30 @@ export default function Footer() {
                     href="http://www.discoverfeed.net"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-3 hover:opacity-80 transition-opacity duration-300"
+                    className="hover:opacity-80 transition-opacity duration-300"
                   >
-                    <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-                      <span className="text-black font-bold text-sm">D</span>
-                    </div>
-                    <span className="text-white font-medium">DiscoverFeed</span>
+                    <Image
+                      src="/images/DiscoverFeed-logo-s.png"
+                      alt="DiscoverFeed Logo"
+                      width={120}
+                      height={80}
+                      className="brightness-0 invert rounded"
+                    />
                   </a>
                   
                   <a
                     href="https://www.dmclab.io"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-3 hover:opacity-80 transition-opacity duration-300"
+                    className="hover:opacity-80 transition-opacity duration-300"
                   >
                     <Image
-                      src="/images/logo_DMC.jpg"
+                      src="/images/DMC-logo.png"
                       alt="DMC Logo"
-                      width={32}
-                      height={32}
+                      width={60}
+                      height={60}
                       className="brightness-0 invert rounded"
                     />
-                    <span className="text-white font-medium">DMC</span>
                   </a>
                 </div>
               </div>
@@ -158,12 +160,32 @@ export default function Footer() {
         {/* Divider */}
         <div className="footer-divider h-px bg-gradient-to-r from-transparent via-white/10 to-transparent mb-8"></div>
 
-        {/* Copyright */}
+        {/* Service Links */}
         <div className="footer-services">
-          <div className="text-left">
-            <p className="copyright text-gray-400 text-sm">
-              {t('footer.copyright')}
-            </p>
+          <div className="flex flex-col md:flex-row justify-between items-start gap-6">
+            <div className="text-left">
+              <p className="copyright text-gray-400 text-sm">
+                {t('footer.copyright')}
+              </p>
+            </div>
+            <div className="footer-service-links flex flex-col gap-3 text-right">
+              <a 
+                href="http://www.discoverfeed.net" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-gray-400 text-sm hover:text-white transition-colors duration-300"
+              >
+                DAIM is a DiscoverFeed service
+              </a>
+              <a 
+                href="https://www.dmclab.io" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-gray-400 text-sm hover:text-white transition-colors duration-300"
+              >
+                DAIM is join the DMC ECOSYSTEM
+              </a>
+            </div>
           </div>
         </div>
       </div>
