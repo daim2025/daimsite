@@ -170,6 +170,13 @@ export default function Home() {
             <div className="section-number text-6xl font-light text-gray-400 mb-4">{t('studio.number')}</div>
             <p className="section-subtitle text-gray-300 text-lg mb-2">{t('studio.subtitle')}</p>
             <h2 className="section-title text-4xl md:text-5xl font-display font-semibold">{t('studio.title')}</h2>
+            <div className="mt-6">
+              <div className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-slate-600/20 to-blue-600/20 border border-slate-500/30 rounded-full backdrop-blur-xl">
+                <div className="w-2 h-2 bg-slate-400 rounded-full animate-pulse"></div>
+                <span className="text-slate-300 font-medium tracking-wide">Coming Soon</span>
+                <div className="w-2 h-2 bg-slate-400 rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
+              </div>
+            </div>
           </div>
           
           <div className="dj-studio-interface max-w-7xl mx-auto">

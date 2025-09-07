@@ -1,24 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
-
-// 外部のsubscribersデータを参照（実際の実装では共通のデータストアを使用）
-// 開発・テスト用の簡易実装
-let subscribers: Array<{
-  email: string;
-  status: 'active' | 'unsubscribed';
-  createdAt: string;
-  token: string;
-}> = [];
-
-// 管理者権限チェック
-const checkAdminAuth = (request: NextRequest) => {
-  const adminKey = request.headers.get('x-admin-key');
-  return adminKey === process.env.ADMIN_API_KEY || adminKey === 'DAIM_TEST_ADMIN_KEY_2024';
-};
+import { 
+  readSubscribers, 
+  writeSubscribers, 
+  checkAdminAuth,
+  type Subscriber 
+} from '@/lib/subscribers';
 
 // 登録者一覧取得
 export async function GET(request: NextRequest) {
   try {
-    if (!checkAdminAuth(request)) {
+    const adminKey = request.headers.get('x-admin-key');
+    
+    if (!checkAdminAuth(adminKey)) {
       return NextResponse.json(
         { error: '権限がありません' },
         { status: 401 }
@@ -31,32 +24,29 @@ export async function GET(request: NextRequest) {
     const status = searchParams.get('status') || 'all';
     const offset = (page - 1) * limit;
 
-    let filteredSubscribers = subscribers;
+    const allSubscribers = readSubscribers();
+    
+    let filteredSubscribers = allSubscribers;
     if (status !== 'all') {
-      filteredSubscribers = subscribers.filter(sub => sub.status === status);
+      filteredSubscribers = allSubscribers.filter(sub => sub.status === status);
     }
 
     const total = filteredSubscribers.length;
+    const totalPages = Math.ceil(total / limit);
     const paginatedSubscribers = filteredSubscribers.slice(offset, offset + limit);
 
     return NextResponse.json({
-      subscribers: paginatedSubscribers.map(sub => ({
-        id: sub.token, // トークンをIDとして使用
-        email: sub.email,
-        status: sub.status,
-        created_at: sub.createdAt,
-        updated_at: sub.createdAt
-      })),
+      subscribers: paginatedSubscribers,
       pagination: {
         page,
         limit,
         total,
-        totalPages: Math.ceil(total / limit)
+        totalPages
       }
     });
 
   } catch (error) {
-    console.error('Admin subscribers error:', error);
+    console.error('Error fetching subscribers:', error);
     return NextResponse.json(
       { error: 'サーバーエラーが発生しました' },
       { status: 500 }
@@ -64,55 +54,38 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// 一括メール送信（モック）
+// メール送信（簡易実装）
 export async function POST(request: NextRequest) {
   try {
-    if (!checkAdminAuth(request)) {
+    const adminKey = request.headers.get('x-admin-key');
+    
+    if (!checkAdminAuth(adminKey)) {
       return NextResponse.json(
         { error: '権限がありません' },
         { status: 401 }
       );
     }
 
-    const { type, targetStatus = 'active' } = await request.json();
+    const { type } = await request.json();
+    const subscribers = readSubscribers();
+    const activeSubscribers = subscribers.filter(sub => sub.status === 'active');
 
-    if (!type || !['welcome', 'release'].includes(type)) {
-      return NextResponse.json(
-        { error: '無効なメールタイプです' },
-        { status: 400 }
-      );
-    }
-
-    // 対象の登録者を取得
-    const targetSubscribers = subscribers.filter(sub => sub.status === targetStatus);
-
-    if (targetSubscribers.length === 0) {
-      return NextResponse.json(
-        { message: '送信対象の登録者がいません' },
-        { status: 200 }
-      );
-    }
-
-    // モック送信（実際のメール送信の代わり）
-    const results = targetSubscribers.map(sub => ({
-      email: sub.email,
-      status: 'sent' // 開発・テスト用は常に成功
-    }));
-
-    const successCount = results.length;
+    // 実際のメール送信はここで実装（現在はログ出力のみ）
+    console.log(`Sending ${type} email to ${activeSubscribers.length} subscribers`);
+    
+    // メール送信のシミュレーション
+    await new Promise(resolve => setTimeout(resolve, 1000));
 
     return NextResponse.json({
-      message: `メール送信完了: 成功 ${successCount}件`,
-      total: targetSubscribers.length,
-      success: successCount,
-      failed: 0,
-      results
+      message: `${activeSubscribers.length}件のメールを送信しました`,
+      count: activeSubscribers.length,
+      type
     });
 
   } catch (error) {
-    console.error('Bulk email error:', error);
+    console.error('Error sending bulk email:', error);
     return NextResponse.json(
-      { error: 'サーバーエラーが発生しました' },
+      { error: 'メール送信中にエラーが発生しました' },
       { status: 500 }
     );
   }

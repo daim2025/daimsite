@@ -74,11 +74,20 @@ export default function StudioPage() {
         <div className="container mx-auto px-4 relative z-10">
           <div className="text-center mb-16">
             <p className="section-subtitle text-gray-200 text-lg mb-2 font-medium tracking-wider">{t('studio.page.subtitle')}</p>
-            <h1 className="section-title text-4xl md:text-6xl font-light mb-8 text-white drop-shadow-2xl">
+            <h1 className="section-title text-4xl md:text-6xl font-light mb-6 text-white drop-shadow-2xl">
               <span className="bg-gradient-to-r from-white via-slate-200 to-blue-200 bg-clip-text text-transparent">
                 {t('studio.page.title')}
               </span>
             </h1>
+            
+            {/* Coming Soon Badge */}
+            <div className="mb-8">
+              <div className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-slate-600/20 to-blue-600/20 border border-slate-500/30 rounded-full backdrop-blur-xl">
+                <div className="w-2 h-2 bg-slate-400 rounded-full animate-pulse"></div>
+                <span className="text-slate-300 font-medium tracking-wide">Coming Soon</span>
+                <div className="w-2 h-2 bg-slate-400 rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
+              </div>
+            </div>
             
             {/* Glowing Accent Line */}
             <div className="w-32 h-1 bg-gradient-to-r from-slate-400 via-blue-400 to-slate-600 mx-auto rounded-full shadow-lg shadow-slate-400/50 animate-pulse"></div>

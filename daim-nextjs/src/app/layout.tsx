@@ -19,6 +19,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://daim.vercel.app'),
   title: "DAIM - Intelligent Music Creation",
   description: "Where artificial intelligence meets musical intuition. Experience the future of sound creation through sophisticated algorithms and human creativity.",
   keywords: ["AI", "Music", "Creation", "DAIM", "Intelligent", "Platform"],
@@ -51,7 +52,7 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: "/images/logo_daim.svg",
+        url: "/favicon.svg",
         type: "image/svg+xml",
       },
       {
@@ -59,8 +60,8 @@ export const metadata: Metadata = {
         sizes: "any",
       },
     ],
-    apple: "/images/logo_daim.svg",
-    shortcut: "/images/logo_daim.svg",
+    apple: "/favicon.svg",
+    shortcut: "/favicon.ico",
   },
 };
 

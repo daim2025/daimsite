@@ -17,6 +17,7 @@ const translations = {
   ja: {
     // Navigation
     'nav.about': 'About',
+    'nav.news': 'ニュース',
     'nav.studio': 'Studio',
     'nav.process': 'Process',
     'nav.distribution': 'Distribution',
@@ -250,7 +251,7 @@ const translations = {
 
     // Footer
     'footer.powered': 'Powered by DiscoverFeed.',
-    'footer.product': 'Product',
+    'footer.contents': 'Contents',
     'footer.artists': 'Artists',
     'footer.support': 'Support',
     'footer.tagline': '音楽×AI×クリエイター×未来',
@@ -260,6 +261,7 @@ const translations = {
   en: {
     // Navigation
     'nav.about': 'About',
+    'nav.news': 'News',
     'nav.studio': 'Studio',
     'nav.process': 'Process',
     'nav.distribution': 'Distribution',
@@ -493,7 +495,7 @@ const translations = {
 
     // Footer
     'footer.powered': 'Powered by DiscoverFeed.',
-    'footer.product': 'Product',
+    'footer.contents': 'Contents',
     'footer.artists': 'Artists',
     'footer.support': 'Support',
     'footer.tagline': 'Music × AI × Creator × Future',

@@ -8,7 +8,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 export default function About() {
   const { t } = useLanguage();
   return (
-    <div className="font-mono min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white antialiased">
+    <div className="font-sans min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white antialiased">
       <Navigation />
       
       {/* Hero Section with About DAIM Combined */}

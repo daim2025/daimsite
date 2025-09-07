@@ -193,7 +193,15 @@ export default function AdminPage() {
           <div className="max-w-6xl mx-auto">
             <div className="mb-8">
               <h1 className="text-4xl font-light mb-4">管理者ダッシュボード</h1>
-              <p className="text-gray-300">メール登録者の管理</p>
+              <p className="text-gray-300">メール登録者の管理とコンテンツ管理</p>
+              <div className="mt-4 flex gap-4">
+                <a
+                  href="/admin/news"
+                  className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors font-medium"
+                >
+                  ニュース管理
+                </a>
+              </div>
             </div>
 
             {/* 統計情報 */}
