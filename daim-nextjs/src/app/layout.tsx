@@ -72,6 +72,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
+      <head>
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+      </head>
       <body className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} font-sans`}>
         <LanguageProvider>
           {children}
@@ -79,6 +84,35 @@ export default function RootLayout({
         <script
           dangerouslySetInnerHTML={{
             __html: `
+              // Generate Dynamic Favicon
+              function generateDynamicFavicon() {
+                const canvas = document.createElement('canvas');
+                canvas.width = 32;
+                canvas.height = 32;
+                const ctx = canvas.getContext('2d');
+                
+                // Black background with rounded corners
+                ctx.fillStyle = '#000000';
+                ctx.fillRect(0, 0, 32, 32);
+                
+                // White "D" text
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 20px Arial, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('D', 16, 16);
+                
+                // Create favicon link
+                const link = document.querySelector('link[rel*="icon"]') || document.createElement('link');
+                link.type = 'image/png';
+                link.rel = 'icon';
+                link.href = canvas.toDataURL('image/png');
+                document.head.appendChild(link);
+              }
+              
+              // Generate favicon immediately
+              generateDynamicFavicon();
+              
               // Remove Next.js development UI and logos
               function removeNextJSUI() {
                 // Remove by attribute
