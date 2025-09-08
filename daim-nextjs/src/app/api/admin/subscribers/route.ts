@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { 
-  readSubscribers, 
-  writeSubscribers, 
-  checkAdminAuth,
-  type Subscriber 
-} from '@/lib/subscribers';
+import { subscriberStore, type Subscriber } from '@/lib/kv-store';
+import { emailService } from '@/lib/email-service';
+
+// Admin authentication
+function checkAdminAuth(adminKey: string | null): boolean {
+  const validKey = process.env.ADMIN_KEY || 'DAIM_TEST_ADMIN_KEY_2024';
+  return adminKey === validKey;
+}
 
 // 登録者一覧取得
 export async function GET(request: NextRequest) {
@@ -67,18 +69,22 @@ export async function POST(request: NextRequest) {
     }
 
     const { type } = await request.json();
-    const subscribers = readSubscribers();
+    const subscribers = await subscriberStore.getAll();
     const activeSubscribers = subscribers.filter(sub => sub.status === 'active');
 
-    // 実際のメール送信はここで実装（現在はログ出力のみ）
-    console.log(`Sending ${type} email to ${activeSubscribers.length} subscribers`);
+    // 実際のメール送信を実装
+    const emails = activeSubscribers.map(sub => sub.email);
+    const results = await emailService.sendBulkEmail(emails, type);
+
+    const message = `${type === 'welcome' ? 'ウェルカム' : 'リリース通知'}メールを送信しました: 成功 ${results.sent}件, 失敗 ${results.failed}件`;
     
-    // メール送信のシミュレーション
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    console.log(`Email sent - Type: ${type}, Success: ${results.sent}, Failed: ${results.failed}`);
 
     return NextResponse.json({
-      message: `${activeSubscribers.length}件のメールを送信しました`,
+      success: true,
+      message,
       count: activeSubscribers.length,
+      results,
       type
     });
 

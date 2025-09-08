@@ -1,20 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-
-// お問い合わせデータを保存するための簡単なストレージ（開発・テスト用）
-let contacts: Array<{
-  id: string;
-  name: string;
-  email: string;
-  subject: string;
-  message: string;
-  createdAt: string;
-  status: 'new' | 'read' | 'replied';
-}> = [];
-
-// IDを生成
-function generateId(): string {
-  return Date.now().toString(36) + Math.random().toString(36).substr(2);
-}
+import { subscriberStore } from '@/lib/kv-store';
 
 // メールアドレスバリデーション
 const validateEmail = (email: string) => {
@@ -42,33 +27,27 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 正規化
-    const normalizedData = {
-      id: generateId(),
-      name: name.trim(),
-      email: email.toLowerCase().trim(),
-      subject: subject?.trim() || '件名なし',
-      message: message.trim(),
-      createdAt: new Date().toISOString(),
-      status: 'new' as const
-    };
-
-    // データを保存
-    contacts.push(normalizedData);
+    // Contact形式でsubscriberStoreに保存
+    const normalizedEmail = email.toLowerCase().trim();
+    const normalizedName = name.trim();
+    const contactMessage = `件名: ${subject?.trim() || '件名なし'}\n\n${message.trim()}`;
+    
+    // subscriberStoreに追加（name, messageも含める）
+    const newContact = await subscriberStore.add(normalizedEmail, normalizedName, contactMessage);
     
     console.log('New contact received:', {
-      id: normalizedData.id,
-      name: normalizedData.name,
-      email: normalizedData.email,
-      subject: normalizedData.subject,
-      createdAt: normalizedData.createdAt,
-      note: 'Email will be sent from frontend'
+      id: newContact.id,
+      name: newContact.name,
+      email: newContact.email,
+      subject: subject?.trim() || '件名なし',
+      createdAt: newContact.createdAt,
+      note: 'Contact saved to KV store'
     });
 
     return NextResponse.json(
       { 
         message: 'お問い合わせを受け付けました。確認後、担当者よりご連絡いたします。',
-        id: normalizedData.id
+        id: newContact.id
       },
       { status: 200 }
     );
@@ -86,14 +65,18 @@ export async function GET(request: NextRequest) {
   try {
     // 管理者権限チェック（簡易版）
     const adminKey = request.headers.get('x-admin-key');
-    if (adminKey !== process.env.ADMIN_API_KEY && adminKey !== 'DAIM_TEST_ADMIN_KEY_2024') {
+    const validKey = process.env.ADMIN_KEY || 'DAIM_TEST_ADMIN_KEY_2024';
+    if (adminKey !== validKey) {
       return NextResponse.json(
         { error: '権限がありません' },
         { status: 401 }
       );
     }
 
-    // お問い合わせ一覧を取得
+    // お問い合わせ一覧を取得（KV storeから）
+    const subscribers = await subscriberStore.getAll();
+    const contacts = subscribers.filter(sub => sub.message && sub.message.trim() !== '');
+    
     const sortedContacts = contacts.sort((a, b) => 
       new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
     );
@@ -102,7 +85,7 @@ export async function GET(request: NextRequest) {
       { 
         contacts: sortedContacts,
         count: contacts.length,
-        newCount: contacts.filter(c => c.status === 'new').length,
+        newCount: contacts.filter(c => c.status === 'active').length,
         message: 'お問い合わせ一覧'
       },
       { status: 200 }

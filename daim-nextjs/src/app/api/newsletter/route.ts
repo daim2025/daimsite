@@ -1,12 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { 
-  readSubscribers, 
-  addSubscriber, 
-  findSubscriber, 
-  updateSubscriber, 
-  validateEmail, 
-  checkAdminAuth 
-} from '@/lib/subscribers';
+import { subscriberStore } from '@/lib/kv-store';
+
+// Utility functions
+function validateEmail(email: string): boolean {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
+function checkAdminAuth(adminKey: string | null): boolean {
+  const validKey = process.env.ADMIN_KEY || 'DAIM_TEST_ADMIN_KEY_2024';
+  return adminKey === validKey;
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -21,7 +25,8 @@ export async function POST(request: NextRequest) {
     }
 
     // 既存のサブスクライバーをチェック
-    const existingSubscriber = findSubscriber(email);
+    const subscribers = await subscriberStore.getAll();
+    const existingSubscriber = subscribers.find(s => s.email.toLowerCase() === email.toLowerCase().trim());
 
     if (existingSubscriber) {
       if (existingSubscriber.status === 'active') {
@@ -31,7 +36,7 @@ export async function POST(request: NextRequest) {
         );
       } else {
         // 配信停止中の場合は再登録
-        updateSubscriber(email, { status: 'active' });
+        await subscriberStore.updateStatus(email.toLowerCase().trim(), 'active');
         return NextResponse.json(
           { message: 'メールの配信を再開しました' },
           { status: 200 }
@@ -39,7 +44,7 @@ export async function POST(request: NextRequest) {
       }
     } else {
       // 新しいサブスクライバーを追加
-      addSubscriber(email);
+      await subscriberStore.add(email.toLowerCase().trim());
       return NextResponse.json(
         { 
           message: 'メール登録が完了しました！リリース時に通知をお送りします。',
@@ -71,7 +76,7 @@ export async function GET(request: NextRequest) {
     }
 
     // 登録者統計を取得
-    const subscribers = readSubscribers();
+    const subscribers = await subscriberStore.getAll();
     const activeSubscribers = subscribers.filter(sub => sub.status === 'active');
 
     return NextResponse.json(
