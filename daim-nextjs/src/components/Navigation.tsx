@@ -8,6 +8,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isProjectDropdownOpen, setIsProjectDropdownOpen] = useState(false);
   const pathname = usePathname();
   const isRootPage = pathname === '/';
   const { language, setLanguage, t } = useLanguage();
@@ -16,8 +17,12 @@ export default function Navigation() {
     { href: '/studio', label: t('nav.studio') },
     { href: '/about', label: t('nav.about') },
     { href: '/news', label: t('nav.news') },
-    { href: '/ponyo-prince', label: t('nav.ponyo') },
     { href: '/contact', label: t('nav.contact') },
+  ];
+
+  const projectLinks = [
+    { href: '/ponyo-prince', label: t('nav.ponyo') },
+    { href: '/yamato-maya', label: t('nav.yamato') },
   ];
 
   return (
@@ -58,6 +63,36 @@ export default function Navigation() {
                 )}
               </li>
             ))}
+            
+            {/* Project Dropdown */}
+            <li 
+              className="relative"
+              onMouseEnter={() => setIsProjectDropdownOpen(true)}
+              onMouseLeave={() => setIsProjectDropdownOpen(false)}
+            >
+              <button
+                className="nav-link-professional text-white/90 hover:text-white transition-colors duration-300 font-medium tracking-wide flex items-center gap-1"
+              >
+                {t('nav.project')}
+                <svg className={`w-4 h-4 transition-transform duration-200 ${isProjectDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              
+              {isProjectDropdownOpen && (
+                <div className="absolute top-full left-0 mt-2 w-48 bg-black/90 backdrop-blur-sm border border-white/10 rounded-lg shadow-xl z-50">
+                  {projectLinks.map((project, index) => (
+                    <Link
+                      key={`project-${index}-${project.label}`}
+                      href={project.href}
+                      className="block px-4 py-3 text-white/90 hover:text-white hover:bg-white/10 transition-all duration-300 font-medium first:rounded-t-lg last:rounded-b-lg"
+                    >
+                      {project.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </li>
             </ul>
 
             {/* Language Toggle */}
@@ -116,6 +151,23 @@ export default function Navigation() {
                                   )}
               </li>
               ))}
+              
+              {/* Mobile Project Section */}
+              <li>
+                <div className="text-white/90 font-light py-2 border-t border-white/10 mt-2 pt-4">
+                  <div className="text-white/70 text-sm mb-2 uppercase tracking-wider">{t('nav.project')}</div>
+                  {projectLinks.map((project, index) => (
+                    <Link
+                      key={`mobile-project-${index}-${project.label}`}
+                      href={project.href}
+                      className="block text-white/90 hover:text-white transition-colors duration-300 font-light py-2 pl-4"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      {project.label}
+                    </Link>
+                  ))}
+                </div>
+              </li>
               
               {/* Mobile Language Toggle */}
               <li className="pt-4 border-t border-white/10">

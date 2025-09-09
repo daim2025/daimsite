@@ -18,6 +18,7 @@ export default function Footer() {
       heading: t('footer.artists'),
       links: [
         { href: '/ponyo-prince', label: t('footer.ponyo') },
+        { href: '/yamato-maya', label: t('footer.yamato') },
       ]
     },
     {

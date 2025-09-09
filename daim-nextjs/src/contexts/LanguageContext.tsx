@@ -23,7 +23,9 @@ const translations = {
     'nav.distribution': 'Distribution',
     'nav.cms': 'CMS',
     'nav.idol': 'Idol Demo',
-    'nav.ponyo': 'Project',
+    'nav.project': 'Project',
+    'nav.ponyo': 'ぽにょ皇子',
+    'nav.yamato': 'YAMATO MAYA',
     'nav.contact': 'お問い合わせ',
 
     // Hero Section
@@ -257,6 +259,7 @@ const translations = {
     'footer.tagline': '音楽×AI×クリエイター×未来',
     'footer.copyright': '© 2025 DAIM. All rights reserved.',
     'footer.ponyo': 'ぽにょ皇子',
+    'footer.yamato': 'YAMATO MAYA',
   },
   en: {
     // Navigation
@@ -267,7 +270,9 @@ const translations = {
     'nav.distribution': 'Distribution',
     'nav.cms': 'CMS',
     'nav.idol': 'Idol Demo',
-    'nav.ponyo': 'Project',
+    'nav.project': 'Project',
+    'nav.ponyo': 'Ponyo Prince',
+    'nav.yamato': 'YAMATO MAYA',
     'nav.contact': 'Contact',
 
     // Hero Section
@@ -501,6 +506,7 @@ const translations = {
     'footer.tagline': 'Music × AI × Creator × Future',
     'footer.copyright': '© 2025 DAIM. All rights reserved.',
     'footer.ponyo': 'Ponyo Prince',
+    'footer.yamato': 'YAMATO MAYA',
   },
 };
 
