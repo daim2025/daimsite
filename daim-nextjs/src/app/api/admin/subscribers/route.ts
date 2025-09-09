@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
     const status = searchParams.get('status') || 'all';
     const offset = (page - 1) * limit;
 
-    const allSubscribers = readSubscribers();
+    const allSubscribers = await subscriberStore.getAll();
     
     let filteredSubscribers = allSubscribers;
     if (status !== 'all') {

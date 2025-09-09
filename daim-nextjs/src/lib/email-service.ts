@@ -163,7 +163,7 @@ export class EmailService {
     // Create transporter based on environment
     if (process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS) {
       // Production SMTP configuration
-      this.transporter = nodemailer.createTransporter({
+      this.transporter = nodemailer.createTransport({
         host: process.env.SMTP_HOST,
         port: parseInt(process.env.SMTP_PORT || '587'),
         secure: process.env.SMTP_SECURE === 'true',
@@ -174,7 +174,7 @@ export class EmailService {
       });
     } else {
       // Development/testing mode - log to console
-      this.transporter = nodemailer.createTransporter({
+      this.transporter = nodemailer.createTransport({
         streamTransport: true,
         newline: 'unix',
         buffer: true
