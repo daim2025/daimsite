@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { useLanguage } from '@/contexts/LanguageContext';
 
@@ -12,6 +12,7 @@ export default function Navigation() {
   const pathname = usePathname();
   const isRootPage = pathname === '/';
   const { language, setLanguage, t } = useLanguage();
+  const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const navLinks = [
     { href: '/studio', label: t('nav.studio') },
@@ -24,6 +25,32 @@ export default function Navigation() {
     { href: '/ponyo-prince', label: t('nav.ponyo') },
     { href: '/yamato-maya', label: t('nav.yamato') },
   ];
+
+  // ドロップダウンの開閉処理
+  const handleDropdownEnter = () => {
+    // 既存のタイマーをクリア
+    if (dropdownTimeoutRef.current) {
+      clearTimeout(dropdownTimeoutRef.current);
+      dropdownTimeoutRef.current = null;
+    }
+    setIsProjectDropdownOpen(true);
+  };
+
+  const handleDropdownLeave = () => {
+    // 少し遅延してから閉じる（マウス移動の猶予を与える）
+    dropdownTimeoutRef.current = setTimeout(() => {
+      setIsProjectDropdownOpen(false);
+    }, 300); // 300ms の遅延
+  };
+
+  // コンポーネントのクリーンアップ
+  useEffect(() => {
+    return () => {
+      if (dropdownTimeoutRef.current) {
+        clearTimeout(dropdownTimeoutRef.current);
+      }
+    };
+  }, []);
 
   return (
     <nav className="nav-professional fixed top-0 left-0 right-0 z-50">
@@ -68,8 +95,8 @@ export default function Navigation() {
             {/* Project Dropdown */}
             <li 
               className="relative"
-              onMouseEnter={() => setIsProjectDropdownOpen(true)}
-              onMouseLeave={() => setIsProjectDropdownOpen(false)}
+              onMouseEnter={handleDropdownEnter}
+              onMouseLeave={handleDropdownLeave}
             >
               <button
                 className="nav-link-professional text-white/90 hover:text-white transition-colors duration-300 font-medium tracking-wide flex items-center gap-1"
@@ -81,12 +108,17 @@ export default function Navigation() {
               </button>
               
               {isProjectDropdownOpen && (
-                <div className="absolute top-full left-0 mt-2 w-48 bg-black/90 backdrop-blur-sm border border-white/10 rounded-lg shadow-xl z-50">
+                <div 
+                  className="absolute top-full left-0 mt-1 w-48 bg-black/90 backdrop-blur-sm border border-white/10 rounded-lg shadow-xl z-50"
+                  onMouseEnter={handleDropdownEnter}
+                  onMouseLeave={handleDropdownLeave}
+                >
                   {projectLinks.map((project, index) => (
                     <Link
                       key={`project-${index}-${project.label}`}
                       href={project.href}
                       className="block px-4 py-3 text-white/90 hover:text-white hover:bg-white/10 transition-all duration-300 font-medium first:rounded-t-lg last:rounded-b-lg"
+                      onClick={() => setIsProjectDropdownOpen(false)}
                     >
                       {project.label}
                     </Link>
