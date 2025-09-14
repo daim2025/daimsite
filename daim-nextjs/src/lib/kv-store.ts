@@ -1,6 +1,46 @@
-import { kv } from '@vercel/kv';
 import fs from 'fs';
 import path from 'path';
+
+// 安全なKV操作のためのヘルパー
+let kv: any = null;
+const hasKvEnv = process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN;
+
+if (hasKvEnv) {
+  try {
+    const { kv: kvImport } = require('@vercel/kv');
+    kv = kvImport;
+  } catch (error) {
+    console.warn('Vercel KV not available, falling back to JSON');
+  }
+}
+
+async function safeKvGet<T>(key: string): Promise<T | null> {
+  if (!kv) return null;
+  try {
+    return await kv.get<T>(key);
+  } catch (error) {
+    console.error(`Error getting key ${key} from KV:`, error);
+    return null;
+  }
+}
+
+async function safeKvSet(key: string, value: any): Promise<void> {
+  if (!kv) return;
+  try {
+    await kv.set(key, value);
+  } catch (error) {
+    console.error(`Error setting key ${key} in KV:`, error);
+  }
+}
+
+async function safeKvDel(key: string): Promise<void> {
+  if (!kv) return;
+  try {
+    await kv.del(key);
+  } catch (error) {
+    console.error(`Error deleting key ${key} from KV:`, error);
+  }
+}
 
 export interface NewsItem {
   id: string;
@@ -27,13 +67,27 @@ export interface Subscriber {
 // News operations
 export const newsStore = {
   async getAll(): Promise<NewsItem[]> {
-    const news = await kv.get<NewsItem[]>('news:all');
+    const news = await safeKvGet<NewsItem[]>('news:all');
     if (!news) {
-      // Initial migration from JSON file
-      await this.migrateFromJson();
-      return await kv.get<NewsItem[]>('news:all') || [];
+      // Fallback to JSON file
+      return await this.loadFromJson();
     }
     return news;
+  },
+
+  async loadFromJson(): Promise<NewsItem[]> {
+    try {
+      const jsonPath = path.join(process.cwd(), 'database', 'news.json');
+      if (fs.existsSync(jsonPath)) {
+        const jsonData = JSON.parse(fs.readFileSync(jsonPath, 'utf-8'));
+        console.log(`Loaded ${jsonData.length} news items from JSON`);
+        return jsonData;
+      }
+      return [];
+    } catch (error) {
+      console.error('Error loading news from JSON:', error);
+      return [];
+    }
   },
 
   async create(newsItem: Omit<NewsItem, 'id'>): Promise<NewsItem> {
@@ -43,8 +97,8 @@ export const newsStore = {
     const currentNews = await this.getAll();
     const updatedNews = [...currentNews, newItem];
     
-    await kv.set('news:all', updatedNews);
-    await kv.set(`news:${id}`, newItem);
+    await safeKvSet('news:all', updatedNews);
+    await safeKvSet(`news:${id}`, newItem);
     
     return newItem;
   },
@@ -58,8 +112,8 @@ export const newsStore = {
     const updatedItem = { ...currentNews[index], ...updates };
     currentNews[index] = updatedItem;
     
-    await kv.set('news:all', currentNews);
-    await kv.set(`news:${id}`, updatedItem);
+    await safeKvSet('news:all', currentNews);
+    await safeKvSet(`news:${id}`, updatedItem);
     
     return updatedItem;
   },
@@ -70,14 +124,14 @@ export const newsStore = {
     
     if (filteredNews.length === currentNews.length) return false;
     
-    await kv.set('news:all', filteredNews);
-    await kv.del(`news:${id}`);
+    await safeKvSet('news:all', filteredNews);
+    await safeKvDel(`news:${id}`);
     
     return true;
   },
 
   async getById(id: string): Promise<NewsItem | null> {
-    return await kv.get<NewsItem>(`news:${id}`);
+    return await safeKvGet<NewsItem>(`news:${id}`);
   },
 
   async migrateFromJson(): Promise<void> {
@@ -85,11 +139,11 @@ export const newsStore = {
       const jsonPath = path.join(process.cwd(), 'database', 'news.json');
       if (fs.existsSync(jsonPath)) {
         const jsonData = JSON.parse(fs.readFileSync(jsonPath, 'utf-8'));
-        await kv.set('news:all', jsonData);
+        await safeKvSet('news:all', jsonData);
         
         // Store individual items for faster access
         for (const item of jsonData) {
-          await kv.set(`news:${item.id}`, item);
+          await safeKvSet(`news:${item.id}`, item);
         }
         
         console.log(`Migrated ${jsonData.length} news items to KV`);
@@ -103,13 +157,27 @@ export const newsStore = {
 // Subscribers operations
 export const subscriberStore = {
   async getAll(): Promise<Subscriber[]> {
-    const subscribers = await kv.get<Subscriber[]>('subscribers:all');
+    const subscribers = await safeKvGet<Subscriber[]>('subscribers:all');
     if (!subscribers) {
-      // Initial migration from JSON file
-      await this.migrateFromJson();
-      return await kv.get<Subscriber[]>('subscribers:all') || [];
+      // Fallback to JSON file
+      return await this.loadFromJson();
     }
     return subscribers;
+  },
+
+  async loadFromJson(): Promise<Subscriber[]> {
+    try {
+      const jsonPath = path.join(process.cwd(), 'database', 'subscribers.json');
+      if (fs.existsSync(jsonPath)) {
+        const jsonData = JSON.parse(fs.readFileSync(jsonPath, 'utf-8'));
+        console.log(`Loaded ${jsonData.length} subscribers from JSON`);
+        return jsonData;
+      }
+      return [];
+    } catch (error) {
+      console.error('Error loading subscribers from JSON:', error);
+      return [];
+    }
   },
 
   async add(email: string, name?: string, message?: string): Promise<Subscriber> {
@@ -126,8 +194,8 @@ export const subscriberStore = {
     const currentSubscribers = await this.getAll();
     const updatedSubscribers = [...currentSubscribers, newSubscriber];
     
-    await kv.set('subscribers:all', updatedSubscribers);
-    await kv.set(`subscriber:${id}`, newSubscriber);
+    await safeKvSet('subscribers:all', updatedSubscribers);
+    await safeKvSet(`subscriber:${id}`, newSubscriber);
     
     return newSubscriber;
   },
@@ -140,8 +208,8 @@ export const subscriberStore = {
     
     subscriber.status = status;
     
-    await kv.set('subscribers:all', subscribers);
-    await kv.set(`subscriber:${subscriber.id}`, subscriber);
+    await safeKvSet('subscribers:all', subscribers);
+    await safeKvSet(`subscriber:${subscriber.id}`, subscriber);
     
     return true;
   },
@@ -151,11 +219,11 @@ export const subscriberStore = {
       const jsonPath = path.join(process.cwd(), 'database', 'subscribers.json');
       if (fs.existsSync(jsonPath)) {
         const jsonData = JSON.parse(fs.readFileSync(jsonPath, 'utf-8'));
-        await kv.set('subscribers:all', jsonData);
+        await safeKvSet('subscribers:all', jsonData);
         
         // Store individual items for faster access
         for (const item of jsonData) {
-          await kv.set(`subscriber:${item.id}`, item);
+          await safeKvSet(`subscriber:${item.id}`, item);
         }
         
         console.log(`Migrated ${jsonData.length} subscribers to KV`);

@@ -97,7 +97,8 @@ export default function Footer() {
                       alt="DiscoverFeed Logo"
                       width={120}
                       height={80}
-                      className="brightness-0 invert rounded"
+                      style={{ maxWidth: '120px', width: 'auto', height: 'auto' }}
+                      className="logo-responsive brightness-0 invert rounded"
                     />
                   </a>
                   
@@ -112,7 +113,8 @@ export default function Footer() {
                       alt="DMC Logo"
                       width={60}
                       height={60}
-                      className="brightness-0 invert rounded"
+                      style={{ maxWidth: '60px', width: 'auto', height: 'auto' }}
+                      className="logo-responsive brightness-0 invert rounded"
                     />
                   </a>
                 </div>

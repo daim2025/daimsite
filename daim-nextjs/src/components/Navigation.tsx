@@ -36,7 +36,8 @@ export default function Navigation() {
                 alt="DAIM"
                 width={100}
                 height={100}
-                className="logo-img transition-all duration-500 group-hover:scale-110 brightness-0 invert"
+                style={{ maxWidth: '100px', width: 'auto', height: 'auto' }}
+                className="logo-img logo-responsive transition-all duration-500 group-hover:scale-110 brightness-0 invert"
               />
             </Link>
           </div>
