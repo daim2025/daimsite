@@ -225,7 +225,7 @@ export default function PonyoPrincePage() {
                     <h4 className="text-xl font-medium text-slate-300 mb-4 text-center">{t('ponyopage.videos.intro')}</h4>
                     <div className="relative w-full aspect-video">
                       <iframe 
-                        src="https://player.vimeo.com/video/1116091352?h=0&autoplay=0&title=0&byline=0&portrait=0"
+                        src={t('ponyopage.videos.intro.url')}
                         className="absolute top-0 left-0 w-full h-full rounded border border-slate-500/30"
                         frameBorder="0"
                         allow="autoplay; fullscreen; picture-in-picture"
@@ -239,7 +239,7 @@ export default function PonyoPrincePage() {
                     <h4 className="text-xl font-medium text-slate-300 mb-4 text-center">{t('ponyopage.videos.song')}</h4>
                     <div className="relative w-full aspect-video">
                       <iframe 
-                        src="https://player.vimeo.com/video/1116093914?h=0&autoplay=0&title=0&byline=0&portrait=0"
+                        src={t('ponyopage.videos.song.url')}
                         className="absolute top-0 left-0 w-full h-full rounded border border-slate-500/30"
                         frameBorder="0"
                         allow="autoplay; fullscreen; picture-in-picture"
