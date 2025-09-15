@@ -73,7 +73,6 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <head>
-        <link rel="preload" href="/images/logo_daim.svg" as="image" type="image/svg+xml" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="shortcut icon" href="/favicon.ico" />
