@@ -1,37 +1,14 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "*.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "*.css",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "images/**",
-      "use": "@vercel/static"
+  "name": "daim",
+  "buildCommand": "cd daim-nextjs && npm run build",
+  "outputDirectory": "daim-nextjs/.next",
+  "framework": "nextjs",
+  "installCommand": "cd daim-nextjs && npm install",
+  "devCommand": "cd daim-nextjs && npm run dev",
+  "regions": ["hnd1"],
+  "functions": {
+    "daim-nextjs/app/**/*.tsx": {
+      "maxDuration": 30
     }
-  ],
-  "routes": [
-    {
-      "src": "/",
-      "dest": "/idol-demo-luxury.html"
-    },
-    {
-      "src": "/index",
-      "dest": "/idol-demo-luxury.html"
-    },
-    {
-      "src": "/luxury",
-      "dest": "/index-luxury-evolved.html"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
-    }
-  ],
-  "outputDirectory": ".",
-  "public": true
+  }
 }
