@@ -1,14 +1,8 @@
 {
-  "name": "daim",
   "buildCommand": "cd daim-nextjs && npm run build",
   "outputDirectory": "daim-nextjs/.next",
   "framework": "nextjs",
   "installCommand": "cd daim-nextjs && npm install",
   "devCommand": "cd daim-nextjs && npm run dev",
-  "regions": ["hnd1"],
-  "functions": {
-    "daim-nextjs/app/**/*.tsx": {
-      "maxDuration": 30
-    }
-  }
+  "regions": ["hnd1"]
 }
