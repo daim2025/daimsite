@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { subscriberStore } from '@/lib/kv-store';
-import { sendVoteEmail } from '@/lib/emailjs';
 
 // メールアドレスバリデーション
 const validateEmail = (email: string) => {
@@ -40,35 +39,47 @@ export async function POST(request: NextRequest) {
     // 投票データの作成
     const voteData = {
       costume: `イメージカット（${costume}）`,
-      email: email?.toLowerCase().trim() || undefined,
-      comment: comment?.trim() || undefined,
+      email: email?.toLowerCase().trim() || 'anonymous',
+      comment: comment?.trim() || '',
       type: 'vote',
       timestamp: new Date().toISOString()
     };
 
-    // EmailJSで投票メールを送信
-    const emailResult = await sendVoteEmail(voteData);
+    // 投票メッセージの作成
+    const voteMessage = [
+      '🗳️ **新しい投票が届きました**',
+      '',
+      `👗 **選択されたコスプレ**: ${voteData.costume}`,
+      `📧 **メールアドレス**: ${voteData.email}`,
+      `💬 **コメント**: ${voteData.comment || 'なし'}`,
+      `📅 **投票日時**: ${new Date().toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo' })}`,
+      '',
+      '---',
+      'DAIM AI ムービー生成 - 衣装選び投票システム'
+    ].join('\n');
+
+    // Vercel KV Store（または JSONファイル）に投票データを保存
+    const newVote = await subscriberStore.add(
+      voteData.email,
+      `投票者 - ${voteData.costume}`,
+      voteMessage
+    );
     
-    if (!emailResult.success) {
-      console.error('EmailJS送信失敗:', emailResult.error);
-      return NextResponse.json(
-        { error: '投票の送信に失敗しました。しばらく時間をおいて再度お試しください。' },
-        { status: 500 }
-      );
-    }
-    
-    console.log('Vote email sent successfully:', {
+    console.log('Vote saved successfully:', {
+      id: newVote.id,
       costume: voteData.costume,
-      email: voteData.email || 'anonymous',
-      messageId: emailResult.messageId,
-      timestamp: voteData.timestamp
+      email: voteData.email,
+      comment: voteData.comment,
+      createdAt: newVote.subscribedAt,
+      storage: 'Vercel KV Store (with JSON fallback)'
     });
 
     return NextResponse.json(
       { 
-        message: '投票ありがとうございます！ご投票内容をメールで送信しました。',
-        messageId: emailResult.messageId,
-        selectedCostume: voteData.costume
+        message: '投票ありがとうございます！ご投票内容を保存しました。',
+        id: newVote.id,
+        selectedCostume: voteData.costume,
+        timestamp: voteData.timestamp
       },
       { status: 200 }
     );
