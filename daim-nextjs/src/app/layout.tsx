@@ -84,6 +84,9 @@ export default function RootLayout({
         <script
           dangerouslySetInnerHTML={{
             __html: `
+              // JavaScript実行確認テスト
+              console.log('🟢 Layout JavaScript実行確認');
+              
               // Generate Dynamic Favicon
               function generateDynamicFavicon() {
                 const canvas = document.createElement('canvas');
