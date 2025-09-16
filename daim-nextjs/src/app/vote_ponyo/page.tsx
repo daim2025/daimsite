@@ -78,14 +78,26 @@ export default function VotePonyoPage() {
                 <div className="md:col-span-2">
                   <h3 className="text-lg font-medium text-center mb-6 text-slate-300">生成サンプル</h3>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="relative aspect-video bg-black/30 rounded border border-slate-500/30 flex items-center justify-center">
-                      <span className="text-gray-400">Sample Video 1</span>
+                    <div className="relative aspect-video bg-black/30 rounded border border-slate-500/30">
+                      <video 
+                        controls 
+                        className="w-full h-full object-cover rounded"
+                        src="https://xdesign.co.jp/wp-content/uploads/2025/09/general-5-2025-09-07T14_18_21Z-1.mp4"
+                      />
                     </div>
-                    <div className="relative aspect-video bg-black/30 rounded border border-slate-500/30 flex items-center justify-center">
-                      <span className="text-gray-400">Sample Video 2</span>
+                    <div className="relative aspect-video bg-black/30 rounded border border-slate-500/30">
+                      <video 
+                        controls 
+                        className="w-full h-full object-cover rounded"
+                        src="https://xdesign.co.jp/wp-content/uploads/2025/09/general-5-2025-09-13T08_17_22Z.mp4"
+                      />
                     </div>
-                    <div className="relative aspect-video bg-black/30 rounded border border-slate-500/30 flex items-center justify-center">
-                      <span className="text-gray-400">Sample Video 3</span>
+                    <div className="relative aspect-video bg-black/30 rounded border border-slate-500/30">
+                      <video 
+                        controls 
+                        className="w-full h-full object-cover rounded"
+                        src="https://xdesign.co.jp/wp-content/uploads/2025/09/1ad69258-85ce-44ca-a075-1255cfa0ace3.mp4"
+                      />
                     </div>
                   </div>
                 </div>
@@ -112,14 +124,26 @@ export default function VotePonyoPage() {
                 <div className="md:col-span-2">
                   <h3 className="text-lg font-medium text-center mb-6 text-slate-300">生成サンプル</h3>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="relative aspect-video bg-black/30 rounded border border-slate-500/30 flex items-center justify-center">
-                      <span className="text-gray-400">Sample Video 1</span>
+                    <div className="relative aspect-video bg-black/30 rounded border border-slate-500/30">
+                      <video 
+                        controls 
+                        className="w-full h-full object-cover rounded"
+                        src="https://xdesign.co.jp/wp-content/uploads/2025/09/465e2363-1964-4cb7-8c29-26585ed52eb4-1.mp4"
+                      />
                     </div>
-                    <div className="relative aspect-video bg-black/30 rounded border border-slate-500/30 flex items-center justify-center">
-                      <span className="text-gray-400">Sample Video 2</span>
+                    <div className="relative aspect-video bg-black/30 rounded border border-slate-500/30">
+                      <video 
+                        controls 
+                        className="w-full h-full object-cover rounded"
+                        src="https://xdesign.co.jp/wp-content/uploads/2025/09/kling_20250914_Image_to_Video_A_female_D_315_0.mp4"
+                      />
                     </div>
-                    <div className="relative aspect-video bg-black/30 rounded border border-slate-500/30 flex items-center justify-center">
-                      <span className="text-gray-400">Sample Video 3</span>
+                    <div className="relative aspect-video bg-black/30 rounded border border-slate-500/30">
+                      <video 
+                        controls 
+                        className="w-full h-full object-cover rounded"
+                        src="https://xdesign.co.jp/wp-content/uploads/2025/09/kling_20250914_Image_to_Video_A_woman_si_487_0.mp4"
+                      />
                     </div>
                   </div>
                 </div>
@@ -146,14 +170,26 @@ export default function VotePonyoPage() {
                 <div className="md:col-span-2">
                   <h3 className="text-lg font-medium text-center mb-6 text-slate-300">生成サンプル</h3>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="relative aspect-video bg-black/30 rounded border border-slate-500/30 flex items-center justify-center">
-                      <span className="text-gray-400">Sample Video 1</span>
+                    <div className="relative aspect-video bg-black/30 rounded border border-slate-500/30">
+                      <video 
+                        controls 
+                        className="w-full h-full object-cover rounded"
+                        src="https://xdesign.co.jp/wp-content/uploads/2025/09/general-5-2025-09-13T08_40_27Z.mp4"
+                      />
                     </div>
-                    <div className="relative aspect-video bg-black/30 rounded border border-slate-500/30 flex items-center justify-center">
-                      <span className="text-gray-400">Sample Video 2</span>
+                    <div className="relative aspect-video bg-black/30 rounded border border-slate-500/30">
+                      <video 
+                        controls 
+                        className="w-full h-full object-cover rounded"
+                        src="https://xdesign.co.jp/wp-content/uploads/2025/09/kling_20250913_Image_to_Video_Everyone_i_4278_0.mp4"
+                      />
                     </div>
-                    <div className="relative aspect-video bg-black/30 rounded border border-slate-500/30 flex items-center justify-center">
-                      <span className="text-gray-400">Sample Video 3</span>
+                    <div className="relative aspect-video bg-black/30 rounded border border-slate-500/30">
+                      <video 
+                        controls 
+                        className="w-full h-full object-cover rounded"
+                        src="https://xdesign.co.jp/wp-content/uploads/2025/09/kling_20250914_Image_to_Video_A_girl_who_97_0.mp4"
+                      />
                     </div>
                   </div>
                 </div>
@@ -180,14 +216,26 @@ export default function VotePonyoPage() {
                 <div className="md:col-span-2">
                   <h3 className="text-lg font-medium text-center mb-6 text-slate-300">生成サンプル</h3>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="relative aspect-video bg-black/30 rounded border border-slate-500/30 flex items-center justify-center">
-                      <span className="text-gray-400">Sample Video 1</span>
+                    <div className="relative aspect-video bg-black/30 rounded border border-slate-500/30">
+                      <video 
+                        controls 
+                        className="w-full h-full object-cover rounded"
+                        src="https://xdesign.co.jp/wp-content/uploads/2025/09/bc274c27-7f8c-4d90-8562-436af5d4e991.mp4"
+                      />
                     </div>
-                    <div className="relative aspect-video bg-black/30 rounded border border-slate-500/30 flex items-center justify-center">
-                      <span className="text-gray-400">Sample Video 2</span>
+                    <div className="relative aspect-video bg-black/30 rounded border border-slate-500/30">
+                      <video 
+                        controls 
+                        className="w-full h-full object-cover rounded"
+                        src="https://xdesign.co.jp/wp-content/uploads/2025/09/general-5-2025-09-13T17_57_09Z.mp4"
+                      />
                     </div>
-                    <div className="relative aspect-video bg-black/30 rounded border border-slate-500/30 flex items-center justify-center">
-                      <span className="text-gray-400">Sample Video 3</span>
+                    <div className="relative aspect-video bg-black/30 rounded border border-slate-500/30">
+                      <video 
+                        controls 
+                        className="w-full h-full object-cover rounded"
+                        src="https://xdesign.co.jp/wp-content/uploads/2025/09/general-5-2025-09-13T17_51_32Z.mp4"
+                      />
                     </div>
                   </div>
                 </div>
