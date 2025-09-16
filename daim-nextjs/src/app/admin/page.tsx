@@ -35,9 +35,13 @@ export default function AdminPage() {
   const [emailSending, setEmailSending] = useState(false);
   const [emailMessage, setEmailMessage] = useState('');
   const [votes, setVotes] = useState<any[]>([]);
+  const [filteredVotes, setFilteredVotes] = useState<any[]>([]);
   const [voteCounts, setVoteCounts] = useState<any>({});
   const [totalVotes, setTotalVotes] = useState(0);
   const [isVotesLoading, setIsVotesLoading] = useState(false);
+  const [dateFrom, setDateFrom] = useState('');
+  const [dateTo, setDateTo] = useState('');
+  const [costumeFilter, setCostumeFilter] = useState('all');
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -121,6 +125,7 @@ export default function AdminPage() {
       if (response.ok) {
         const data = await response.json();
         setVotes(data.votes || []);
+        setFilteredVotes(data.votes || []);
         setVoteCounts(data.voteCounts || {});
         setTotalVotes(data.totalVotes || 0);
       } else {
@@ -131,6 +136,59 @@ export default function AdminPage() {
     } finally {
       setIsVotesLoading(false);
     }
+  };
+
+  // フィルタリング機能
+  useEffect(() => {
+    let filtered = [...votes];
+    
+    // 日付フィルター
+    if (dateFrom) {
+      filtered = filtered.filter(vote => 
+        new Date(vote.createdAt || vote.timestamp) >= new Date(dateFrom)
+      );
+    }
+    if (dateTo) {
+      const endDate = new Date(dateTo);
+      endDate.setHours(23, 59, 59, 999); // 日付の終わりまで
+      filtered = filtered.filter(vote => 
+        new Date(vote.createdAt || vote.timestamp) <= endDate
+      );
+    }
+    
+    // コスプレフィルター
+    if (costumeFilter !== 'all') {
+      filtered = filtered.filter(vote => 
+        vote.costume?.includes(`イメージカット（${costumeFilter}）`)
+      );
+    }
+    
+    setFilteredVotes(filtered);
+  }, [votes, dateFrom, dateTo, costumeFilter]);
+
+  // CSV ダウンロード機能
+  const downloadCSV = () => {
+    const headers = ['投票日時', 'コスプレ選択', 'メールアドレス', 'コメント', 'ID'];
+    const csvData = filteredVotes.map(vote => [
+      new Date(vote.createdAt || vote.timestamp).toLocaleString('ja-JP'),
+      vote.costume || '',
+      vote.email || '匿名',
+      vote.comment || '',
+      vote.id || ''
+    ]);
+    
+    const csvContent = [headers, ...csvData]
+      .map(row => row.map(field => `"${field}"`).join(','))
+      .join('\n');
+    
+    const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', `ponyo_votes_${new Date().toISOString().split('T')[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   const sendBulkEmail = async (type: 'welcome' | 'release') => {
@@ -259,15 +317,78 @@ export default function AdminPage() {
 
             {/* 投票結果 */}
             <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-xl p-6 mb-8">
-              <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center justify-between mb-6">
                 <h3 className="text-lg font-medium">🗳️ ぽにょ皇子 衣装選び投票結果</h3>
-                <button
-                  onClick={fetchVotes}
-                  disabled={isVotesLoading}
-                  className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors disabled:opacity-50"
-                >
-                  {isVotesLoading ? '更新中...' : '更新'}
-                </button>
+                <div className="flex gap-3">
+                  <button
+                    onClick={downloadCSV}
+                    disabled={filteredVotes.length === 0}
+                    className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors disabled:opacity-50 text-sm"
+                  >
+                    📥 CSV ダウンロード ({filteredVotes.length}件)
+                  </button>
+                  <button
+                    onClick={fetchVotes}
+                    disabled={isVotesLoading}
+                    className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors disabled:opacity-50"
+                  >
+                    {isVotesLoading ? '更新中...' : '更新'}
+                  </button>
+                </div>
+              </div>
+
+              {/* フィルター */}
+              <div className="bg-white/5 rounded-lg p-4 mb-6">
+                <h4 className="text-sm font-medium text-gray-300 mb-3">📊 フィルター & 検索</h4>
+                <div className="grid md:grid-cols-3 gap-4">
+                  <div>
+                    <label className="block text-xs text-gray-400 mb-1">開始日</label>
+                    <input
+                      type="date"
+                      value={dateFrom}
+                      onChange={(e) => setDateFrom(e.target.value)}
+                      className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs text-gray-400 mb-1">終了日</label>
+                    <input
+                      type="date"
+                      value={dateTo}
+                      onChange={(e) => setDateTo(e.target.value)}
+                      className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs text-gray-400 mb-1">コスプレ選択</label>
+                    <select
+                      value={costumeFilter}
+                      onChange={(e) => setCostumeFilter(e.target.value)}
+                      className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    >
+                      <option value="all">すべて</option>
+                      <option value="1">イメージカット（1）</option>
+                      <option value="2">イメージカット（2）</option>
+                      <option value="3">イメージカット（3）</option>
+                      <option value="4">イメージカット（4）</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="mt-3 flex gap-2">
+                  <button
+                    onClick={() => {
+                      setDateFrom('');
+                      setDateTo('');
+                      setCostumeFilter('all');
+                    }}
+                    className="px-3 py-1 bg-gray-600 hover:bg-gray-700 text-white rounded text-xs transition-colors"
+                  >
+                    リセット
+                  </button>
+                  <span className="text-xs text-gray-400 py-1">
+                    {filteredVotes.length} / {totalVotes} 件表示中
+                  </span>
+                </div>
               </div>
 
               {isVotesLoading ? (
@@ -279,7 +400,7 @@ export default function AdminPage() {
                 </div>
               ) : (
                 <div className="space-y-6">
-                  {/* 投票集計 */}
+                  {/* 投票集計（フィルター後） */}
                   <div className="grid md:grid-cols-4 gap-4">
                     {Object.entries(voteCounts).map(([costume, count]) => (
                       <div key={costume} className="bg-white/5 rounded-lg p-4 text-center">
@@ -292,30 +413,52 @@ export default function AdminPage() {
                     ))}
                   </div>
 
-                  {/* 最新の投票一覧 */}
+                  {/* 投票テーブル */}
                   <div>
-                    <h4 className="text-sm font-medium text-gray-300 mb-3">最新の投票（最大10件）</h4>
-                    <div className="space-y-2 max-h-60 overflow-y-auto">
-                      {votes.slice(0, 10).map((vote, index) => (
-                        <div key={vote.id || index} className="bg-white/5 rounded-lg p-3 text-sm">
-                          <div className="flex items-center justify-between mb-1">
-                            <span className="font-medium text-purple-300">
-                              {vote.costume || '不明'}
-                            </span>
-                            <span className="text-xs text-gray-400">
-                              {new Date(vote.createdAt || vote.timestamp).toLocaleString('ja-JP')}
-                            </span>
-                          </div>
-                          <div className="text-gray-400">
-                            {vote.email || '匿名'}
-                          </div>
-                          {vote.comment && (
-                            <div className="text-xs text-gray-500 mt-1">
-                              {vote.comment}
-                            </div>
-                          )}
+                    <h4 className="text-sm font-medium text-gray-300 mb-3">
+                      📋 投票詳細 ({filteredVotes.length}件)
+                    </h4>
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-sm">
+                        <thead className="bg-white/5">
+                          <tr>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-300">投票日時</th>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-300">コスプレ選択</th>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-300">メールアドレス</th>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-300">コメント</th>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-300">ID</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-white/10">
+                          {filteredVotes.map((vote, index) => (
+                            <tr key={vote.id || index} className="hover:bg-white/5">
+                              <td className="px-4 py-3 text-gray-300">
+                                {new Date(vote.createdAt || vote.timestamp).toLocaleString('ja-JP')}
+                              </td>
+                              <td className="px-4 py-3">
+                                <span className="inline-flex px-2 py-1 text-xs font-medium rounded-full bg-purple-500/20 text-purple-300">
+                                  {vote.costume || '不明'}
+                                </span>
+                              </td>
+                              <td className="px-4 py-3 text-gray-300">
+                                {vote.email || '匿名'}
+                              </td>
+                              <td className="px-4 py-3 text-gray-300 max-w-xs truncate">
+                                {vote.comment || '-'}
+                              </td>
+                              <td className="px-4 py-3 text-gray-400 text-xs">
+                                {vote.id || '-'}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                      
+                      {filteredVotes.length === 0 && (
+                        <div className="text-center py-8 text-gray-400">
+                          条件に一致する投票データがありません
                         </div>
-                      ))}
+                      )}
                     </div>
                   </div>
                 </div>
