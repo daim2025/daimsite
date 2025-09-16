@@ -1,8 +1,6 @@
-'use client';
-
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
-import { useState, useEffect } from 'react';
+import { getVoteData } from '@/lib/server-vote-data';
 
 interface Subscriber {
   id: string;
