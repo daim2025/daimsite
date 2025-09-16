@@ -147,7 +147,7 @@ const translations = {
     'ponyopage.settings.character': 'ぽにょ皇子2nd.シングル「変幻自在」の変幻性をコスプレから更に拡張し、バトルアニメ内で争いを止めるキャラクター設定。傷つきながらもヒューマノイドとして戦う姿を歌詞にした。',
     'ponyopage.videos.intro': '紹介動画',
     'ponyopage.videos.song': '楽曲動画',
-    'ponyopage.videos.intro.url': 'https://player.vimeo.com/video/1116091352?h=0&autoplay=0&title=0&byline=0&portrait=0',
+    'ponyopage.videos.intro.url': 'https://player.vimeo.com/video/1117628867?h=0&autoplay=0&title=0&byline=0&portrait=0',
     'ponyopage.videos.song.url': 'https://player.vimeo.com/video/1116093914?h=0&autoplay=0&title=0&byline=0&portrait=0',
 
     // SNS Section
