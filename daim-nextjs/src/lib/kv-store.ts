@@ -244,15 +244,31 @@ export interface Vote {
   createdAt: string;
 }
 
+// In-memory storage for votes when KV is not available
+let memoryVotes: Vote[] = [];
+let memoryInitialized = false;
+
 // Votes operations
 export const voteStore = {
   async getAll(): Promise<Vote[]> {
     const votes = await safeKvGet<Vote[]>('votes:all');
-    if (!votes) {
-      // Fallback to JSON file
-      return await this.loadFromJson();
+    if (votes && votes.length > 0) {
+      return votes;
     }
-    return votes;
+
+    // Try to load from JSON file
+    const jsonVotes = await this.loadFromJson();
+    if (jsonVotes.length > 0) {
+      // Initialize memory with JSON data
+      if (!memoryInitialized) {
+        memoryVotes = jsonVotes;
+        memoryInitialized = true;
+      }
+      return jsonVotes;
+    }
+
+    // Fallback to memory storage
+    return memoryVotes;
   },
 
   async loadFromJson(): Promise<Vote[]> {
@@ -277,16 +293,20 @@ export const voteStore = {
       ...voteData,
       createdAt: new Date().toISOString()
     };
-    
+
     const currentVotes = await this.getAll();
     const updatedVotes = [...currentVotes, newVote];
-    
+
+    // Try to save to KV first
     await safeKvSet('votes:all', updatedVotes);
     await safeKvSet(`vote:${id}`, newVote);
-    
-    // Save to JSON as backup
+
+    // Save to JSON as backup (if possible)
     await this.saveToJson(updatedVotes);
-    
+
+    // Always save to memory as fallback
+    memoryVotes = updatedVotes;
+
     return newVote;
   },
 
@@ -294,15 +314,17 @@ export const voteStore = {
     try {
       const jsonPath = path.join(process.cwd(), 'database', 'votes.json');
       const dirPath = path.dirname(jsonPath);
-      
+
+      // Vercelでは書き込み権限がない場合があるため、エラーをキャッチ
       if (!fs.existsSync(dirPath)) {
         fs.mkdirSync(dirPath, { recursive: true });
       }
-      
+
       fs.writeFileSync(jsonPath, JSON.stringify(votes, null, 2));
       console.log(`Saved ${votes.length} votes to JSON`);
     } catch (error) {
-      console.error('Error saving votes to JSON:', error);
+      console.warn('Cannot save to JSON (read-only filesystem):', error.message);
+      // Vercelでは読み取り専用ファイルシステムなので、保存をスキップ
     }
   },
 
