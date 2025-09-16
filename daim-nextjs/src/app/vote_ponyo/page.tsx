@@ -391,6 +391,21 @@ export default function VotePonyoPage() {
               </p>
             </div>
           </div>
+
+          {/* Token Commitment Button */}
+          <div className="max-w-3xl mx-auto mt-16 text-center">
+            <div className="card-intelligent p-6 md:p-8 bg-white/5 rounded-xl border border-white/10">
+              <h3 className="text-xl md:text-2xl font-bold mb-6 text-purple-200">応援してください</h3>
+              <p className="text-gray-300 mb-8 text-sm md:text-base">
+                ぽにょ皇子のプロジェクトを応援していただける方は、こちらからトークンコミットメントで支援いただけます
+              </p>
+              <a href="https://commit.daim.site" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-3 px-8 md:px-12 py-4 md:py-6 w-full md:w-auto bg-gradient-to-r from-purple-500 to-violet-600 text-white font-bold text-base md:text-lg rounded-2xl hover:from-purple-600 hover:to-violet-700 transition-all duration-300 transform hover:scale-105 shadow-lg border border-purple-400/30">
+                <span className="text-xl md:text-2xl">🎯</span>
+                <span>トークンコミットメント（応援する）</span>
+                <span className="text-xl md:text-2xl">💫</span>
+              </a>
+            </div>
+          </div>
         </div>
       </section>
 
