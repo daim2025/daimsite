@@ -42,6 +42,7 @@ export default function AdminPage() {
   const [dateFrom, setDateFrom] = useState('');
   const [dateTo, setDateTo] = useState('');
   const [costumeFilter, setCostumeFilter] = useState('all');
+  const [monthFilter, setMonthFilter] = useState('');
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -142,18 +143,28 @@ export default function AdminPage() {
   useEffect(() => {
     let filtered = [...votes];
     
-    // 日付フィルター
-    if (dateFrom) {
-      filtered = filtered.filter(vote => 
-        new Date(vote.createdAt || vote.timestamp) >= new Date(dateFrom)
-      );
-    }
-    if (dateTo) {
-      const endDate = new Date(dateTo);
-      endDate.setHours(23, 59, 59, 999); // 日付の終わりまで
-      filtered = filtered.filter(vote => 
-        new Date(vote.createdAt || vote.timestamp) <= endDate
-      );
+    // 月フィルター（優先）
+    if (monthFilter) {
+      const [year, month] = monthFilter.split('-');
+      filtered = filtered.filter(vote => {
+        const voteDate = new Date(vote.createdAt || vote.timestamp);
+        return voteDate.getFullYear() === parseInt(year) && 
+               voteDate.getMonth() === parseInt(month) - 1;
+      });
+    } else {
+      // 個別日付フィルター（月フィルターが無い場合のみ）
+      if (dateFrom) {
+        filtered = filtered.filter(vote => 
+          new Date(vote.createdAt || vote.timestamp) >= new Date(dateFrom)
+        );
+      }
+      if (dateTo) {
+        const endDate = new Date(dateTo);
+        endDate.setHours(23, 59, 59, 999); // 日付の終わりまで
+        filtered = filtered.filter(vote => 
+          new Date(vote.createdAt || vote.timestamp) <= endDate
+        );
+      }
     }
     
     // コスプレフィルター
@@ -164,7 +175,25 @@ export default function AdminPage() {
     }
     
     setFilteredVotes(filtered);
-  }, [votes, dateFrom, dateTo, costumeFilter]);
+  }, [votes, dateFrom, dateTo, costumeFilter, monthFilter]);
+
+  // 月別選択のオプションを生成
+  const getMonthOptions = () => {
+    const months = [];
+    const today = new Date();
+    
+    // 過去12ヶ月分を生成
+    for (let i = 0; i < 12; i++) {
+      const date = new Date(today.getFullYear(), today.getMonth() - i, 1);
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1;
+      const value = `${year}-${month.toString().padStart(2, '0')}`;
+      const label = `${year}年${month}月`;
+      months.push({ value, label });
+    }
+    
+    return months;
+  };
 
   // CSV ダウンロード機能
   const downloadCSV = () => {
@@ -340,23 +369,58 @@ export default function AdminPage() {
               {/* フィルター */}
               <div className="bg-white/5 rounded-lg p-4 mb-6">
                 <h4 className="text-sm font-medium text-gray-300 mb-3">📊 フィルター & 検索</h4>
+                
+                {/* 月別選択 */}
+                <div className="mb-4">
+                  <label className="block text-xs text-gray-400 mb-1">📅 月別選択（優先）</label>
+                  <select
+                    value={monthFilter}
+                    onChange={(e) => {
+                      setMonthFilter(e.target.value);
+                      if (e.target.value) {
+                        // 月別選択時は個別日付をクリア
+                        setDateFrom('');
+                        setDateTo('');
+                      }
+                    }}
+                    className="w-full md:w-1/3 px-3 py-2 bg-white/10 border border-white/20 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  >
+                    <option value="">月別選択なし</option>
+                    {getMonthOptions().map(option => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                  <p className="text-xs text-gray-500 mt-1">
+                    月別選択時は個別日付設定は無効になります
+                  </p>
+                </div>
+
+                {/* 個別日付選択 */}
                 <div className="grid md:grid-cols-3 gap-4">
                   <div>
-                    <label className="block text-xs text-gray-400 mb-1">開始日</label>
+                    <label className="block text-xs text-gray-400 mb-1">
+                      開始日 {monthFilter && <span className="text-gray-500">（無効）</span>}
+                    </label>
                     <input
                       type="date"
                       value={dateFrom}
                       onChange={(e) => setDateFrom(e.target.value)}
-                      className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+                      disabled={!!monthFilter}
+                      className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:opacity-50 disabled:cursor-not-allowed"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs text-gray-400 mb-1">終了日</label>
+                    <label className="block text-xs text-gray-400 mb-1">
+                      終了日 {monthFilter && <span className="text-gray-500">（無効）</span>}
+                    </label>
                     <input
                       type="date"
                       value={dateTo}
                       onChange={(e) => setDateTo(e.target.value)}
-                      className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+                      disabled={!!monthFilter}
+                      className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:opacity-50 disabled:cursor-not-allowed"
                     />
                   </div>
                   <div>
@@ -374,17 +438,24 @@ export default function AdminPage() {
                     </select>
                   </div>
                 </div>
-                <div className="mt-3 flex gap-2">
+                
+                <div className="mt-3 flex gap-2 items-center">
                   <button
                     onClick={() => {
+                      setMonthFilter('');
                       setDateFrom('');
                       setDateTo('');
                       setCostumeFilter('all');
                     }}
                     className="px-3 py-1 bg-gray-600 hover:bg-gray-700 text-white rounded text-xs transition-colors"
                   >
-                    リセット
+                    全リセット
                   </button>
+                  {monthFilter && (
+                    <span className="text-xs bg-purple-500/20 text-purple-300 px-2 py-1 rounded">
+                      📅 {getMonthOptions().find(opt => opt.value === monthFilter)?.label} フィルター中
+                    </span>
+                  )}
                   <span className="text-xs text-gray-400 py-1">
                     {filteredVotes.length} / {totalVotes} 件表示中
                   </span>
