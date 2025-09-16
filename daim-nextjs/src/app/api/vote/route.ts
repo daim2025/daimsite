@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { subscriberStore } from '@/lib/kv-store';
+import { voteStore } from '@/lib/kv-store';
 
 // メールアドレスバリデーション
 const validateEmail = (email: string) => {
@@ -39,47 +39,29 @@ export async function POST(request: NextRequest) {
     // 投票データの作成
     const voteData = {
       costume: `イメージカット（${costume}）`,
-      email: email?.toLowerCase().trim() || 'anonymous',
-      comment: comment?.trim() || '',
-      type: 'vote',
+      email: email?.toLowerCase().trim() || undefined,
+      comment: comment?.trim() || undefined,
       timestamp: new Date().toISOString()
     };
 
-    // 投票メッセージの作成
-    const voteMessage = [
-      '🗳️ **新しい投票が届きました**',
-      '',
-      `👗 **選択されたコスプレ**: ${voteData.costume}`,
-      `📧 **メールアドレス**: ${voteData.email}`,
-      `💬 **コメント**: ${voteData.comment || 'なし'}`,
-      `📅 **投票日時**: ${new Date().toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo' })}`,
-      '',
-      '---',
-      'DAIM AI ムービー生成 - 衣装選び投票システム'
-    ].join('\n');
-
-    // Vercel KV Store（または JSONファイル）に投票データを保存
-    const newVote = await subscriberStore.add(
-      voteData.email,
-      `投票者 - ${voteData.costume}`,
-      voteMessage
-    );
+    // 専用の投票ストアに保存
+    const newVote = await voteStore.add(voteData);
     
     console.log('Vote saved successfully:', {
       id: newVote.id,
-      costume: voteData.costume,
-      email: voteData.email,
-      comment: voteData.comment,
-      createdAt: newVote.subscribedAt,
-      storage: 'Vercel KV Store (with JSON fallback)'
+      costume: newVote.costume,
+      email: newVote.email || 'anonymous',
+      comment: newVote.comment,
+      createdAt: newVote.createdAt,
+      storage: 'Dedicated Vote Store (KV + JSON)'
     });
 
     return NextResponse.json(
       { 
         message: '投票ありがとうございます！ご投票内容を保存しました。',
         id: newVote.id,
-        selectedCostume: voteData.costume,
-        timestamp: voteData.timestamp
+        selectedCostume: newVote.costume,
+        timestamp: newVote.timestamp
       },
       { status: 200 }
     );
@@ -105,30 +87,13 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // 投票一覧を取得（KV storeから）
-    const subscribers = await subscriberStore.getAll();
-    const votes = subscribers.filter(sub => 
-      sub.message && sub.message.includes('新しい投票が届きました')
-    );
+    // 専用投票ストアから投票データを取得
+    const votes = await voteStore.getAll();
+    const voteCounts = await voteStore.getCounts();
     
     const sortedVotes = votes.sort((a, b) => 
       new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
     );
-
-    // 投票結果の集計
-    const voteCounts = {
-      '1': 0,
-      '2': 0,
-      '3': 0,
-      '4': 0
-    };
-
-    votes.forEach(vote => {
-      if (vote.message.includes('イメージカット（1）')) voteCounts['1']++;
-      else if (vote.message.includes('イメージカット（2）')) voteCounts['2']++;
-      else if (vote.message.includes('イメージカット（3）')) voteCounts['3']++;
-      else if (vote.message.includes('イメージカット（4）')) voteCounts['4']++;
-    });
 
     return NextResponse.json(
       { 

@@ -233,3 +233,90 @@ export const subscriberStore = {
     }
   }
 };
+
+// Vote data interface
+export interface Vote {
+  id: string;
+  costume: string;
+  email?: string;
+  comment?: string;
+  timestamp: string;
+  createdAt: string;
+}
+
+// Votes operations
+export const voteStore = {
+  async getAll(): Promise<Vote[]> {
+    const votes = await safeKvGet<Vote[]>('votes:all');
+    if (!votes) {
+      // Fallback to JSON file
+      return await this.loadFromJson();
+    }
+    return votes;
+  },
+
+  async loadFromJson(): Promise<Vote[]> {
+    try {
+      const jsonPath = path.join(process.cwd(), 'database', 'votes.json');
+      if (fs.existsSync(jsonPath)) {
+        const jsonData = JSON.parse(fs.readFileSync(jsonPath, 'utf-8'));
+        console.log(`Loaded ${jsonData.length} votes from JSON`);
+        return jsonData;
+      }
+      return [];
+    } catch (error) {
+      console.error('Error loading votes from JSON:', error);
+      return [];
+    }
+  },
+
+  async add(voteData: Omit<Vote, 'id' | 'createdAt'>): Promise<Vote> {
+    const id = Date.now().toString();
+    const newVote: Vote = {
+      id,
+      ...voteData,
+      createdAt: new Date().toISOString()
+    };
+    
+    const currentVotes = await this.getAll();
+    const updatedVotes = [...currentVotes, newVote];
+    
+    await safeKvSet('votes:all', updatedVotes);
+    await safeKvSet(`vote:${id}`, newVote);
+    
+    // Save to JSON as backup
+    await this.saveToJson(updatedVotes);
+    
+    return newVote;
+  },
+
+  async saveToJson(votes: Vote[]): Promise<void> {
+    try {
+      const jsonPath = path.join(process.cwd(), 'database', 'votes.json');
+      const dirPath = path.dirname(jsonPath);
+      
+      if (!fs.existsSync(dirPath)) {
+        fs.mkdirSync(dirPath, { recursive: true });
+      }
+      
+      fs.writeFileSync(jsonPath, JSON.stringify(votes, null, 2));
+      console.log(`Saved ${votes.length} votes to JSON`);
+    } catch (error) {
+      console.error('Error saving votes to JSON:', error);
+    }
+  },
+
+  async getCounts(): Promise<{ [key: string]: number }> {
+    const votes = await this.getAll();
+    const counts = { '1': 0, '2': 0, '3': 0, '4': 0 };
+    
+    votes.forEach(vote => {
+      const match = vote.costume.match(/イメージカット（(\d)）/);
+      if (match && match[1]) {
+        counts[match[1]]++;
+      }
+    });
+    
+    return counts;
+  }
+};

@@ -300,18 +300,18 @@ export default function AdminPage() {
                         <div key={vote.id || index} className="bg-white/5 rounded-lg p-3 text-sm">
                           <div className="flex items-center justify-between mb-1">
                             <span className="font-medium text-purple-300">
-                              {vote.message?.match(/選択されたコスプレ\*\*:\s*(.+)/)?.[1] || '不明'}
+                              {vote.costume || '不明'}
                             </span>
                             <span className="text-xs text-gray-400">
-                              {new Date(vote.subscribedAt).toLocaleString('ja-JP')}
+                              {new Date(vote.createdAt || vote.timestamp).toLocaleString('ja-JP')}
                             </span>
                           </div>
                           <div className="text-gray-400">
-                            {vote.email !== 'anonymous' ? vote.email : '匿名'}
+                            {vote.email || '匿名'}
                           </div>
-                          {vote.message?.includes('コメント') && (
+                          {vote.comment && (
                             <div className="text-xs text-gray-500 mt-1">
-                              {vote.message?.match(/コメント\*\*:\s*(.+)/)?.[1]?.split('\n')[0] || ''}
+                              {vote.comment}
                             </div>
                           )}
                         </div>
