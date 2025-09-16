@@ -34,10 +34,15 @@ export default function AdminPage() {
   const [filter, setFilter] = useState<'all' | 'active' | 'unsubscribed'>('all');
   const [emailSending, setEmailSending] = useState(false);
   const [emailMessage, setEmailMessage] = useState('');
+  const [votes, setVotes] = useState<any[]>([]);
+  const [voteCounts, setVoteCounts] = useState<any>({});
+  const [totalVotes, setTotalVotes] = useState(0);
+  const [isVotesLoading, setIsVotesLoading] = useState(false);
 
   useEffect(() => {
     if (isAuthenticated) {
       fetchSubscribers();
+      fetchVotes();
     }
   }, [isAuthenticated, pagination.page, filter]);
 
@@ -101,6 +106,30 @@ export default function AdminPage() {
       console.error('Error fetching subscribers:', error);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const fetchVotes = async () => {
+    setIsVotesLoading(true);
+    try {
+      const response = await fetch('/api/vote', {
+        headers: {
+          'x-admin-key': adminKey
+        }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setVotes(data.votes || []);
+        setVoteCounts(data.voteCounts || {});
+        setTotalVotes(data.totalVotes || 0);
+      } else {
+        console.error('Failed to fetch votes');
+      }
+    } catch (error) {
+      console.error('Error fetching votes:', error);
+    } finally {
+      setIsVotesLoading(false);
     }
   };
 
@@ -205,7 +234,7 @@ export default function AdminPage() {
             </div>
 
             {/* 統計情報 */}
-            <div className="grid md:grid-cols-3 gap-6 mb-8">
+            <div className="grid md:grid-cols-4 gap-6 mb-8">
               <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-xl p-6">
                 <h3 className="text-lg font-medium mb-2">総登録者数</h3>
                 <div className="text-3xl font-light text-blue-400">{pagination.total}</div>
@@ -222,6 +251,75 @@ export default function AdminPage() {
                   {subscribers.filter(s => s.status === 'unsubscribed').length}
                 </div>
               </div>
+              <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-xl p-6">
+                <h3 className="text-lg font-medium mb-2">総投票数</h3>
+                <div className="text-3xl font-light text-purple-400">{totalVotes}</div>
+              </div>
+            </div>
+
+            {/* 投票結果 */}
+            <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-xl p-6 mb-8">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-medium">🗳️ ぽにょ皇子 衣装選び投票結果</h3>
+                <button
+                  onClick={fetchVotes}
+                  disabled={isVotesLoading}
+                  className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors disabled:opacity-50"
+                >
+                  {isVotesLoading ? '更新中...' : '更新'}
+                </button>
+              </div>
+
+              {isVotesLoading ? (
+                <div className="text-center py-8">
+                  <div className="inline-flex items-center gap-3">
+                    <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    <span>投票データを読み込み中...</span>
+                  </div>
+                </div>
+              ) : (
+                <div className="space-y-6">
+                  {/* 投票集計 */}
+                  <div className="grid md:grid-cols-4 gap-4">
+                    {Object.entries(voteCounts).map(([costume, count]) => (
+                      <div key={costume} className="bg-white/5 rounded-lg p-4 text-center">
+                        <div className="text-sm text-gray-300 mb-1">イメージカット {costume}</div>
+                        <div className="text-2xl font-bold text-purple-400">{count as number}</div>
+                        <div className="text-xs text-gray-400">
+                          {totalVotes > 0 ? Math.round(((count as number) / totalVotes) * 100) : 0}%
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* 最新の投票一覧 */}
+                  <div>
+                    <h4 className="text-sm font-medium text-gray-300 mb-3">最新の投票（最大10件）</h4>
+                    <div className="space-y-2 max-h-60 overflow-y-auto">
+                      {votes.slice(0, 10).map((vote, index) => (
+                        <div key={vote.id || index} className="bg-white/5 rounded-lg p-3 text-sm">
+                          <div className="flex items-center justify-between mb-1">
+                            <span className="font-medium text-purple-300">
+                              {vote.message?.match(/選択されたコスプレ\*\*:\s*(.+)/)?.[1] || '不明'}
+                            </span>
+                            <span className="text-xs text-gray-400">
+                              {new Date(vote.subscribedAt).toLocaleString('ja-JP')}
+                            </span>
+                          </div>
+                          <div className="text-gray-400">
+                            {vote.email !== 'anonymous' ? vote.email : '匿名'}
+                          </div>
+                          {vote.message?.includes('コメント') && (
+                            <div className="text-xs text-gray-500 mt-1">
+                              {vote.message?.match(/コメント\*\*:\s*(.+)/)?.[1]?.split('\n')[0] || ''}
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* メール送信 */}
