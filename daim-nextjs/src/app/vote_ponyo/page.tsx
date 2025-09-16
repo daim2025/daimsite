@@ -13,14 +13,6 @@ export default function VotePonyoPage() {
   const [submitMessage, setSubmitMessage] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
 
-  useEffect(() => {
-    console.log('🟢 JavaScript実行確認');
-    alert('JavaScriptが動作しています！');
-    // 追加の確認メッセージ
-    setTimeout(() => {
-      console.log('🚀 React useEffect実行完了');
-    }, 100);
-  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -420,17 +412,6 @@ export default function VotePonyoPage() {
 
       <Footer />
       
-      {/* JavaScript実行テスト */}
-      <script dangerouslySetInnerHTML={{
-        __html: `
-          console.log('📝 インラインスクリプト実行確認');
-          if (typeof window !== 'undefined') {
-            window.addEventListener('load', function() {
-              console.log('🎯 ページ読み込み完了');
-            });
-          }
-        `
-      }} />
     </div>
   );
 }
