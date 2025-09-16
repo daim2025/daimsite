@@ -73,7 +73,7 @@ export const sendVoteEmail = async (voteData: {
       {
         to_name: 'DAIM Team',
         to_email: 'info@discoverfeed.net', // 主要な宛先
-        cc_email: 'koba@discoverfeed.net', // CC先
+        cc_email: 'koba@discoverfeed.net, akioiwaki@gmail.com', // CC先（複数）
         from_name: 'ぽにょ皇子投票システム',
         from_email: voteData.email || 'anonymous@vote.daim.site',
         subject: '🗳️ ぽにょ皇子AI動画 - 新しい投票が届きました',
