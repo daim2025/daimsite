@@ -56,6 +56,59 @@ export const sendContactEmail = async (formData: {
   }
 };
 
+// 投票メール送信関数
+export const sendVoteEmail = async (voteData: {
+  costume: string;
+  email?: string;
+  comment?: string;
+}) => {
+  try {
+    // EmailJS初期化
+    initEmailJS();
+
+    // 投票メール送信
+    const response = await emailjs.send(
+      EMAILJS_CONFIG.serviceId,
+      EMAILJS_CONFIG.templateId,
+      {
+        to_name: 'DAIM Team',
+        to_email: 'info@discoverfeed.net', // 主要な宛先
+        cc_email: 'koba@discoverfeed.net', // CC先
+        from_name: 'ぽにょ皇子投票システム',
+        from_email: voteData.email || 'anonymous@vote.daim.site',
+        subject: '🗳️ ぽにょ皇子AI動画 - 新しい投票が届きました',
+        message: `
+🗳️ **新しい投票が届きました**
+
+👗 **選択されたコスプレ**: ${voteData.costume}
+📧 **メールアドレス**: ${voteData.email || 'anonymous'}
+💬 **コメント**: ${voteData.comment || 'なし'}
+📅 **投票日時**: ${new Date().toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo' })}
+
+---
+DAIM AI ムービー生成 - 衣装選び投票システム
+        `,
+        reply_to: voteData.email || 'noreply@daim.site',
+        // 現在時刻を追加
+        sent_at: new Date().toLocaleString('ja-JP'),
+      }
+    );
+
+    return {
+      success: true,
+      messageId: response.text,
+      message: '投票が正常に送信されました。'
+    };
+  } catch (error) {
+    console.error('EmailJS投票送信エラー:', error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : '投票送信に失敗しました。',
+      message: '投票送信に失敗しました。後でもう一度お試しください。'
+    };
+  }
+};
+
 // 環境変数チェック関数
 export const checkEmailJSConfig = () => {
   const config = EMAILJS_CONFIG;

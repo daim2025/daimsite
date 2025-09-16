@@ -4,6 +4,7 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import Image from 'next/image';
 import React, { useState } from 'react';
+import { sendVoteEmail } from '@/lib/emailjs';
 
 export default function VotePonyoPage() {
   const [selectedCostume, setSelectedCostume] = useState('');
@@ -26,29 +27,24 @@ export default function VotePonyoPage() {
     setSubmitMessage('');
 
     try {
-      const response = await fetch('/api/vote', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          costume: selectedCostume,
-          email: email.trim() || undefined,
-          comment: comment.trim() || undefined,
-        }),
-      });
+      // EmailJSで直接送信
+      const voteData = {
+        costume: `イメージカット（${selectedCostume}）`,
+        email: email.trim() || undefined,
+        comment: comment.trim() || undefined,
+      };
 
-      const data = await response.json();
+      const result = await sendVoteEmail(voteData);
 
-      if (response.ok) {
-        setSubmitMessage(data.message);
+      if (result.success) {
+        setSubmitMessage('投票ありがとうございます！ご投票内容をメールで送信しました。');
         setIsSuccess(true);
         // フォームをリセット
         setSelectedCostume('');
         setEmail('');
         setComment('');
       } else {
-        setSubmitMessage(data.error || '投票の送信に失敗しました');
+        setSubmitMessage(result.message || '投票の送信に失敗しました');
         setIsSuccess(false);
       }
     } catch (error) {
