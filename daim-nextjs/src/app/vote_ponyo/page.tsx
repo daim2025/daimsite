@@ -67,7 +67,7 @@ export default function VotePonyoPage() {
                   <h4 className="text-xl font-medium text-purple-300 mb-4">イメージカット（1）</h4>
                   <div className="relative aspect-[3/4] rounded-lg overflow-hidden">
                     <Image 
-                      src="/images/ponyo1.jpeg" 
+                      src="/images/ponyo-image-01.webp" 
                       alt="ぽにょ皇子 コスプレ1" 
                       fill
                       className="object-cover"
@@ -101,7 +101,7 @@ export default function VotePonyoPage() {
                   <h4 className="text-xl font-medium text-purple-300 mb-4">イメージカット（2）</h4>
                   <div className="relative aspect-[3/4] rounded-lg overflow-hidden">
                     <Image 
-                      src="/images/ponyo2.jpg" 
+                      src="/images/ponyo-image-02.webp" 
                       alt="ぽにょ皇子 コスプレ2" 
                       fill
                       className="object-cover"
@@ -135,7 +135,7 @@ export default function VotePonyoPage() {
                   <h4 className="text-xl font-medium text-purple-300 mb-4">イメージカット（3）</h4>
                   <div className="relative aspect-[3/4] rounded-lg overflow-hidden">
                     <Image 
-                      src="/images/ponyo3.jpeg" 
+                      src="/images/ponyo-image-03.webp" 
                       alt="ぽにょ皇子 コスプレ3" 
                       fill
                       className="object-cover"
@@ -169,7 +169,7 @@ export default function VotePonyoPage() {
                   <h4 className="text-xl font-medium text-purple-300 mb-4">イメージカット（4）</h4>
                   <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
                     <Image 
-                      src="/images/ponyo4.jpeg" 
+                      src="/images/ponyo-image-04.webp" 
                       alt="ぽにょ皇子 コスプレ4" 
                       fill
                       className="object-cover"
