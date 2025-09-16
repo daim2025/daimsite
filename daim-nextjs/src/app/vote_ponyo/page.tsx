@@ -15,6 +15,7 @@ export default function VotePonyoPage() {
 
   useEffect(() => {
     console.log('🟢 JavaScript実行確認');
+    alert('JavaScriptが動作しています！');
     // 追加の確認メッセージ
     setTimeout(() => {
       console.log('🚀 React useEffect実行完了');
