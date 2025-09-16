@@ -95,28 +95,28 @@ export default function VotePonyoPage() {
       <section className="section-luxury py-24">
         <div className="container mx-auto px-4">
           {/* Introduction */}
-          <div className="max-w-4xl mx-auto text-center mb-16">
-            <div className="card-intelligent p-8 bg-white/5 rounded-xl border border-white/10">
-              <p className="text-lg text-gray-300 leading-relaxed mb-6">
+          <div className="max-w-4xl mx-auto text-center mb-12 md:mb-16">
+            <div className="card-intelligent p-6 md:p-8 bg-white/5 rounded-xl border border-white/10">
+              <p className="text-base md:text-lg text-gray-300 leading-relaxed mb-4 md:mb-6">
                 ぽにょ皇子のAI生成楽曲に合わせて、ミュージックビデオも「写真から動画をAI生成」で、どこまでできるかチャレンジします。
               </p>
-              <p className="text-lg text-gray-300 leading-relaxed mb-6">
+              <p className="text-base md:text-lg text-gray-300 leading-relaxed mb-4 md:mb-6">
                 楽曲の歌詞に合わせて、過去の記憶のシーンのメインキャラクターの衣装はどのコスプレが良いか、皆さまの投票で決定します。
               </p>
-              <p className="text-xl font-semibold text-purple-300">
+              <p className="text-lg md:text-xl font-semibold text-purple-300">
                 下記の4種類のコスプレが良いか、投票ページにてご応募ください。
               </p>
             </div>
           </div>
 
-          <h2 className="text-3xl md:text-4xl font-light text-center mb-16 text-purple-200">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-light text-center mb-12 md:mb-16 text-purple-200 px-4">
             ぽにょ皇子 AI自動生成動画キャラクターイメージ
           </h2>
 
           {/* Costume Option 1 */}
-          <div className="mb-16">
-            <div className="card-intelligent p-8 bg-white/5 rounded-xl border border-white/10">
-              <div className="grid md:grid-cols-3 gap-8 items-start">
+          <div className="mb-12 md:mb-16">
+            <div className="card-intelligent p-6 md:p-8 bg-white/5 rounded-xl border border-white/10">
+              <div className="grid md:grid-cols-3 gap-6 md:gap-8 items-start">
                 <div>
                   <h4 className="text-xl font-medium text-purple-300 mb-4">イメージカット（1）</h4>
                   <div className="relative aspect-[3/4] rounded-lg overflow-hidden">
@@ -131,7 +131,7 @@ export default function VotePonyoPage() {
                 
                 <div className="md:col-span-2">
                   <h3 className="text-lg font-medium text-center mb-6 text-slate-300">生成サンプル</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
                     <div className="relative aspect-video bg-black/30 rounded border border-slate-500/30">
                       <video 
                         controls 
@@ -177,7 +177,7 @@ export default function VotePonyoPage() {
                 
                 <div className="md:col-span-2">
                   <h3 className="text-lg font-medium text-center mb-6 text-slate-300">生成サンプル</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
                     <div className="relative aspect-video bg-black/30 rounded border border-slate-500/30">
                       <video 
                         controls 
@@ -223,7 +223,7 @@ export default function VotePonyoPage() {
                 
                 <div className="md:col-span-2">
                   <h3 className="text-lg font-medium text-center mb-6 text-slate-300">生成サンプル</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
                     <div className="relative aspect-video bg-black/30 rounded border border-slate-500/30">
                       <video 
                         controls 
@@ -269,7 +269,7 @@ export default function VotePonyoPage() {
                 
                 <div className="md:col-span-2">
                   <h3 className="text-lg font-medium text-center mb-6 text-slate-300">生成サンプル</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
                     <div className="relative aspect-video bg-black/30 rounded border border-slate-500/30">
                       <video 
                         controls 
@@ -299,33 +299,33 @@ export default function VotePonyoPage() {
 
           {/* Voting Section */}
           <div className="max-w-3xl mx-auto">
-            <div className="card-intelligent p-8 bg-gradient-to-r from-purple-600/20 to-pink-600/20 rounded-xl border border-purple-400/30">
-              <h3 className="text-2xl font-bold text-center mb-8 text-purple-200">投票フォーム</h3>
+            <div className="card-intelligent p-6 md:p-8 bg-gradient-to-r from-purple-600/20 to-pink-600/20 rounded-xl border border-purple-400/30">
+              <h3 className="text-xl md:text-2xl font-bold text-center mb-6 md:mb-8 text-purple-200">投票フォーム</h3>
               
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
                 <div>
-                  <label className="block text-lg font-medium text-purple-200 mb-4">
+                  <label className="block text-base md:text-lg font-medium text-purple-200 mb-3 md:mb-4">
                     どのコスプレ衣装が良いと思いますか？ <span className="text-red-400">*</span>
                   </label>
-                  <div className="space-y-3">
+                  <div className="space-y-2 md:space-y-3">
                     {[1, 2, 3, 4].map((option) => (
-                      <label key={option} className="flex items-center p-4 bg-black/30 rounded-lg border border-slate-500/20 hover:bg-black/50 transition-colors cursor-pointer">
+                      <label key={option} className="flex items-center p-3 md:p-4 bg-black/30 rounded-lg border border-slate-500/20 hover:bg-black/50 transition-colors cursor-pointer">
                         <input 
                           type="radio" 
                           name="costume" 
                           value={option}
                           checked={selectedCostume === option.toString()}
                           onChange={(e) => setSelectedCostume(e.target.value)}
-                          className="mr-4 w-5 h-5 text-purple-600 bg-gray-700 border-gray-600 focus:ring-purple-500"
+                          className="mr-3 md:mr-4 w-4 h-4 md:w-5 md:h-5 text-purple-600 bg-gray-700 border-gray-600 focus:ring-purple-500"
                         />
-                        <span className="text-white">イメージカット（{option}）</span>
+                        <span className="text-white text-sm md:text-base">イメージカット（{option}）</span>
                       </label>
                     ))}
                   </div>
                 </div>
 
                 <div>
-                  <label htmlFor="email" className="block text-lg font-medium text-purple-200 mb-2">
+                  <label htmlFor="email" className="block text-base md:text-lg font-medium text-purple-200 mb-2">
                     メールアドレス（任意）
                   </label>
                   <input 
@@ -333,21 +333,21 @@ export default function VotePonyoPage() {
                     id="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full px-4 py-3 bg-black/30 border border-slate-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    className="w-full px-3 md:px-4 py-2 md:py-3 text-sm md:text-base bg-black/30 border border-slate-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                     placeholder="your@email.com"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="comment" className="block text-lg font-medium text-purple-200 mb-2">
+                  <label htmlFor="comment" className="block text-base md:text-lg font-medium text-purple-200 mb-2">
                     コメント（任意）
                   </label>
                   <textarea 
                     id="comment"
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
-                    rows={4}
-                    className="w-full px-4 py-3 bg-black/30 border border-slate-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none"
+                    rows={3}
+                    className="w-full px-3 md:px-4 py-2 md:py-3 text-sm md:text-base bg-black/30 border border-slate-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none md:rows-4"
                     placeholder="ご意見やコメントがあればお聞かせください"
                   />
                 </div>
@@ -366,7 +366,7 @@ export default function VotePonyoPage() {
                   <button 
                     type="submit"
                     disabled={isSubmitting}
-                    className={`px-12 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold text-lg rounded-2xl transition-all duration-300 transform shadow-lg ${
+                    className={`w-full md:w-auto px-8 md:px-12 py-3 md:py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold text-base md:text-lg rounded-2xl transition-all duration-300 transform shadow-lg ${
                       isSubmitting 
                         ? 'opacity-50 cursor-not-allowed' 
                         : 'hover:from-purple-700 hover:to-pink-700 hover:scale-105'
