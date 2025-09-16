@@ -67,11 +67,20 @@ export default function VotePonyoPage() {
       {/* Hero Section */}
       <section className="hero-luxury relative py-32 overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-gradient-to-br from-black/90 via-purple-900/40 to-blue-900/60"></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/70"></div>
+          <Image 
+            src="/images/ponyooji_art202308.avif" 
+            alt="ぽにょ皇子 アート背景" 
+            fill 
+            className="object-cover object-center"
+            priority
+            unoptimized
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-black/85 via-purple-900/60 to-blue-900/70"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/60"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(0,0,0,0)_0%,rgba(0,0,0,0.7)_100%)]"></div>
           
           {/* Animated Grid Pattern */}
-          <div className="absolute inset-0 opacity-20">
+          <div className="absolute inset-0 opacity-15">
             <div className="absolute inset-0 bg-[linear-gradient(rgba(59,130,246,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.1)_1px,transparent_1px)] bg-[size:50px_50px] animate-pulse"></div>
           </div>
         </div>
