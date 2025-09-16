@@ -248,6 +248,18 @@ export default function PonyoPrincePage() {
                     </div>
                   </div>
                 </div>
+                
+                {/* Vote Button */}
+                <div className="text-center mt-12">
+                  <a href="/vote_ponyo" className="inline-flex items-center justify-center gap-3 px-12 py-6 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold text-lg rounded-3xl hover:from-purple-700 hover:to-pink-700 transition-all duration-300 transform hover:scale-105 shadow-xl border border-purple-400/30">
+                    <span className="text-2xl">🗳️</span>
+                    <span>MV映像生成の衣装選びに投票する</span>
+                    <span className="text-2xl">✨</span>
+                  </a>
+                  <p className="text-gray-400 text-sm mt-4 max-w-2xl mx-auto">
+                    ミュージックビデオのAI生成映像で、どのコスプレ衣装を使用するか投票してください
+                  </p>
+                </div>
               </div>
             </div>
           </div>
