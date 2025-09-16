@@ -159,6 +159,7 @@ export default function ContactPage() {
                         value={formData.name}
                         onChange={handleChange}
                         disabled={isLoading}
+                        autoComplete="name"
                         className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
                         placeholder="ブライアン・イーノ"
                         required
@@ -176,6 +177,7 @@ export default function ContactPage() {
                         value={formData.email}
                         onChange={handleChange}
                         disabled={isLoading}
+                        autoComplete="email"
                         className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
                         placeholder="your@email.com"
                         required
@@ -193,6 +195,7 @@ export default function ContactPage() {
                       value={formData.subject}
                       onChange={handleChange}
                       disabled={isLoading}
+                      autoComplete="off"
                       className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-slate-400 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       <option value="">件名を選択してください</option>
@@ -215,6 +218,7 @@ export default function ContactPage() {
                       onChange={handleChange}
                       disabled={isLoading}
                       rows={6}
+                      autoComplete="off"
                       className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed resize-none"
                       placeholder="お問い合わせ内容をご記入ください..."
                       required

@@ -1,6 +1,8 @@
+'use client';
+
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
-import { getVoteData } from '@/lib/server-vote-data';
+import { useState, useEffect } from 'react';
 
 interface Subscriber {
   id: string;
@@ -258,11 +260,15 @@ export default function AdminPage() {
                 
                 <form onSubmit={handleAuth} className="space-y-4">
                   <div>
+                    <label htmlFor="admin-key" className="sr-only">管理者キー</label>
                     <input
                       type="password"
+                      id="admin-key"
+                      name="admin-key"
                       placeholder="管理者キー (テスト用: DAIM_TEST_ADMIN_KEY_2024)"
                       value={adminKey}
                       onChange={(e) => setAdminKey(e.target.value)}
+                      autoComplete="current-password"
                       className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                       required
                     />

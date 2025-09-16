@@ -337,12 +337,16 @@ export default function StudioPage() {
 
               <form onSubmit={handleSubmit} className="space-y-4">
               <div className="flex flex-col md:flex-row gap-4 max-w-md mx-auto">
-                <input 
-                  type="email" 
-                  placeholder={t('studio.page.email.placeholder')} 
+                <label htmlFor="newsletter-email" className="sr-only">メールアドレス</label>
+                <input
+                  type="email"
+                  id="newsletter-email"
+                  name="newsletter-email"
+                  placeholder={t('studio.page.email.placeholder')}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     disabled={isLoading}
+                    autoComplete="email"
                     className="flex-1 px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
                     required
                   />

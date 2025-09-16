@@ -1,9 +1,40 @@
+'use client';
+
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
-import { getVoteData } from '@/lib/server-vote-data';
+import { useEffect, useState } from 'react';
+
+interface VoteData {
+  votes: any[];
+  totalVotes: number;
+  voteCounts: Record<string, number>;
+}
 
 export default function VoteResultsPage() {
-  const { votes, totalVotes, voteCounts } = getVoteData();
+  const [voteData, setVoteData] = useState<VoteData>({
+    votes: [],
+    totalVotes: 0,
+    voteCounts: {}
+  });
+
+  useEffect(() => {
+    // クライアントサイドで投票データを取得
+    const fetchVoteData = async () => {
+      try {
+        const response = await fetch('/api/vote');
+        if (response.ok) {
+          const data = await response.json();
+          setVoteData(data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch vote data:', error);
+      }
+    };
+
+    fetchVoteData();
+  }, []);
+
+  const { votes, totalVotes, voteCounts } = voteData;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white">
@@ -32,10 +63,11 @@ export default function VoteResultsPage() {
                 <div className="space-y-6">
                   {Object.entries(voteCounts).map(([costume, count]) => {
                     const percentage = Math.round((count / totalVotes) * 100);
+                    const costumeNum = costume.replace('イメージカット（', '').replace('）', '');
                     return (
                       <div key={costume}>
                         <div className="flex justify-between items-center mb-2">
-                          <span className="text-lg">イメージカット（{costume}）</span>
+                          <span className="text-lg">イメージカット（{costumeNum}）</span>
                           <div className="text-right">
                             <div className="text-xl font-bold text-purple-400">{count}票</div>
                             <div className="text-sm text-gray-400">{percentage}%</div>

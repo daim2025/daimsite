@@ -1,10 +1,41 @@
+'use client';
+
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import Image from 'next/image';
-import { getVoteData } from '@/lib/server-vote-data';
+import { useEffect, useState } from 'react';
+
+interface VoteData {
+  votes: any[];
+  totalVotes: number;
+  voteCounts: Record<string, number>;
+}
 
 export default function VotePonyoPage() {
-  const { votes, totalVotes, voteCounts } = getVoteData();
+  const [voteData, setVoteData] = useState<VoteData>({
+    votes: [],
+    totalVotes: 0,
+    voteCounts: {}
+  });
+
+  useEffect(() => {
+    // クライアントサイドで投票データを取得
+    const fetchVoteData = async () => {
+      try {
+        const response = await fetch('/api/vote');
+        if (response.ok) {
+          const data = await response.json();
+          setVoteData(data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch vote data:', error);
+      }
+    };
+
+    fetchVoteData();
+  }, []);
+
+  const { votes, totalVotes, voteCounts } = voteData;
 
   return (
     <div className="font-sans min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white">
@@ -266,10 +297,11 @@ export default function VotePonyoPage() {
                 <div className="space-y-4">
                   {Object.entries(voteCounts).map(([costume, count]) => {
                     const percentage = Math.round((count / totalVotes) * 100);
+                    const costumeNum = costume.replace('イメージカット（', '').replace('）', '');
                     return (
                       <div key={costume} className="bg-white/10 rounded-lg p-4">
                         <div className="flex justify-between items-center mb-2">
-                          <span className="text-lg text-white">イメージカット（{costume}）</span>
+                          <span className="text-lg text-white">イメージカット（{costumeNum}）</span>
                           <div className="text-right">
                             <div className="text-xl font-bold text-blue-400">{count}票</div>
                             <div className="text-sm text-gray-400">{percentage}%</div>
@@ -306,11 +338,12 @@ export default function VotePonyoPage() {
                   <div className="space-y-2 md:space-y-3">
                     {[1, 2, 3, 4].map((option) => (
                       <label key={option} className="flex items-center p-3 md:p-4 bg-black/30 rounded-lg border border-slate-500/20 hover:bg-black/50 transition-colors cursor-pointer">
-                        <input 
-                          type="radio" 
-                          name="costume" 
+                        <input
+                          type="radio"
+                          name="costume"
                           value={option}
                           required
+                          autoComplete="off"
                           className="mr-3 md:mr-4 w-4 h-4 md:w-5 md:h-5 text-purple-600 bg-gray-700 border-gray-600 focus:ring-purple-500"
                         />
                         <span className="text-white text-sm md:text-base">イメージカット（{option}）</span>
@@ -321,14 +354,16 @@ export default function VotePonyoPage() {
 
                 <div>
                   <label htmlFor="email" className="block text-base md:text-lg font-medium text-purple-200 mb-2">
-                    メールアドレス（任意）
+                    メールアドレス <span className="text-red-400">*</span>
                   </label>
-                  <input 
-                    type="email" 
+                  <input
+                    type="email"
                     id="email"
                     name="email"
+                    autoComplete="email"
                     className="w-full px-3 md:px-4 py-2 md:py-3 text-sm md:text-base bg-black/30 border border-slate-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                     placeholder="your@email.com"
+                    required
                   />
                 </div>
 
@@ -336,10 +371,11 @@ export default function VotePonyoPage() {
                   <label htmlFor="comment" className="block text-base md:text-lg font-medium text-purple-200 mb-2">
                     コメント（任意）
                   </label>
-                  <textarea 
+                  <textarea
                     id="comment"
                     name="comment"
                     rows={3}
+                    autoComplete="off"
                     className="w-full px-3 md:px-4 py-2 md:py-3 text-sm md:text-base bg-black/30 border border-slate-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none md:rows-4"
                     placeholder="ご意見やコメントがあればお聞かせください"
                   />

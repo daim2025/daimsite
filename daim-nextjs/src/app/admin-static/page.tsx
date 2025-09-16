@@ -1,9 +1,44 @@
+'use client';
+
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
-import { getVoteData } from '@/lib/server-vote-data';
+import { useEffect, useState } from 'react';
+
+interface VoteData {
+  votes: any[];
+  totalVotes: number;
+  voteCounts: Record<string, number>;
+}
 
 export default function AdminStaticPage() {
-  const { votes, totalVotes, voteCounts } = getVoteData();
+  const [voteData, setVoteData] = useState<VoteData>({
+    votes: [],
+    totalVotes: 0,
+    voteCounts: {}
+  });
+
+  useEffect(() => {
+    // クライアントサイドで投票データを取得（管理者権限）
+    const fetchVoteData = async () => {
+      try {
+        const response = await fetch('/api/vote', {
+          headers: {
+            'x-admin-key': 'DAIM_TEST_ADMIN_KEY_2024'
+          }
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setVoteData(data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch vote data:', error);
+      }
+    };
+
+    fetchVoteData();
+  }, []);
+
+  const { votes, totalVotes, voteCounts } = voteData;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white">

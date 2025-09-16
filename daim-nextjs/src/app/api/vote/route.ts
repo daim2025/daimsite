@@ -92,33 +92,42 @@ export async function POST(request: NextRequest) {
 
 export async function GET(request: NextRequest) {
   try {
-    // 管理者権限チェック（簡易版）
     const adminKey = request.headers.get('x-admin-key');
     const validKey = process.env.ADMIN_KEY || 'DAIM_TEST_ADMIN_KEY_2024';
-    if (adminKey !== validKey) {
+
+    // 管理者権限がある場合は詳細データを返す
+    if (adminKey === validKey) {
+      const votes = await voteStore.getAll();
+      const voteCounts = await voteStore.getCounts();
+
+      const sortedVotes = votes.sort((a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      );
+
       return NextResponse.json(
-        { error: '権限がありません' },
-        { status: 401 }
+        {
+          votes: sortedVotes,
+          totalVotes: votes.length,
+          voteCounts,
+          mostPopular: Object.entries(voteCounts).reduce((a, b) =>
+            voteCounts[a[0]] > voteCounts[b[0]] ? a : b
+          )[0],
+          message: '投票一覧と集計結果'
+        },
+        { status: 200 }
       );
     }
 
-    // 専用投票ストアから投票データを取得
-    const votes = await voteStore.getAll();
+    // 一般向けには集計データのみを返す
     const voteCounts = await voteStore.getCounts();
-    
-    const sortedVotes = votes.sort((a, b) => 
-      new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-    );
+    const totalVotes = Object.values(voteCounts).reduce((sum, count) => sum + count, 0);
 
     return NextResponse.json(
-      { 
-        votes: sortedVotes,
-        totalVotes: votes.length,
+      {
+        votes: [], // 個別投票データは非公開
+        totalVotes,
         voteCounts,
-        mostPopular: Object.entries(voteCounts).reduce((a, b) => 
-          voteCounts[a[0]] > voteCounts[b[0]] ? a : b
-        )[0],
-        message: '投票一覧と集計結果'
+        message: '投票集計結果'
       },
       { status: 200 }
     );

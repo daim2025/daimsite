@@ -208,39 +208,48 @@ export default function NewsAdminPage() {
               
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">
+                  <label htmlFor="news-title" className="block text-sm font-medium text-slate-300 mb-2">
                     タイトル
                   </label>
                   <input
                     type="text"
+                    id="news-title"
+                    name="news-title"
                     value={formData.title}
                     onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                    autoComplete="off"
                     className="w-full p-3 bg-slate-800 border border-slate-600 rounded-lg text-white focus:border-blue-500 focus:outline-none"
                     required
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">
+                  <label htmlFor="news-author" className="block text-sm font-medium text-slate-300 mb-2">
                     著者
                   </label>
                   <input
                     type="text"
+                    id="news-author"
+                    name="news-author"
                     value={formData.author}
                     onChange={(e) => setFormData({ ...formData, author: e.target.value })}
+                    autoComplete="name"
                     className="w-full p-3 bg-slate-800 border border-slate-600 rounded-lg text-white focus:border-blue-500 focus:outline-none"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">
+                  <label htmlFor="news-date" className="block text-sm font-medium text-slate-300 mb-2">
                     日付
                   </label>
                   <input
                     type="date"
+                    id="news-date"
+                    name="news-date"
                     value={formData.date}
                     onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                    autoComplete="off"
                     className="w-full p-3 bg-slate-800 border border-slate-600 rounded-lg text-white focus:border-blue-500 focus:outline-none"
                     required
                   />
