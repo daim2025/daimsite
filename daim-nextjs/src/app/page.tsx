@@ -447,7 +447,7 @@ export default function Home() {
                   
                   {/* Token Commitment Button */}
                   <div className="w-full">
-                    <a href="https://commit.daim.site" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-3 px-8 py-4 w-full bg-gradient-to-r from-amber-500 to-orange-600 text-white font-bold rounded-2xl hover:from-amber-600 hover:to-orange-700 transition-all duration-300 transform hover:scale-105 shadow-lg border border-amber-400/30">
+                    <a href="https://commit.daim.site" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-3 px-8 py-4 w-full bg-gradient-to-r from-purple-500 to-violet-600 text-white font-bold rounded-2xl hover:from-purple-600 hover:to-violet-700 transition-all duration-300 transform hover:scale-105 shadow-lg border border-purple-400/30">
                       <span className="text-xl">🎯</span>
                       <span>トークンコミットメント（応援する）</span>
                       <span className="text-xl">💫</span>
