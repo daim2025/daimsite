@@ -438,12 +438,22 @@ export default function Home() {
                 <p className="card-description text-gray-300 leading-relaxed mb-4">
                   {t('ponyo.ai.description')}
                 </p>
-                <div className="text-center mt-6">
+                <div className="text-center mt-6 space-y-4">
                   <a href="/ponyo-prince" className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-slate-500 to-blue-600 text-white font-bold rounded-2xl hover:from-slate-600 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg">
                     <span className="text-xl">🎵</span>
                     <span>{t('ponyo.cta')}</span>
                     <span className="text-xl">→</span>
                   </a>
+                  
+                  {/* Token Commitment Button */}
+                  <div className="w-full">
+                    <a href="https://commit.daim.site" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-3 px-8 py-4 w-full bg-gradient-to-r from-amber-500 to-orange-600 text-white font-bold rounded-2xl hover:from-amber-600 hover:to-orange-700 transition-all duration-300 transform hover:scale-105 shadow-lg border border-amber-400/30">
+                      <span className="text-xl">🎯</span>
+                      <span>トークンコミットメント（応援する）</span>
+                      <span className="text-xl">💫</span>
+                    </a>
+                  </div>
+                  
                   <p className="text-gray-400 text-sm mt-4">
                     {t('ponyo.cta.description')}
                   </p>
