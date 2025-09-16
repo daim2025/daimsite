@@ -1,65 +1,10 @@
-'use client';
-
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import Image from 'next/image';
-import React, { useState, useEffect } from 'react';
+import { getVoteData } from '@/lib/server-vote-data';
 
 export default function VotePonyoPage() {
-  const [selectedCostume, setSelectedCostume] = useState('');
-  const [email, setEmail] = useState('');
-  const [comment, setComment] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitMessage, setSubmitMessage] = useState('');
-  const [isSuccess, setIsSuccess] = useState(false);
-
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!selectedCostume) {
-      setSubmitMessage('コスプレ衣装を選択してください');
-      setIsSuccess(false);
-      return;
-    }
-
-    setIsSubmitting(true);
-    setSubmitMessage('');
-
-    try {
-      const response = await fetch('/api/vote', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          costume: selectedCostume,
-          email: email.trim() || undefined,
-          comment: comment.trim() || undefined,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setSubmitMessage(data.message);
-        setIsSuccess(true);
-        // フォームをリセット
-        setSelectedCostume('');
-        setEmail('');
-        setComment('');
-      } else {
-        setSubmitMessage(data.error || '投票の送信に失敗しました');
-        setIsSuccess(false);
-      }
-    } catch (error) {
-      console.error('投票送信エラー:', error);
-      setSubmitMessage('ネットワークエラーが発生しました。再度お試しください。');
-      setIsSuccess(false);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  const { votes, totalVotes, voteCounts } = getVoteData();
 
   return (
     <div className="font-sans min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white">
@@ -307,12 +252,53 @@ export default function VotePonyoPage() {
             </div>
           </div>
 
+          {/* Vote Results Section */}
+          <div className="max-w-3xl mx-auto mb-16">
+            <div className="card-intelligent p-6 md:p-8 bg-gradient-to-r from-blue-600/20 to-green-600/20 rounded-xl border border-blue-400/30">
+              <h3 className="text-xl md:text-2xl font-bold text-center mb-6 md:mb-8 text-blue-200">🏆 現在の投票結果</h3>
+              
+              <div className="text-center mb-6">
+                <div className="text-4xl font-light text-white mb-2">{totalVotes}</div>
+                <div className="text-gray-300">総投票数</div>
+              </div>
+
+              {totalVotes > 0 ? (
+                <div className="space-y-4">
+                  {Object.entries(voteCounts).map(([costume, count]) => {
+                    const percentage = Math.round((count / totalVotes) * 100);
+                    return (
+                      <div key={costume} className="bg-white/10 rounded-lg p-4">
+                        <div className="flex justify-between items-center mb-2">
+                          <span className="text-lg text-white">イメージカット（{costume}）</span>
+                          <div className="text-right">
+                            <div className="text-xl font-bold text-blue-400">{count}票</div>
+                            <div className="text-sm text-gray-400">{percentage}%</div>
+                          </div>
+                        </div>
+                        <div className="w-full bg-white/20 rounded-full h-3">
+                          <div 
+                            className="bg-gradient-to-r from-blue-500 to-green-500 h-3 rounded-full transition-all duration-500"
+                            style={{ width: `${percentage}%` }}
+                          ></div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div className="text-center py-4 text-gray-400">
+                  まだ投票がありません。最初の一票をお待ちしています！
+                </div>
+              )}
+            </div>
+          </div>
+
           {/* Voting Section */}
           <div className="max-w-3xl mx-auto">
             <div className="card-intelligent p-6 md:p-8 bg-gradient-to-r from-purple-600/20 to-pink-600/20 rounded-xl border border-purple-400/30">
               <h3 className="text-xl md:text-2xl font-bold text-center mb-6 md:mb-8 text-purple-200">投票フォーム</h3>
               
-              <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
+              <form action="/api/vote" method="POST" className="space-y-4 md:space-y-6">
                 <div>
                   <label className="block text-base md:text-lg font-medium text-purple-200 mb-3 md:mb-4">
                     どのコスプレ衣装が良いと思いますか？ <span className="text-red-400">*</span>
@@ -324,8 +310,7 @@ export default function VotePonyoPage() {
                           type="radio" 
                           name="costume" 
                           value={option}
-                          checked={selectedCostume === option.toString()}
-                          onChange={(e) => setSelectedCostume(e.target.value)}
+                          required
                           className="mr-3 md:mr-4 w-4 h-4 md:w-5 md:h-5 text-purple-600 bg-gray-700 border-gray-600 focus:ring-purple-500"
                         />
                         <span className="text-white text-sm md:text-base">イメージカット（{option}）</span>
@@ -341,8 +326,7 @@ export default function VotePonyoPage() {
                   <input 
                     type="email" 
                     id="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    name="email"
                     className="w-full px-3 md:px-4 py-2 md:py-3 text-sm md:text-base bg-black/30 border border-slate-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                     placeholder="your@email.com"
                   />
@@ -354,35 +338,19 @@ export default function VotePonyoPage() {
                   </label>
                   <textarea 
                     id="comment"
-                    value={comment}
-                    onChange={(e) => setComment(e.target.value)}
+                    name="comment"
                     rows={3}
                     className="w-full px-3 md:px-4 py-2 md:py-3 text-sm md:text-base bg-black/30 border border-slate-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none md:rows-4"
                     placeholder="ご意見やコメントがあればお聞かせください"
                   />
                 </div>
 
-                {submitMessage && (
-                  <div className={`text-center p-4 rounded-lg ${
-                    isSuccess 
-                      ? 'bg-green-600/20 border border-green-500/30 text-green-300' 
-                      : 'bg-red-600/20 border border-red-500/30 text-red-300'
-                  }`}>
-                    {submitMessage}
-                  </div>
-                )}
-
                 <div className="text-center">
                   <button 
                     type="submit"
-                    disabled={isSubmitting}
-                    className={`w-full md:w-auto px-8 md:px-12 py-3 md:py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold text-base md:text-lg rounded-2xl transition-all duration-300 transform shadow-lg ${
-                      isSubmitting 
-                        ? 'opacity-50 cursor-not-allowed' 
-                        : 'hover:from-purple-700 hover:to-pink-700 hover:scale-105'
-                    }`}
+                    className="w-full md:w-auto px-8 md:px-12 py-3 md:py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold text-base md:text-lg rounded-2xl transition-all duration-300 transform shadow-lg hover:from-purple-700 hover:to-pink-700 hover:scale-105"
                   >
-                    {isSubmitting ? '送信中...' : '投票する'}
+                    投票する
                   </button>
                 </div>
               </form>

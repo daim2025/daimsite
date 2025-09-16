@@ -9,7 +9,22 @@ const validateEmail = (email: string) => {
 
 export async function POST(request: NextRequest) {
   try {
-    const { costume, email, comment } = await request.json();
+    const contentType = request.headers.get('content-type');
+    let costume, email, comment;
+
+    if (contentType?.includes('application/json')) {
+      // JSON形式の場合
+      const data = await request.json();
+      costume = data.costume;
+      email = data.email;
+      comment = data.comment;
+    } else {
+      // フォームデータの場合
+      const formData = await request.formData();
+      costume = formData.get('costume');
+      email = formData.get('email');
+      comment = formData.get('comment');
+    }
 
     // バリデーション
     if (!costume) {
