@@ -7,6 +7,10 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  experimental: {
+    esmExternals: true,
+  },
+  swcMinify: true,
 };
 
 export default nextConfig;

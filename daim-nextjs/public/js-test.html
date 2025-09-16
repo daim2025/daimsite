@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript テスト</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            padding: 20px; 
+            background: #1a1a1a; 
+            color: white; 
+        }
+        button { 
+            padding: 10px 20px; 
+            font-size: 16px; 
+            background: #007bff; 
+            color: white; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            margin: 10px 0; 
+        }
+        .message { 
+            padding: 10px; 
+            margin: 10px 0; 
+            background: #333; 
+            border-radius: 5px; 
+        }
+    </style>
+</head>
+<body>
+    <h1>🔧 JavaScript動作テスト</h1>
+    <div class="message">
+        <p>このページは純粋なHTMLとJavaScriptで作られています。</p>
+        <p>JavaScriptが動作している場合、以下のボタンが反応し、コンソールにメッセージが表示されます。</p>
+    </div>
+    
+    <button onclick="testClick()">クリックテスト</button>
+    <button onclick="showAlert()">アラートテスト</button>
+    
+    <div id="output"></div>
+    
+    <script>
+        console.log('🟢 静的HTML JavaScript実行確認');
+        console.log('🚀 ページ読み込み完了');
+        
+        function testClick() {
+            console.log('🔴 ボタンクリック確認');
+            document.getElementById('output').innerHTML = 
+                '<div class="message">✅ JavaScriptが正常に動作しています！</div>';
+        }
+        
+        function showAlert() {
+            console.log('⚠️ アラートテスト');
+            alert('JavaScriptが動作しています！');
+        }
+        
+        // 自動実行テスト
+        setTimeout(() => {
+            console.log('⏰ setTimeout実行確認');
+            document.getElementById('output').innerHTML = 
+                '<div class="message">🔄 JavaScript自動実行テスト完了</div>';
+        }, 1000);
+    </script>
+</body>
+</html>
