@@ -127,9 +127,11 @@ export default function AdminPage() {
 
     try {
       const response = await fetch('/api/vote', {
+        method: 'GET',
         headers: {
           'x-admin-key': adminKey
-        }
+        },
+        cache: 'no-cache'
       });
 
       console.log('Vote fetch response status:', response.status);
@@ -389,6 +391,7 @@ export default function AdminPage() {
             <div className="mb-8">
               <h1 className="text-4xl font-light mb-4">管理者ダッシュボード</h1>
               <p className="text-gray-300">メール登録者の管理とコンテンツ管理</p>
+              <p className="text-xs text-gray-500 mt-1">Version: {new Date().toISOString()}</p>
               <div className="mt-4 flex gap-4">
                 <a
                   href="/admin/news"
