@@ -9,6 +9,12 @@ function validateEmail(email: string): boolean {
 
 function checkAdminAuth(adminKey: string | null): boolean {
   const validKey = process.env.ADMIN_KEY || 'DAIM_TEST_ADMIN_KEY_2024';
+  console.log('🔍 Debug - Admin Key Check:');
+  console.log('Provided key:', adminKey);
+  console.log('Valid key from env:', process.env.ADMIN_KEY);
+  console.log('Fallback key:', 'DAIM_TEST_ADMIN_KEY_2024');
+  console.log('Final valid key:', validKey);
+  console.log('Keys match:', adminKey === validKey);
   return adminKey === validKey;
 }
 

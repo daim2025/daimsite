@@ -80,6 +80,12 @@ export async function GET(request: NextRequest) {
     // 管理者権限チェック（簡易版）
     const adminKey = request.headers.get('x-admin-key');
     const validKey = process.env.ADMIN_KEY || 'DAIM_TEST_ADMIN_KEY_2024';
+    console.log('🔍 Vote API Debug - Admin Key Check:');
+    console.log('Provided key:', adminKey);
+    console.log('Valid key from env:', process.env.ADMIN_KEY);
+    console.log('Fallback key:', 'DAIM_TEST_ADMIN_KEY_2024');
+    console.log('Final valid key:', validKey);
+    console.log('Keys match:', adminKey === validKey);
     if (adminKey !== validKey) {
       return NextResponse.json(
         { error: '権限がありません' },
