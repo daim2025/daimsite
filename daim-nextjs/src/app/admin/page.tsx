@@ -3,6 +3,7 @@
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { useState, useEffect } from 'react';
+import React from 'react';
 
 interface Subscriber {
   id: string;
@@ -43,13 +44,19 @@ export default function AdminPage() {
   const [dateTo, setDateTo] = useState('');
   const [costumeFilter, setCostumeFilter] = useState('all');
   const [monthFilter, setMonthFilter] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     if (isAuthenticated) {
       fetchSubscribers();
-      fetchVotes();
     }
   }, [isAuthenticated, pagination.page, filter]);
+
+  useEffect(() => {
+    if (isAuthenticated && adminKey) {
+      fetchVotes();
+    }
+  }, [isAuthenticated, adminKey]);
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -116,6 +123,8 @@ export default function AdminPage() {
 
   const fetchVotes = async () => {
     setIsVotesLoading(true);
+    console.log('Fetching votes with admin key:', adminKey ? 'Present' : 'Missing', 'Key:', adminKey);
+
     try {
       const response = await fetch('/api/vote', {
         headers: {
@@ -123,14 +132,33 @@ export default function AdminPage() {
         }
       });
 
+      console.log('Vote fetch response status:', response.status);
+
+      const responseText = await response.text();
+      console.log('Raw response:', responseText);
+
       if (response.ok) {
-        const data = await response.json();
+        let data;
+        try {
+          data = JSON.parse(responseText);
+        } catch (parseError) {
+          console.error('Failed to parse JSON:', parseError);
+          return;
+        }
+
+        console.log('Vote data received:', {
+          votesCount: data.votes?.length || 0,
+          totalVotes: data.totalVotes,
+          voteCounts: data.voteCounts,
+          fullData: data
+        });
+
         setVotes(data.votes || []);
         setFilteredVotes(data.votes || []);
         setVoteCounts(data.voteCounts || {});
         setTotalVotes(data.totalVotes || 0);
       } else {
-        console.error('Failed to fetch votes');
+        console.error('Failed to fetch votes:', response.status, responseText);
       }
     } catch (error) {
       console.error('Error fetching votes:', error);
@@ -139,43 +167,90 @@ export default function AdminPage() {
     }
   };
 
+  const deleteAllVotes = async () => {
+    if (!confirm('⚠️ 全ての投票データを削除しますか？この操作は取り消せません。')) {
+      return;
+    }
+
+    setIsDeleting(true);
+    try {
+      const response = await fetch('/api/vote', {
+        method: 'DELETE',
+        headers: {
+          'x-admin-key': adminKey
+        }
+      });
+
+      if (response.ok) {
+        // データをクリア
+        setVotes([]);
+        setFilteredVotes([]);
+        setVoteCounts({});
+        setTotalVotes(0);
+        alert('✅ 全ての投票データを削除しました。');
+      } else {
+        const errorData = await response.json();
+        alert(`❌ 削除に失敗しました: ${errorData.error || '不明なエラー'}`);
+      }
+    } catch (error) {
+      console.error('Error deleting votes:', error);
+      alert('❌ 削除中にエラーが発生しました。');
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
   // フィルタリング機能
   useEffect(() => {
     let filtered = [...votes];
-    
+
     // 月フィルター（優先）
     if (monthFilter) {
       const [year, month] = monthFilter.split('-');
       filtered = filtered.filter(vote => {
         const voteDate = new Date(vote.createdAt || vote.timestamp);
-        return voteDate.getFullYear() === parseInt(year) && 
+        return voteDate.getFullYear() === parseInt(year) &&
                voteDate.getMonth() === parseInt(month) - 1;
       });
     } else {
       // 個別日付フィルター（月フィルターが無い場合のみ）
       if (dateFrom) {
-        filtered = filtered.filter(vote => 
+        filtered = filtered.filter(vote =>
           new Date(vote.createdAt || vote.timestamp) >= new Date(dateFrom)
         );
       }
       if (dateTo) {
         const endDate = new Date(dateTo);
         endDate.setHours(23, 59, 59, 999); // 日付の終わりまで
-        filtered = filtered.filter(vote => 
+        filtered = filtered.filter(vote =>
           new Date(vote.createdAt || vote.timestamp) <= endDate
         );
       }
     }
-    
+
     // コスプレフィルター
     if (costumeFilter !== 'all') {
-      filtered = filtered.filter(vote => 
+      filtered = filtered.filter(vote =>
         vote.costume?.includes(`イメージカット（${costumeFilter}）`)
       );
     }
-    
+
     setFilteredVotes(filtered);
   }, [votes, dateFrom, dateTo, costumeFilter, monthFilter]);
+
+  // フィルタリング後の集計を計算
+  const filteredVoteCounts = React.useMemo(() => {
+    const counts = { '1': 0, '2': 0, '3': 0, '4': 0 };
+    filteredVotes.forEach(vote => {
+      const match = vote.costume?.match(/イメージカット（(\d)）/);
+      if (match && match[1]) {
+        counts[match[1]]++;
+      }
+    });
+    return counts;
+  }, [filteredVotes]);
+
+  const filteredTotalVotes = filteredVotes.length;
 
   // 月別選択のオプションを生成
   const getMonthOptions = () => {
@@ -345,6 +420,9 @@ export default function AdminPage() {
               <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-xl p-6">
                 <h3 className="text-lg font-medium mb-2">総投票数</h3>
                 <div className="text-3xl font-light text-purple-400">{totalVotes}</div>
+                <div className="text-xs text-gray-400 mt-1">
+                  デバッグ: votes.length={votes.length}, isLoading={isVotesLoading.toString()}
+                </div>
               </div>
             </div>
 
@@ -365,7 +443,14 @@ export default function AdminPage() {
                     disabled={isVotesLoading}
                     className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors disabled:opacity-50"
                   >
-                    {isVotesLoading ? '更新中...' : '更新'}
+                    {isVotesLoading ? '更新中...' : '🔄 更新'}
+                  </button>
+                  <button
+                    onClick={deleteAllVotes}
+                    disabled={isDeleting || totalVotes === 0}
+                    className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors disabled:opacity-50"
+                  >
+                    {isDeleting ? '削除中...' : '🗑️ 削除'}
                   </button>
                 </div>
               </div>
@@ -466,6 +551,21 @@ export default function AdminPage() {
                 </div>
               </div>
 
+              {/* デバッグ情報 */}
+              <div className="mb-4 p-3 bg-red-500/10 border border-red-500/20 rounded-lg text-xs">
+                <div className="text-red-300 font-medium mb-2">🐛 デバッグ情報:</div>
+                <div className="space-y-1 text-gray-300">
+                  <div>isVotesLoading: {isVotesLoading.toString()}</div>
+                  <div>votes.length: {votes.length}</div>
+                  <div>totalVotes: {totalVotes}</div>
+                  <div>filteredVotes.length: {filteredVotes.length}</div>
+                  <div>voteCounts: {JSON.stringify(voteCounts)}</div>
+                  <div>filteredVoteCounts: {JSON.stringify(filteredVoteCounts)}</div>
+                  <div>adminKey present: {adminKey ? 'Yes' : 'No'}</div>
+                  <div>isAuthenticated: {isAuthenticated.toString()}</div>
+                </div>
+              </div>
+
               {isVotesLoading ? (
                 <div className="text-center py-8">
                   <div className="inline-flex items-center gap-3">
@@ -477,12 +577,12 @@ export default function AdminPage() {
                 <div className="space-y-6">
                   {/* 投票集計（フィルター後） */}
                   <div className="grid md:grid-cols-4 gap-4">
-                    {Object.entries(voteCounts).map(([costume, count]) => (
+                    {Object.entries(filteredVoteCounts).map(([costume, count]) => (
                       <div key={costume} className="bg-white/5 rounded-lg p-4 text-center">
                         <div className="text-sm text-gray-300 mb-1">イメージカット {costume}</div>
                         <div className="text-2xl font-bold text-purple-400">{count as number}</div>
                         <div className="text-xs text-gray-400">
-                          {totalVotes > 0 ? Math.round(((count as number) / totalVotes) * 100) : 0}%
+                          {filteredTotalVotes > 0 ? Math.round(((count as number) / filteredTotalVotes) * 100) : 0}%
                         </div>
                       </div>
                     ))}

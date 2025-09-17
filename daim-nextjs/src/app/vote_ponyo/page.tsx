@@ -3,12 +3,19 @@
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 interface VoteData {
   votes: any[];
   totalVotes: number;
   voteCounts: Record<string, number>;
+}
+
+interface VoteResponse {
+  message: string;
+  id: string;
+  selectedCostume: string;
+  timestamp: string;
 }
 
 export default function VotePonyoPage() {
@@ -17,23 +24,71 @@ export default function VotePonyoPage() {
     totalVotes: 0,
     voteCounts: {}
   });
+  const [voteResponse, setVoteResponse] = useState<VoteResponse | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  // 投票データを取得する関数
+  const fetchVoteData = async () => {
+    try {
+      const response = await fetch('/api/vote');
+      if (response.ok) {
+        const data = await response.json();
+        setVoteData(data);
+      }
+    } catch (error) {
+      console.error('Failed to fetch vote data:', error);
+    }
+  };
 
   useEffect(() => {
-    // クライアントサイドで投票データを取得
-    const fetchVoteData = async () => {
-      try {
-        const response = await fetch('/api/vote');
-        if (response.ok) {
-          const data = await response.json();
-          setVoteData(data);
-        }
-      } catch (error) {
-        console.error('Failed to fetch vote data:', error);
-      }
-    };
-
     fetchVoteData();
   }, []);
+
+  // フォーム送信処理
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    const formData = new FormData(e.currentTarget);
+
+    // デバッグ用：送信データを確認
+    console.log('Submitting form data:');
+    for (const [key, value] of formData.entries()) {
+      console.log(`${key}: ${value}`);
+    }
+
+    try {
+      const response = await fetch('/api/vote', {
+        method: 'POST',
+        body: formData,
+      });
+
+      console.log('Response status:', response.status);
+      console.log('Response headers:', response.headers);
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Vote response:', data);
+        setVoteResponse(data);
+        // 投票データを再取得して最新の結果を表示
+        await fetchVoteData();
+        // フォームをリセット
+        if (formRef.current) {
+          formRef.current.reset();
+        }
+      } else {
+        const errorData = await response.json();
+        console.error('Vote error response:', errorData);
+        alert(errorData.error || '投票に失敗しました。');
+      }
+    } catch (error) {
+      console.error('Vote submission error:', error);
+      alert('投票に失敗しました。しばらく時間をおいて再度お試しください。');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const { votes, totalVotes, voteCounts } = voteData;
 
@@ -284,53 +339,67 @@ export default function VotePonyoPage() {
           </div>
 
           {/* Vote Results Section */}
-          <div className="max-w-3xl mx-auto mb-16">
-            <div className="card-intelligent p-6 md:p-8 bg-gradient-to-r from-blue-600/20 to-green-600/20 rounded-xl border border-blue-400/30">
-              <h3 className="text-xl md:text-2xl font-bold text-center mb-6 md:mb-8 text-blue-200">🏆 現在の投票結果</h3>
-              
-              <div className="text-center mb-6">
-                <div className="text-4xl font-light text-white mb-2">{totalVotes}</div>
-                <div className="text-gray-300">総投票数</div>
-              </div>
+          {(
+            <div className="max-w-3xl mx-auto mb-16">
+              <div className="card-intelligent p-6 md:p-8 bg-gradient-to-r from-blue-600/20 to-green-600/20 rounded-xl border border-blue-400/30">
+                <h3 className="text-xl md:text-2xl font-bold text-center mb-6 md:mb-8 text-blue-200">🏆 現在の投票結果</h3>
 
-              {totalVotes > 0 ? (
-                <div className="space-y-4">
-                  {Object.entries(voteCounts).map(([costume, count]) => {
-                    const percentage = Math.round((count / totalVotes) * 100);
-                    const costumeNum = costume.replace('イメージカット（', '').replace('）', '');
-                    return (
-                      <div key={costume} className="bg-white/10 rounded-lg p-4">
-                        <div className="flex justify-between items-center mb-2">
-                          <span className="text-lg text-white">イメージカット（{costumeNum}）</span>
-                          <div className="text-right">
-                            <div className="text-xl font-bold text-blue-400">{count}票</div>
-                            <div className="text-sm text-gray-400">{percentage}%</div>
+                <div className="text-center mb-6">
+                  <div className="text-4xl font-light text-white mb-2">{totalVotes}</div>
+                  <div className="text-gray-300">総投票数</div>
+                </div>
+
+                {totalVotes > 0 ? (
+                  <div className="space-y-4">
+                    {Object.entries(voteCounts).map(([costume, count]) => {
+                      const percentage = Math.round((count / totalVotes) * 100);
+                      const costumeNum = costume.replace('イメージカット（', '').replace('）', '');
+                      return (
+                        <div key={costume} className="bg-white/10 rounded-lg p-4">
+                          <div className="flex justify-between items-center mb-2">
+                            <span className="text-lg text-white">イメージカット（{costumeNum}）</span>
+                            <div className="text-right">
+                              <div className="text-xl font-bold text-blue-400">{count}票</div>
+                              <div className="text-sm text-gray-400">{percentage}%</div>
+                            </div>
+                          </div>
+                          <div className="w-full bg-white/20 rounded-full h-3">
+                            <div
+                              className="bg-gradient-to-r from-blue-500 to-green-500 h-3 rounded-full transition-all duration-500"
+                              style={{ width: `${percentage}%` }}
+                            ></div>
                           </div>
                         </div>
-                        <div className="w-full bg-white/20 rounded-full h-3">
-                          <div 
-                            className="bg-gradient-to-r from-blue-500 to-green-500 h-3 rounded-full transition-all duration-500"
-                            style={{ width: `${percentage}%` }}
-                          ></div>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              ) : (
-                <div className="text-center py-4 text-gray-400">
-                  まだ投票がありません。最初の一票をお待ちしています！
-                </div>
-              )}
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <div className="text-center py-4 text-gray-400">
+                    まだ投票がありません。最初の一票をお待ちしています！
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Voting Section */}
           <div className="max-w-3xl mx-auto">
             <div className="card-intelligent p-6 md:p-8 bg-gradient-to-r from-purple-600/20 to-pink-600/20 rounded-xl border border-purple-400/30">
               <h3 className="text-xl md:text-2xl font-bold text-center mb-6 md:mb-8 text-purple-200">投票フォーム</h3>
-              
-              <form action="/api/vote" method="POST" className="space-y-4 md:space-y-6">
+
+              {/* Success Message */}
+              {voteResponse && (
+                <div className="mb-6 p-4 bg-gradient-to-r from-green-600/20 to-blue-600/20 border border-green-400/30 rounded-lg">
+                  <div className="text-center">
+                    <div className="text-green-400 text-2xl mb-2">✅</div>
+                    <p className="text-green-300 font-semibold text-lg mb-2">{voteResponse.message}</p>
+                    <p className="text-gray-300 text-sm">選択した衣装: {voteResponse.selectedCostume}</p>
+                    <p className="text-gray-400 text-xs mt-1">投票ID: {voteResponse.id}</p>
+                  </div>
+                </div>
+              )}
+
+              <form ref={formRef} onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
                 <div>
                   <label className="block text-base md:text-lg font-medium text-purple-200 mb-3 md:mb-4">
                     どのコスプレ衣装が良いと思いますか？ <span className="text-red-400">*</span>
@@ -382,11 +451,12 @@ export default function VotePonyoPage() {
                 </div>
 
                 <div className="text-center">
-                  <button 
+                  <button
                     type="submit"
-                    className="w-full md:w-auto px-8 md:px-12 py-3 md:py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold text-base md:text-lg rounded-2xl transition-all duration-300 transform shadow-lg hover:from-purple-700 hover:to-pink-700 hover:scale-105"
+                    disabled={isSubmitting}
+                    className="w-full md:w-auto px-8 md:px-12 py-3 md:py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold text-base md:text-lg rounded-2xl transition-all duration-300 transform shadow-lg hover:from-purple-700 hover:to-pink-700 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                   >
-                    投票する
+                    {isSubmitting ? '投票中...' : '投票する'}
                   </button>
                 </div>
               </form>
