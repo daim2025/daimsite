@@ -24,9 +24,26 @@ export function middleware(request: NextRequest) {
     return NextResponse.next()
   }
   
-  // 下層ページへのアクセスを制限
-  // ルートページ以外はすべて404にリダイレクト
-  if (pathname !== '/') {
+  // 特定のページのみ許可
+  const allowedPages = [
+    '/',
+    '/admin',
+    '/admin/news',
+    '/vote_ponyo',
+    '/ponyo-prince',
+    '/yamato-maya',
+    '/about',
+    '/contact',
+    '/studio',
+    '/idol',
+    '/news',
+    '/unsubscribe'
+  ]
+
+  // 動的ルート（/news/[slug]など）もチェック
+  const isDynamicNewsRoute = pathname.startsWith('/news/') && pathname !== '/news'
+
+  if (!allowedPages.includes(pathname) && !isDynamicNewsRoute) {
     return NextResponse.rewrite(new URL('/404', request.url))
   }
   
