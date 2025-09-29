@@ -2,11 +2,23 @@ import { NextRequest, NextResponse } from 'next/server';
 import { voteStore } from '@/lib/kv-store';
 import { supabaseVoteStore } from '@/lib/supabase';
 
+// CORS headers for cross-origin requests
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization, x-admin-key',
+};
+
 // メールアドレスバリデーション
 const validateEmail = (email: string) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
 };
+
+// Handle OPTIONS request for CORS
+export async function OPTIONS(request: NextRequest) {
+  return new NextResponse(null, { status: 200, headers: corsHeaders });
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -89,20 +101,20 @@ export async function POST(request: NextRequest) {
     });
 
     return NextResponse.json(
-      { 
+      {
         message: '投票ありがとうございます！ご投票内容を保存しました。',
         id: newVote.id,
         selectedCostume: newVote.costume,
         timestamp: newVote.timestamp
       },
-      { status: 200 }
+      { status: 200, headers: corsHeaders }
     );
 
   } catch (error) {
     console.error('Vote form error:', error);
     return NextResponse.json(
       { error: 'サーバーエラーが発生しました。しばらく時間をおいて再度お試しください。' },
-      { status: 500 }
+      { status: 500, headers: corsHeaders }
     );
   }
 }
@@ -140,7 +152,7 @@ export async function GET(request: NextRequest) {
           )[0],
           message: '投票一覧と集計結果'
         },
-        { status: 200 }
+        { status: 200, headers: corsHeaders }
       );
     }
 
@@ -162,14 +174,14 @@ export async function GET(request: NextRequest) {
         voteCounts,
         message: '投票集計結果'
       },
-      { status: 200 }
+      { status: 200, headers: corsHeaders }
     );
 
   } catch (error) {
     console.error('Error getting votes:', error);
     return NextResponse.json(
       { error: 'サーバーエラーが発生しました' },
-      { status: 500 }
+      { status: 500, headers: corsHeaders }
     );
   }
 }
