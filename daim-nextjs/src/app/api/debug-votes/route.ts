@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { voteStore } from '@/lib/kv-store';
 import { supabaseVoteStore } from '@/lib/supabase';
+import { simpleVoteStore } from '@/lib/simple-vote-store';
 
 export async function GET(request: NextRequest) {
   const adminKey = request.headers.get('x-admin-key');
@@ -37,6 +38,16 @@ export async function GET(request: NextRequest) {
       votes: supabaseVotes.slice(0, 3) // 最初の3件のみログ
     });
 
+    // Simple Memory Storeからデータ取得
+    console.log('🔍 Checking Simple Memory Store...');
+    const memoryVotes = await simpleVoteStore.getAll();
+    const memoryCounts = await simpleVoteStore.getCounts();
+
+    console.log('Simple Memory Store results:', {
+      count: memoryVotes.length,
+      votes: memoryVotes.slice(0, 3) // 最初の3件のみログ
+    });
+
     // 環境変数チェック
     const envCheck = {
       hasSupabaseUrl: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -65,6 +76,16 @@ export async function GET(request: NextRequest) {
         total: supabaseVotes.length,
         counts: supabaseCounts,
         latestVotes: supabaseVotes.slice(0, 5).map(vote => ({
+          id: vote.id,
+          costume: vote.costume,
+          created_at: vote.created_at,
+          email: vote.email ? 'provided' : 'not provided'
+        }))
+      },
+      simpleMemoryStore: {
+        total: memoryVotes.length,
+        counts: memoryCounts,
+        latestVotes: memoryVotes.slice(0, 5).map(vote => ({
           id: vote.id,
           costume: vote.costume,
           created_at: vote.created_at,
