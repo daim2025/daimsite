@@ -97,7 +97,8 @@ export async function GET(request: NextRequest) {
 
     // 管理者権限がある場合は詳細データを返す
     if (adminKey === validKey) {
-      const votes = await voteStore.getAll();
+      // 最新データを強制取得
+      const votes = await voteStore.getAll(true);
       const voteCounts = await voteStore.getCounts();
 
       const sortedVotes = votes.sort((a, b) =>
@@ -119,6 +120,11 @@ export async function GET(request: NextRequest) {
     }
 
     // 一般向けには集計データのみを返す
+    const url = new URL(request.url);
+    const refresh = url.searchParams.get('refresh') === 'true';
+
+    // refreshパラメータがある場合は最新データを取得
+    const votes = await voteStore.getAll(refresh);
     const voteCounts = await voteStore.getCounts();
     const totalVotes = Object.values(voteCounts).reduce((sum, count) => sum + count, 0);
 
@@ -154,15 +160,30 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
-    // 全ての投票データを削除
-    await voteStore.deleteAll();
+    const url = new URL(request.url);
+    const action = url.searchParams.get('action');
 
-    console.log('All votes deleted by admin');
+    if (action === 'clear-cache') {
+      // キャッシュクリア
+      await voteStore.clearCache();
 
-    return NextResponse.json(
-      { message: '全ての投票データを削除しました' },
-      { status: 200 }
-    );
+      console.log('Vote cache cleared by admin');
+
+      return NextResponse.json(
+        { message: '投票データのキャッシュをクリアしました' },
+        { status: 200 }
+      );
+    } else {
+      // 全ての投票データを削除
+      await voteStore.deleteAll();
+
+      console.log('All votes deleted by admin');
+
+      return NextResponse.json(
+        { message: '全ての投票データを削除しました' },
+        { status: 200 }
+      );
+    }
 
   } catch (error) {
     console.error('Vote deletion error:', error);

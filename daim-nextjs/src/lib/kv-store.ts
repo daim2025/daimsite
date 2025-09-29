@@ -250,25 +250,46 @@ let memoryInitialized = false;
 
 // Votes operations
 export const voteStore = {
-  async getAll(): Promise<Vote[]> {
-    const votes = await safeKvGet<Vote[]>('votes:all');
-    if (votes && votes.length > 0) {
-      return votes;
+  async getAll(forceRefresh: boolean = false): Promise<Vote[]> {
+    // Force refresh時はメモリキャッシュをクリア
+    if (forceRefresh) {
+      memoryVotes = [];
+      memoryInitialized = false;
     }
 
-    // Try to load from JSON file
-    const jsonVotes = await this.loadFromJson();
-    if (jsonVotes.length > 0) {
-      // Initialize memory with JSON data
-      if (!memoryInitialized) {
-        memoryVotes = jsonVotes;
-        memoryInitialized = true;
+    // 最新のデータを順番に確認: KV → JSON → メモリ
+    let votes: Vote[] = [];
+
+    // 1. KV Storeから最新データを取得
+    const kvVotes = await safeKvGet<Vote[]>('votes:all');
+    if (kvVotes && Array.isArray(kvVotes)) {
+      votes = kvVotes;
+      console.log(`Loaded ${votes.length} votes from KV Store`);
+    }
+
+    // 2. KVが空の場合、JSONファイルから取得
+    if (votes.length === 0) {
+      const jsonVotes = await this.loadFromJson();
+      if (jsonVotes.length > 0) {
+        votes = jsonVotes;
+        // KVにも同期
+        await safeKvSet('votes:all', votes);
+        console.log(`Synced ${votes.length} votes from JSON to KV`);
       }
-      return jsonVotes;
     }
 
-    // Fallback to memory storage
-    return memoryVotes;
+    // 3. メモリストレージを更新
+    if (votes.length > 0 || !memoryInitialized) {
+      memoryVotes = votes;
+      memoryInitialized = true;
+    }
+
+    // 4. すべて空の場合はメモリから返す
+    if (votes.length === 0) {
+      votes = memoryVotes;
+    }
+
+    return votes;
   },
 
   async loadFromJson(): Promise<Vote[]> {
@@ -352,10 +373,24 @@ export const voteStore = {
 
       // メモリストレージをクリア
       memoryVotes = [];
+      memoryInitialized = false;
 
       console.log('All votes deleted from all storage backends');
     } catch (error) {
       console.error('Error deleting all votes:', error);
+      throw error;
+    }
+  },
+
+  async clearCache(): Promise<void> {
+    try {
+      // メモリキャッシュをクリア
+      memoryVotes = [];
+      memoryInitialized = false;
+
+      console.log('Vote cache cleared');
+    } catch (error) {
+      console.error('Error clearing cache:', error);
       throw error;
     }
   }
