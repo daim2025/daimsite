@@ -5,11 +5,6 @@ import Footer from '@/components/Footer';
 import Image from 'next/image';
 import { useEffect, useState, useRef } from 'react';
 
-interface VoteData {
-  votes: any[];
-  totalVotes: number;
-  voteCounts: Record<string, number>;
-}
 
 interface VoteResponse {
   message: string;
@@ -19,31 +14,9 @@ interface VoteResponse {
 }
 
 export default function VotePonyoPage() {
-  const [voteData, setVoteData] = useState<VoteData>({
-    votes: [],
-    totalVotes: 0,
-    voteCounts: {}
-  });
   const [voteResponse, setVoteResponse] = useState<VoteResponse | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
-
-  // 投票データを取得する関数
-  const fetchVoteData = async () => {
-    try {
-      const response = await fetch('/api/vote');
-      if (response.ok) {
-        const data = await response.json();
-        setVoteData(data);
-      }
-    } catch (error) {
-      console.error('Failed to fetch vote data:', error);
-    }
-  };
-
-  useEffect(() => {
-    fetchVoteData();
-  }, []);
 
   // フォーム送信処理
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -71,8 +44,6 @@ export default function VotePonyoPage() {
         const data = await response.json();
         console.log('Vote response:', data);
         setVoteResponse(data);
-        // 投票データを再取得して最新の結果を表示
-        await fetchVoteData();
         // フォームをリセット
         if (formRef.current) {
           formRef.current.reset();
@@ -90,7 +61,6 @@ export default function VotePonyoPage() {
     }
   };
 
-  const { votes, totalVotes, voteCounts } = voteData;
 
   return (
     <div className="font-sans min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white">
@@ -338,49 +308,6 @@ export default function VotePonyoPage() {
             </div>
           </div>
 
-          {/* Vote Results Section */}
-          {(
-            <div className="max-w-3xl mx-auto mb-16">
-              <div className="card-intelligent p-6 md:p-8 bg-gradient-to-r from-blue-600/20 to-green-600/20 rounded-xl border border-blue-400/30">
-                <h3 className="text-xl md:text-2xl font-bold text-center mb-6 md:mb-8 text-blue-200">🏆 現在の投票結果</h3>
-
-                <div className="text-center mb-6">
-                  <div className="text-4xl font-light text-white mb-2">{totalVotes}</div>
-                  <div className="text-gray-300">総投票数</div>
-                </div>
-
-                {totalVotes > 0 ? (
-                  <div className="space-y-4">
-                    {Object.entries(voteCounts).map(([costume, count]) => {
-                      const percentage = Math.round((count / totalVotes) * 100);
-                      const costumeNum = costume.replace('イメージカット（', '').replace('）', '');
-                      return (
-                        <div key={costume} className="bg-white/10 rounded-lg p-4">
-                          <div className="flex justify-between items-center mb-2">
-                            <span className="text-lg text-white">イメージカット（{costumeNum}）</span>
-                            <div className="text-right">
-                              <div className="text-xl font-bold text-blue-400">{count}票</div>
-                              <div className="text-sm text-gray-400">{percentage}%</div>
-                            </div>
-                          </div>
-                          <div className="w-full bg-white/20 rounded-full h-3">
-                            <div
-                              className="bg-gradient-to-r from-blue-500 to-green-500 h-3 rounded-full transition-all duration-500"
-                              style={{ width: `${percentage}%` }}
-                            ></div>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                ) : (
-                  <div className="text-center py-4 text-gray-400">
-                    まだ投票がありません。最初の一票をお待ちしています！
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
 
           {/* Voting Section */}
           <div className="max-w-3xl mx-auto">
