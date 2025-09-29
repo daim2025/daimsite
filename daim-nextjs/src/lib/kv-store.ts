@@ -330,15 +330,33 @@ export const voteStore = {
 
   async getCounts(): Promise<{ [key: string]: number }> {
     const votes = await this.getAll();
-    const counts = { '1': 0, '2': 0, '3': 0, '4': 0 };
-    
+    const counts = { 'イメージカット（1）': 0, 'イメージカット（2）': 0, 'イメージカット（3）': 0, 'イメージカット（4）': 0 };
+
     votes.forEach(vote => {
-      const match = vote.costume.match(/イメージカット（(\d)）/);
-      if (match && match[1]) {
-        counts[match[1]]++;
+      if (counts.hasOwnProperty(vote.costume)) {
+        counts[vote.costume]++;
       }
     });
-    
+
+    console.log('Vote counts debug:', { totalVotes: votes.length, counts });
     return counts;
+  },
+
+  async deleteAll(): Promise<void> {
+    try {
+      // KV Storeから削除
+      await safeKvDel('votes:all');
+
+      // JSONファイルをクリア（可能であれば）
+      await this.saveToJson([]);
+
+      // メモリストレージをクリア
+      memoryVotes = [];
+
+      console.log('All votes deleted from all storage backends');
+    } catch (error) {
+      console.error('Error deleting all votes:', error);
+      throw error;
+    }
   }
 };

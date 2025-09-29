@@ -141,3 +141,35 @@ export async function GET(request: NextRequest) {
   }
 }
 
+export async function DELETE(request: NextRequest) {
+  try {
+    const adminKey = request.headers.get('x-admin-key');
+    const validKey = process.env.ADMIN_KEY || 'DAIM_TEST_ADMIN_KEY_2024';
+
+    // 管理者権限チェック
+    if (adminKey !== validKey) {
+      return NextResponse.json(
+        { error: '管理者権限が必要です' },
+        { status: 401 }
+      );
+    }
+
+    // 全ての投票データを削除
+    await voteStore.deleteAll();
+
+    console.log('All votes deleted by admin');
+
+    return NextResponse.json(
+      { message: '全ての投票データを削除しました' },
+      { status: 200 }
+    );
+
+  } catch (error) {
+    console.error('Vote deletion error:', error);
+    return NextResponse.json(
+      { error: '投票データの削除中にエラーが発生しました' },
+      { status: 500 }
+    );
+  }
+}
+
