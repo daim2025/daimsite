@@ -14,6 +14,7 @@ export const supabase = supabaseUrl && supabaseAnonKey
 // Supabase用の投票データ型定義
 export interface Vote {
   id: string
+  legacy_id?: string
   costume: string
   email?: string
   comment?: string
@@ -48,17 +49,21 @@ export const supabaseVoteStore = {
     }
   },
 
-  async add(voteData: Omit<Vote, 'id' | 'created_at' | 'updated_at'>): Promise<Vote | null> {
+  async add(voteData: Omit<Vote, 'id' | 'created_at' | 'updated_at' | 'legacy_id'>): Promise<Vote | null> {
     if (!supabase) {
       console.warn('Supabase not available, cannot save vote')
       return null
     }
 
     try {
+      // Generate legacy_id from timestamp for compatibility
+      const legacy_id = Date.now().toString()
+
       const { data, error } = await supabase
         .from('votes')
         .insert([{
           ...voteData,
+          legacy_id,
           created_at: new Date().toISOString()
         }])
         .select()
