@@ -261,28 +261,47 @@ let memoryInitialized = false;
 // Votes operations
 export const voteStore = {
   async getAll(forceRefresh: boolean = false): Promise<Vote[]> {
-    // Force refresh時はメモリキャッシュをクリア
+    // 本番環境（Vercel）では常にKVストアを使用、メモリフォールバックを無効化
+    const isProduction = process.env.NODE_ENV === 'production' || process.env.VERCEL === '1';
+
+    if (isProduction) {
+      console.log('🔄 Production mode: Using KV Store exclusively');
+      const kvVotes = await safeKvGet<Vote[]>('votes:all');
+      if (kvVotes && Array.isArray(kvVotes)) {
+        console.log(`✅ Loaded ${kvVotes.length} votes from KV Store (PRODUCTION)`);
+        return kvVotes;
+      }
+
+      // KVが空の場合は、JSONから初期データを移行（一回限り）
+      const jsonVotes = await this.loadFromJson();
+      if (jsonVotes.length > 0) {
+        console.log(`📁 Migrating ${jsonVotes.length} votes from JSON to KV Store (PRODUCTION INIT)`);
+        await safeKvSet('votes:all', jsonVotes);
+        return jsonVotes;
+      }
+
+      console.log('📭 No votes found in KV Store (PRODUCTION)');
+      return [];
+    }
+
+    // ローカル開発環境での従来のロジック
     if (forceRefresh) {
       memoryVotes = [];
       memoryInitialized = false;
     }
 
-    // KV Storeを絶対優先で取得
     const kvVotes = await safeKvGet<Vote[]>('votes:all');
     if (kvVotes && Array.isArray(kvVotes) && kvVotes.length > 0) {
-      console.log(`✅ Loaded ${kvVotes.length} votes from KV Store (PRIMARY)`);
-      // KVデータがある場合、メモリも更新して返す
+      console.log(`✅ Loaded ${kvVotes.length} votes from KV Store (DEV)`);
       memoryVotes = kvVotes;
       memoryInitialized = true;
       return kvVotes;
     }
 
-    // KVが空の場合のみJSONから初期データを読み込み（初回のみ）
     if (!memoryInitialized) {
       const jsonVotes = await this.loadFromJson();
       if (jsonVotes.length > 0) {
-        console.log(`📁 Migrating ${jsonVotes.length} votes from JSON to KV Store`);
-        // JSONデータをKVに移行
+        console.log(`📁 Migrating ${jsonVotes.length} votes from JSON to KV Store (DEV)`);
         await safeKvSet('votes:all', jsonVotes);
         memoryVotes = jsonVotes;
         memoryInitialized = true;
@@ -290,8 +309,7 @@ export const voteStore = {
       }
     }
 
-    // メモリフォールバック
-    console.log(`💾 Using memory fallback: ${memoryVotes.length} votes`);
+    console.log(`💾 Using memory fallback: ${memoryVotes.length} votes (DEV)`);
     return memoryVotes;
   },
 
@@ -318,30 +336,43 @@ export const voteStore = {
       createdAt: new Date().toISOString()
     };
 
+    const isProduction = process.env.NODE_ENV === 'production' || process.env.VERCEL === '1';
+
     // 現在のKVデータを強制取得（最新状態を確保）
     const currentVotes = await this.getAll(true);
     const updatedVotes = [...currentVotes, newVote];
 
-    console.log(`🔄 Adding new vote. Current: ${currentVotes.length}, New total: ${updatedVotes.length}`);
+    console.log(`🔄 Adding new vote (${isProduction ? 'PROD' : 'DEV'}). Current: ${currentVotes.length}, New total: ${updatedVotes.length}`);
 
     try {
       // KVストアに即座保存（最優先）
       await safeKvSet('votes:all', updatedVotes);
       await safeKvSet(`vote:${id}`, newVote);
-      console.log(`✅ Vote ${id} saved to KV Store successfully`);
+      console.log(`✅ Vote ${id} saved to KV Store successfully (${isProduction ? 'PROD' : 'DEV'})`);
 
-      // メモリも即座更新
+      // 本番環境では、KVストアが唯一のデータソース
+      if (isProduction) {
+        console.log(`📊 Production vote saved: ${id}`);
+        return newVote;
+      }
+
+      // 開発環境でのみメモリ更新とJSONバックアップ
       memoryVotes = updatedVotes;
       memoryInitialized = true;
 
-      // JSONは後でバックアップとして保存（失敗しても問題なし）
       this.saveToJson(updatedVotes).catch(error => {
         console.warn('JSON backup failed (this is normal on Vercel):', error.message);
       });
 
     } catch (error) {
       console.error('Critical error saving vote to KV:', error);
-      // KV失敗時はメモリだけでも保存
+
+      if (isProduction) {
+        // 本番環境でKV失敗は致命的エラー
+        throw new Error(`Production KV save failed for vote ${id}: ${error.message}`);
+      }
+
+      // 開発環境のみメモリフォールバック
       memoryVotes = updatedVotes;
       throw error;
     }
