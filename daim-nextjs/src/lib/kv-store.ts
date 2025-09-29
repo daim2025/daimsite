@@ -15,21 +15,31 @@ if (hasKvEnv) {
 }
 
 async function safeKvGet<T>(key: string): Promise<T | null> {
-  if (!kv) return null;
+  if (!kv) {
+    console.log(`⚠️ KV not available for key: ${key}`);
+    return null;
+  }
   try {
-    return await kv.get<T>(key);
+    const result = await kv.get<T>(key);
+    console.log(`🔍 KV GET ${key}: ${result ? 'SUCCESS' : 'NULL'} ${Array.isArray(result) ? `(${result.length} items)` : ''}`);
+    return result;
   } catch (error) {
-    console.error(`Error getting key ${key} from KV:`, error);
+    console.error(`❌ Error getting key ${key} from KV:`, error);
     return null;
   }
 }
 
 async function safeKvSet(key: string, value: any): Promise<void> {
-  if (!kv) return;
+  if (!kv) {
+    console.log(`⚠️ KV not available for SET ${key}`);
+    return;
+  }
   try {
     await kv.set(key, value);
+    console.log(`✅ KV SET ${key}: SUCCESS ${Array.isArray(value) ? `(${value.length} items)` : ''}`);
   } catch (error) {
-    console.error(`Error setting key ${key} in KV:`, error);
+    console.error(`❌ Error setting key ${key} in KV:`, error);
+    throw error;
   }
 }
 
@@ -257,39 +267,32 @@ export const voteStore = {
       memoryInitialized = false;
     }
 
-    // 最新のデータを順番に確認: KV → JSON → メモリ
-    let votes: Vote[] = [];
-
-    // 1. KV Storeから最新データを取得
+    // KV Storeを絶対優先で取得
     const kvVotes = await safeKvGet<Vote[]>('votes:all');
-    if (kvVotes && Array.isArray(kvVotes)) {
-      votes = kvVotes;
-      console.log(`Loaded ${votes.length} votes from KV Store`);
+    if (kvVotes && Array.isArray(kvVotes) && kvVotes.length > 0) {
+      console.log(`✅ Loaded ${kvVotes.length} votes from KV Store (PRIMARY)`);
+      // KVデータがある場合、メモリも更新して返す
+      memoryVotes = kvVotes;
+      memoryInitialized = true;
+      return kvVotes;
     }
 
-    // 2. KVが空の場合、JSONファイルから取得
-    if (votes.length === 0) {
+    // KVが空の場合のみJSONから初期データを読み込み（初回のみ）
+    if (!memoryInitialized) {
       const jsonVotes = await this.loadFromJson();
       if (jsonVotes.length > 0) {
-        votes = jsonVotes;
-        // KVにも同期
-        await safeKvSet('votes:all', votes);
-        console.log(`Synced ${votes.length} votes from JSON to KV`);
+        console.log(`📁 Migrating ${jsonVotes.length} votes from JSON to KV Store`);
+        // JSONデータをKVに移行
+        await safeKvSet('votes:all', jsonVotes);
+        memoryVotes = jsonVotes;
+        memoryInitialized = true;
+        return jsonVotes;
       }
     }
 
-    // 3. メモリストレージを更新
-    if (votes.length > 0 || !memoryInitialized) {
-      memoryVotes = votes;
-      memoryInitialized = true;
-    }
-
-    // 4. すべて空の場合はメモリから返す
-    if (votes.length === 0) {
-      votes = memoryVotes;
-    }
-
-    return votes;
+    // メモリフォールバック
+    console.log(`💾 Using memory fallback: ${memoryVotes.length} votes`);
+    return memoryVotes;
   },
 
   async loadFromJson(): Promise<Vote[]> {
@@ -315,18 +318,33 @@ export const voteStore = {
       createdAt: new Date().toISOString()
     };
 
-    const currentVotes = await this.getAll();
+    // 現在のKVデータを強制取得（最新状態を確保）
+    const currentVotes = await this.getAll(true);
     const updatedVotes = [...currentVotes, newVote];
 
-    // Try to save to KV first
-    await safeKvSet('votes:all', updatedVotes);
-    await safeKvSet(`vote:${id}`, newVote);
+    console.log(`🔄 Adding new vote. Current: ${currentVotes.length}, New total: ${updatedVotes.length}`);
 
-    // Save to JSON as backup (if possible)
-    await this.saveToJson(updatedVotes);
+    try {
+      // KVストアに即座保存（最優先）
+      await safeKvSet('votes:all', updatedVotes);
+      await safeKvSet(`vote:${id}`, newVote);
+      console.log(`✅ Vote ${id} saved to KV Store successfully`);
 
-    // Always save to memory as fallback
-    memoryVotes = updatedVotes;
+      // メモリも即座更新
+      memoryVotes = updatedVotes;
+      memoryInitialized = true;
+
+      // JSONは後でバックアップとして保存（失敗しても問題なし）
+      this.saveToJson(updatedVotes).catch(error => {
+        console.warn('JSON backup failed (this is normal on Vercel):', error.message);
+      });
+
+    } catch (error) {
+      console.error('Critical error saving vote to KV:', error);
+      // KV失敗時はメモリだけでも保存
+      memoryVotes = updatedVotes;
+      throw error;
+    }
 
     return newVote;
   },
