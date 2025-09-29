@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { voteStore } from '@/lib/kv-store';
+import { supabaseVoteStore } from '@/lib/supabase';
 
 // メールアドレスバリデーション
 const validateEmail = (email: string) => {
@@ -59,26 +60,32 @@ export async function POST(request: NextRequest) {
       timestamp: new Date().toISOString()
     };
 
-    // 保存前の状態を確認
-    const beforeCount = (await voteStore.getAll()).length;
-    console.log(`📊 Before save: ${beforeCount} votes`);
+    // Supabaseを優先して保存を試行
+    let newVote = await supabaseVoteStore.add(voteData);
+    let storageUsed = 'Supabase';
 
-    // 専用の投票ストアに保存
-    const newVote = await voteStore.add(voteData);
+    // Supabaseに失敗した場合はKVストアにフォールバック
+    if (!newVote) {
+      console.warn('Supabase failed, falling back to KV store');
+      const kvVoteData = {
+        ...voteData,
+        timestamp: voteData.timestamp || new Date().toISOString()
+      };
+      newVote = await voteStore.add(kvVoteData) as any;
+      storageUsed = 'KV Store (fallback)';
+    }
 
-    // 保存後の状態を確認
-    const afterCount = (await voteStore.getAll()).length;
-    console.log(`📊 After save: ${afterCount} votes`);
+    if (!newVote) {
+      throw new Error('Failed to save vote to any storage backend');
+    }
 
     console.log('Vote saved successfully:', {
       id: newVote.id,
       costume: newVote.costume,
       email: newVote.email || 'anonymous',
       comment: newVote.comment,
-      createdAt: newVote.createdAt,
-      beforeCount,
-      afterCount,
-      storage: 'Dedicated Vote Store (KV + JSON)'
+      createdAt: newVote.created_at || newVote.createdAt,
+      storage: storageUsed
     });
 
     return NextResponse.json(
@@ -107,9 +114,15 @@ export async function GET(request: NextRequest) {
 
     // 管理者権限がある場合は詳細データを返す
     if (adminKey === validKey) {
-      // 最新データを強制取得
-      const votes = await voteStore.getAll(true);
-      const voteCounts = await voteStore.getCounts();
+      // Supabaseから最新データを取得、失敗時はKVストアにフォールバック
+      let votes = await supabaseVoteStore.getAll();
+      let voteCounts = await supabaseVoteStore.getCounts();
+
+      if (votes.length === 0) {
+        console.warn('No Supabase data, falling back to KV store');
+        votes = await voteStore.getAll(true);
+        voteCounts = await voteStore.getCounts();
+      }
 
       const sortedVotes = votes.sort((a, b) =>
         new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
@@ -130,13 +143,15 @@ export async function GET(request: NextRequest) {
     }
 
     // 一般向けには集計データのみを返す
-    const url = new URL(request.url);
-    const refresh = url.searchParams.get('refresh') === 'true';
+    // Supabaseから最新データを取得、失敗時はKVストアにフォールバック
+    let voteCounts = await supabaseVoteStore.getCounts();
+    let totalVotes = Object.values(voteCounts).reduce((sum, count) => sum + count, 0);
 
-    // refreshパラメータがある場合は最新データを取得
-    const votes = await voteStore.getAll(refresh);
-    const voteCounts = await voteStore.getCounts();
-    const totalVotes = Object.values(voteCounts).reduce((sum, count) => sum + count, 0);
+    if (totalVotes === 0) {
+      console.warn('No Supabase data, falling back to KV store for public API');
+      voteCounts = await voteStore.getCounts();
+      totalVotes = Object.values(voteCounts).reduce((sum, count) => sum + count, 0);
+    }
 
     return NextResponse.json(
       {
@@ -184,10 +199,11 @@ export async function DELETE(request: NextRequest) {
         { status: 200 }
       );
     } else {
-      // 全ての投票データを削除
+      // 全ての投票データを削除（SupabaseとKV両方）
+      const supabaseDeleted = await supabaseVoteStore.deleteAll();
       await voteStore.deleteAll();
 
-      console.log('All votes deleted by admin');
+      console.log(`All votes deleted by admin. Supabase: ${supabaseDeleted ? 'Success' : 'Failed'}, KV: Attempted`);
 
       return NextResponse.json(
         { message: '全ての投票データを削除しました' },
