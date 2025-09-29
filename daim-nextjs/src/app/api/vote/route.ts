@@ -76,9 +76,16 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 投票データの作成
+    // 投票データの作成（日本語ラベル）
+    const costumeLabels = {
+      '1': 'イメージカット（1）',
+      '2': 'イメージカット（2）',
+      '3': 'イメージカット（3）',
+      '4': 'イメージカット（4）'
+    };
+
     const voteData = {
-      costume: `イメージカット（${costume}）`,
+      costume: costumeLabels[costume] || `イメージカット（${costume}）`,
       email: email?.toLowerCase().trim() || undefined,
       comment: comment?.trim() || undefined,
       timestamp: new Date().toISOString()
