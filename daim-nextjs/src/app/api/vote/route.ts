@@ -21,9 +21,15 @@ export async function OPTIONS(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  console.log('=== Vote POST Request Started ===');
+  console.log('Request URL:', request.url);
+  console.log('Request headers:', Object.fromEntries(request.headers.entries()));
+
   try {
     const contentType = request.headers.get('content-type');
     let costume, email, comment;
+
+    console.log('Content-Type:', contentType);
 
     if (contentType?.includes('application/json')) {
       // JSON形式の場合
@@ -31,36 +37,41 @@ export async function POST(request: NextRequest) {
       costume = data.costume;
       email = data.email;
       comment = data.comment;
+      console.log('JSON data received:', { costume, email: email ? 'provided' : 'not provided', comment });
     } else {
       // フォームデータの場合
       const formData = await request.formData();
       costume = formData.get('costume');
       email = formData.get('email');
       comment = formData.get('comment');
+      console.log('Form data received:', { costume, email: email ? 'provided' : 'not provided', comment });
     }
 
     // バリデーション
     if (!costume) {
+      console.log('❌ Validation failed: No costume selected');
       return NextResponse.json(
         { error: 'コスプレ衣装を選択してください' },
-        { status: 400 }
+        { status: 400, headers: corsHeaders }
       );
     }
 
     // コスプレ選択肢の検証
     const validCostumes = ['1', '2', '3', '4'];
     if (!validCostumes.includes(costume)) {
+      console.log('❌ Validation failed: Invalid costume selection:', costume);
       return NextResponse.json(
         { error: '無効な選択肢です' },
-        { status: 400 }
+        { status: 400, headers: corsHeaders }
       );
     }
 
     // メールアドレスが提供されている場合はバリデーション
     if (email && !validateEmail(email)) {
+      console.log('❌ Validation failed: Invalid email format:', email);
       return NextResponse.json(
         { error: '有効なメールアドレスを入力してください' },
-        { status: 400 }
+        { status: 400, headers: corsHeaders }
       );
     }
 
@@ -72,26 +83,42 @@ export async function POST(request: NextRequest) {
       timestamp: new Date().toISOString()
     };
 
+    console.log('✅ Vote data prepared:', voteData);
+
     // Supabaseを優先して保存を試行
+    console.log('🔄 Attempting to save to Supabase...');
     let newVote = await supabaseVoteStore.add(voteData);
     let storageUsed = 'Supabase';
 
+    if (newVote) {
+      console.log('✅ Successfully saved to Supabase:', newVote.id);
+    } else {
+      console.log('⚠️  Supabase save failed, will try KV store...');
+    }
+
     // Supabaseに失敗した場合はKVストアにフォールバック
     if (!newVote) {
-      console.warn('Supabase failed, falling back to KV store');
-      const kvVoteData = {
-        ...voteData,
-        timestamp: voteData.timestamp || new Date().toISOString()
-      };
-      newVote = await voteStore.add(kvVoteData) as any;
-      storageUsed = 'KV Store (fallback)';
+      console.log('🔄 Falling back to KV store...');
+      try {
+        const kvVoteData = {
+          ...voteData,
+          timestamp: voteData.timestamp || new Date().toISOString()
+        };
+        newVote = await voteStore.add(kvVoteData) as any;
+        storageUsed = 'KV Store (fallback)';
+        console.log('✅ Successfully saved to KV store:', newVote.id);
+      } catch (kvError) {
+        console.error('❌ KV store save failed:', kvError);
+        throw kvError;
+      }
     }
 
     if (!newVote) {
+      console.error('❌ CRITICAL: Failed to save vote to any storage backend');
       throw new Error('Failed to save vote to any storage backend');
     }
 
-    console.log('Vote saved successfully:', {
+    console.log('🎉 Vote saved successfully:', {
       id: newVote.id,
       costume: newVote.costume,
       email: newVote.email || 'anonymous',
@@ -100,20 +127,26 @@ export async function POST(request: NextRequest) {
       storage: storageUsed
     });
 
-    return NextResponse.json(
-      {
-        message: '投票ありがとうございます！ご投票内容を保存しました。',
-        id: newVote.id,
-        selectedCostume: newVote.costume,
-        timestamp: newVote.timestamp
-      },
-      { status: 200, headers: corsHeaders }
-    );
+    const response = {
+      message: '投票ありがとうございます！ご投票内容を保存しました。',
+      id: newVote.id,
+      selectedCostume: newVote.costume,
+      timestamp: newVote.timestamp || newVote.created_at
+    };
+
+    console.log('📤 Sending success response:', response);
+
+    return NextResponse.json(response, { status: 200, headers: corsHeaders });
 
   } catch (error) {
-    console.error('Vote form error:', error);
+    console.error('❌ Vote form error:', error);
+    console.error('Error stack:', error instanceof Error ? error.stack : 'No stack trace');
+
     return NextResponse.json(
-      { error: 'サーバーエラーが発生しました。しばらく時間をおいて再度お試しください。' },
+      {
+        error: 'サーバーエラーが発生しました。しばらく時間をおいて再度お試しください。',
+        details: process.env.NODE_ENV === 'development' ? error.message : undefined
+      },
       { status: 500, headers: corsHeaders }
     );
   }
