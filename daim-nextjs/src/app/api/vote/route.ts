@@ -85,31 +85,32 @@ export async function POST(request: NextRequest) {
 
     console.log('✅ Vote data prepared:', voteData);
 
-    // Supabaseを優先して保存を試行
-    console.log('🔄 Attempting to save to Supabase...');
-    let newVote = await supabaseVoteStore.add(voteData);
-    let storageUsed = 'Supabase';
+    // KVストアを優先して保存（Supabaseの問題を回避）
+    console.log('🔄 Attempting to save to KV store (primary)...');
+    let newVote;
+    let storageUsed = 'KV Store (primary)';
 
-    if (newVote) {
-      console.log('✅ Successfully saved to Supabase:', newVote.id);
-    } else {
-      console.log('⚠️  Supabase save failed, will try KV store...');
-    }
+    try {
+      const kvVoteData = {
+        ...voteData,
+        timestamp: voteData.timestamp || new Date().toISOString()
+      };
+      newVote = await voteStore.add(kvVoteData) as any;
+      console.log('✅ Successfully saved to KV store:', newVote.id);
+    } catch (kvError) {
+      console.error('❌ KV store save failed, trying Supabase fallback:', kvError);
 
-    // Supabaseに失敗した場合はKVストアにフォールバック
-    if (!newVote) {
-      console.log('🔄 Falling back to KV store...');
+      // KVが失敗した場合のみSupabaseを試行
       try {
-        const kvVoteData = {
-          ...voteData,
-          timestamp: voteData.timestamp || new Date().toISOString()
-        };
-        newVote = await voteStore.add(kvVoteData) as any;
-        storageUsed = 'KV Store (fallback)';
-        console.log('✅ Successfully saved to KV store:', newVote.id);
-      } catch (kvError) {
-        console.error('❌ KV store save failed:', kvError);
-        throw kvError;
+        console.log('🔄 Falling back to Supabase...');
+        newVote = await supabaseVoteStore.add(voteData);
+        storageUsed = 'Supabase (fallback)';
+        if (newVote) {
+          console.log('✅ Successfully saved to Supabase:', newVote.id);
+        }
+      } catch (supabaseError) {
+        console.error('❌ Supabase fallback also failed:', supabaseError);
+        throw kvError; // 元のKVエラーを投げる
       }
     }
 
@@ -159,14 +160,14 @@ export async function GET(request: NextRequest) {
 
     // 管理者権限がある場合は詳細データを返す
     if (adminKey === validKey) {
-      // Supabaseから最新データを取得、失敗時はKVストアにフォールバック
-      let votes = await supabaseVoteStore.getAll();
-      let voteCounts = await supabaseVoteStore.getCounts();
+      // KVストアから最新データを取得、失敗時はSupabaseにフォールバック
+      let votes = await voteStore.getAll(true);
+      let voteCounts = await voteStore.getCounts();
 
       if (votes.length === 0) {
-        console.warn('No Supabase data, falling back to KV store');
-        votes = await voteStore.getAll(true);
-        voteCounts = await voteStore.getCounts();
+        console.warn('No KV data, falling back to Supabase');
+        votes = await supabaseVoteStore.getAll();
+        voteCounts = await supabaseVoteStore.getCounts();
       }
 
       const sortedVotes = votes.sort((a, b) => {
@@ -190,13 +191,13 @@ export async function GET(request: NextRequest) {
     }
 
     // 一般向けには集計データのみを返す
-    // Supabaseから最新データを取得、失敗時はKVストアにフォールバック
-    let voteCounts = await supabaseVoteStore.getCounts();
+    // KVストアから最新データを取得、失敗時はSupabaseにフォールバック
+    let voteCounts = await voteStore.getCounts();
     let totalVotes = Object.values(voteCounts).reduce((sum, count) => sum + count, 0);
 
     if (totalVotes === 0) {
-      console.warn('No Supabase data, falling back to KV store for public API');
-      voteCounts = await voteStore.getCounts();
+      console.warn('No KV data, falling back to Supabase for public API');
+      voteCounts = await supabaseVoteStore.getCounts();
       totalVotes = Object.values(voteCounts).reduce((sum, count) => sum + count, 0);
     }
 
