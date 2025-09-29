@@ -45,6 +45,7 @@ export default function AdminPage() {
   const [costumeFilter, setCostumeFilter] = useState('all');
   const [monthFilter, setMonthFilter] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isClearingCache, setIsClearingCache] = useState(false);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -121,12 +122,13 @@ export default function AdminPage() {
     }
   };
 
-  const fetchVotes = async () => {
+  const fetchVotes = async (forceRefresh: boolean = false) => {
     setIsVotesLoading(true);
-    console.log('Fetching votes with admin key:', adminKey ? 'Present' : 'Missing', 'Key:', adminKey);
+    console.log('Fetching votes with admin key:', adminKey ? 'Present' : 'Missing', 'Key:', adminKey, 'Force refresh:', forceRefresh);
 
     try {
-      const response = await fetch('/api/vote', {
+      const url = forceRefresh ? '/api/vote?refresh=true' : '/api/vote';
+      const response = await fetch(url, {
         method: 'GET',
         headers: {
           'x-admin-key': adminKey
@@ -199,6 +201,32 @@ export default function AdminPage() {
       alert('❌ 削除中にエラーが発生しました。');
     } finally {
       setIsDeleting(false);
+    }
+  };
+
+  const clearCache = async () => {
+    setIsClearingCache(true);
+    try {
+      const response = await fetch('/api/vote?action=clear-cache', {
+        method: 'DELETE',
+        headers: {
+          'x-admin-key': adminKey
+        }
+      });
+
+      if (response.ok) {
+        // キャッシュクリア後に最新データを取得
+        await fetchVotes(true);
+        alert('✅ キャッシュをクリアして最新データを取得しました。');
+      } else {
+        const errorData = await response.json();
+        alert(`❌ キャッシュクリアに失敗しました: ${errorData.error || '不明なエラー'}`);
+      }
+    } catch (error) {
+      console.error('Error clearing cache:', error);
+      alert('❌ キャッシュクリア中にエラーが発生しました。');
+    } finally {
+      setIsClearingCache(false);
     }
   };
 
@@ -442,11 +470,25 @@ export default function AdminPage() {
                     📥 CSV ダウンロード ({filteredVotes.length}件)
                   </button>
                   <button
-                    onClick={fetchVotes}
+                    onClick={() => fetchVotes()}
                     disabled={isVotesLoading}
                     className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors disabled:opacity-50"
                   >
                     {isVotesLoading ? '更新中...' : '🔄 更新'}
+                  </button>
+                  <button
+                    onClick={() => fetchVotes(true)}
+                    disabled={isVotesLoading}
+                    className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors disabled:opacity-50"
+                  >
+                    {isVotesLoading ? '更新中...' : '⚡ 強制更新'}
+                  </button>
+                  <button
+                    onClick={clearCache}
+                    disabled={isClearingCache}
+                    className="px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg transition-colors disabled:opacity-50"
+                  >
+                    {isClearingCache ? 'クリア中...' : '🧹 キャッシュクリア'}
                   </button>
                   <button
                     onClick={deleteAllVotes}
