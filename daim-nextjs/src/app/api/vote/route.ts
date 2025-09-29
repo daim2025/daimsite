@@ -59,15 +59,25 @@ export async function POST(request: NextRequest) {
       timestamp: new Date().toISOString()
     };
 
+    // 保存前の状態を確認
+    const beforeCount = (await voteStore.getAll()).length;
+    console.log(`📊 Before save: ${beforeCount} votes`);
+
     // 専用の投票ストアに保存
     const newVote = await voteStore.add(voteData);
-    
+
+    // 保存後の状態を確認
+    const afterCount = (await voteStore.getAll()).length;
+    console.log(`📊 After save: ${afterCount} votes`);
+
     console.log('Vote saved successfully:', {
       id: newVote.id,
       costume: newVote.costume,
       email: newVote.email || 'anonymous',
       comment: newVote.comment,
       createdAt: newVote.createdAt,
+      beforeCount,
+      afterCount,
       storage: 'Dedicated Vote Store (KV + JSON)'
     });
 
