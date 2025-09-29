@@ -238,7 +238,7 @@ export default function AdminPage() {
     if (monthFilter) {
       const [year, month] = monthFilter.split('-');
       filtered = filtered.filter(vote => {
-        const voteDate = new Date(vote.createdAt || vote.timestamp);
+        const voteDate = new Date(vote.created_at || vote.createdAt || vote.timestamp);
         return voteDate.getFullYear() === parseInt(year) &&
                voteDate.getMonth() === parseInt(month) - 1;
       });
@@ -246,14 +246,14 @@ export default function AdminPage() {
       // 個別日付フィルター（月フィルターが無い場合のみ）
       if (dateFrom) {
         filtered = filtered.filter(vote =>
-          new Date(vote.createdAt || vote.timestamp) >= new Date(dateFrom)
+          new Date(vote.created_at || vote.createdAt || vote.timestamp) >= new Date(dateFrom)
         );
       }
       if (dateTo) {
         const endDate = new Date(dateTo);
         endDate.setHours(23, 59, 59, 999); // 日付の終わりまで
         filtered = filtered.filter(vote =>
-          new Date(vote.createdAt || vote.timestamp) <= endDate
+          new Date(vote.created_at || vote.createdAt || vote.timestamp) <= endDate
         );
       }
     }
@@ -304,7 +304,7 @@ export default function AdminPage() {
   const downloadCSV = () => {
     const headers = ['投票日時', 'コスプレ選択', 'メールアドレス', 'コメント', 'ID'];
     const csvData = filteredVotes.map(vote => [
-      new Date(vote.createdAt || vote.timestamp).toLocaleString('ja-JP'),
+      new Date(vote.created_at || vote.createdAt || vote.timestamp).toLocaleString('ja-JP'),
       vote.costume || '',
       vote.email || '匿名',
       vote.comment || '',
@@ -653,7 +653,7 @@ export default function AdminPage() {
                           {filteredVotes.map((vote, index) => (
                             <tr key={vote.id || index} className="hover:bg-white/5">
                               <td className="px-4 py-3 text-gray-300">
-                                {new Date(vote.createdAt || vote.timestamp).toLocaleString('ja-JP')}
+                                {new Date(vote.created_at || vote.createdAt || vote.timestamp).toLocaleString('ja-JP')}
                               </td>
                               <td className="px-4 py-3">
                                 <span className="inline-flex px-2 py-1 text-xs font-medium rounded-full bg-purple-500/20 text-purple-300">

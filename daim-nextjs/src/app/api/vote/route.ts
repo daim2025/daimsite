@@ -124,9 +124,11 @@ export async function GET(request: NextRequest) {
         voteCounts = await voteStore.getCounts();
       }
 
-      const sortedVotes = votes.sort((a, b) =>
-        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-      );
+      const sortedVotes = votes.sort((a, b) => {
+        const dateA = new Date(a.created_at || a.createdAt || a.timestamp).getTime();
+        const dateB = new Date(b.created_at || b.createdAt || b.timestamp).getTime();
+        return dateB - dateA;
+      });
 
       return NextResponse.json(
         {
