@@ -20,13 +20,22 @@ export default function VoteResultsPage() {
 
   const fetchVoteData = async () => {
     try {
+      console.log('=== Fetching vote data ===');
       const response = await fetch('/api/vote', {
         cache: 'no-store'
       });
+      console.log('Response status:', response.status);
+
       if (response.ok) {
         const data = await response.json();
         console.log('Vote data fetched:', data);
+        console.log('Total votes:', data.totalVotes);
+        console.log('Vote counts:', data.voteCounts);
+        console.log('Before setVoteData, current state:', voteData);
         setVoteData(data);
+        console.log('After setVoteData called');
+      } else {
+        console.error('API error:', response.status, response.statusText);
       }
     } catch (error) {
       console.error('Failed to fetch vote data:', error);
@@ -43,6 +52,11 @@ export default function VoteResultsPage() {
   }, []);
 
   const { votes, totalVotes, voteCounts } = voteData;
+
+  console.log('=== Rendering vote results ===');
+  console.log('Current voteData state:', voteData);
+  console.log('Total votes for display:', totalVotes);
+  console.log('Loading state:', loading);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white">
