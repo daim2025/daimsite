@@ -59,10 +59,14 @@ export const supabaseVoteStore = {
       // Generate legacy_id from timestamp for compatibility
       const legacy_id = Date.now().toString()
 
+      // Supabaseテーブル用のデータを準備（timestampフィールドを除外）
+      const { timestamp, ...cleanVoteData } = voteData as any
+
       const { data, error } = await supabase
         .from('votes')
         .insert([{
-          ...voteData,
+          id: legacy_id,
+          ...cleanVoteData,
           legacy_id,
           created_at: new Date().toISOString()
         }])
