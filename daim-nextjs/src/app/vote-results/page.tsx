@@ -1,5 +1,8 @@
+'use client';
+
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import { useEffect, useState } from 'react';
 
 interface VoteData {
   votes: any[];
@@ -7,46 +10,39 @@ interface VoteData {
   voteCounts: Record<string, number>;
 }
 
-async function getVoteData(): Promise<VoteData> {
-  try {
-    // Vercel環境では内部呼び出し、それ以外は外部URL
-    const baseUrl = process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}`
-      : process.env.NODE_ENV === 'development'
-      ? 'http://localhost:3000'
-      : 'https://daim.site';
-
-    console.log('Fetching vote data from:', `${baseUrl}/api/vote`);
-
-    const response = await fetch(`${baseUrl}/api/vote`, {
-      cache: 'no-store', // 常に最新データを取得
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    });
-
-    console.log('Vote API response status:', response.status);
-
-    if (response.ok) {
-      const data = await response.json();
-      console.log('Vote data received:', data);
-      return data;
-    } else {
-      console.error('Vote API error:', response.status, response.statusText);
-    }
-  } catch (error) {
-    console.error('Failed to fetch vote data:', error);
-  }
-
-  return {
+export default function VoteResultsPage() {
+  const [voteData, setVoteData] = useState<VoteData>({
     votes: [],
     totalVotes: 0,
     voteCounts: {}
-  };
-}
+  });
+  const [loading, setLoading] = useState(true);
 
-export default async function VoteResultsPage() {
-  const { votes, totalVotes, voteCounts } = await getVoteData();
+  const fetchVoteData = async () => {
+    try {
+      const response = await fetch('/api/vote', {
+        cache: 'no-store'
+      });
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Vote data fetched:', data);
+        setVoteData(data);
+      }
+    } catch (error) {
+      console.error('Failed to fetch vote data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchVoteData();
+    // 30秒ごとにデータを更新
+    const interval = setInterval(fetchVoteData, 30000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const { votes, totalVotes, voteCounts } = voteData;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white">
