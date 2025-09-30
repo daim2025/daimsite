@@ -14,11 +14,17 @@ export default function VoteResultsPage() {
   const [voteData, setVoteData] = useState<VoteData>({
     votes: [],
     totalVotes: 0,
-    voteCounts: {}
+    voteCounts: {
+      'イメージカット（1）': 0,
+      'イメージカット（2）': 0,
+      'イメージカット（3）': 0,
+      'イメージカット（4）': 0
+    }
   });
   const [loading, setLoading] = useState(true);
+  const [lastUpdate, setLastUpdate] = useState<string>('');
 
-  console.log('🔄 VoteResultsPage component loaded - VERSION 2.0');
+  console.log('🚀 VoteResultsPage MAJOR REBUILD - VERSION 3.0 - CACHE BUSTED');
 
   const fetchVoteData = async () => {
     try {
@@ -39,7 +45,8 @@ export default function VoteResultsPage() {
         console.log('Vote counts:', data.voteCounts);
         console.log('Before setVoteData, current state:', voteData);
         setVoteData(data);
-        console.log('After setVoteData called');
+        setLastUpdate(new Date().toLocaleString('ja-JP'));
+        console.log('After setVoteData called - NEW VERSION 3.0');
       } else {
         console.error('API error:', response.status, response.statusText);
       }
@@ -72,8 +79,9 @@ export default function VoteResultsPage() {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <div className="mb-8 text-center">
-              <h1 className="text-4xl font-light mb-4">🗳️ ぽにょ皇子 投票結果</h1>
+              <h1 className="text-4xl font-light mb-4">🗳️ ぽにょ皇子 投票結果 (V3.0)</h1>
               <p className="text-gray-300">コスプレ衣装選択の投票結果をリアルタイムで確認</p>
+              {lastUpdate && <p className="text-gray-500 text-sm mt-2">最終更新: {lastUpdate}</p>}
             </div>
 
             {/* 総投票数 */}
