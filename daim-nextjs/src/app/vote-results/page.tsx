@@ -9,16 +9,30 @@ interface VoteData {
 
 async function getVoteData(): Promise<VoteData> {
   try {
+    // Vercel環境では内部呼び出し、それ以外は外部URL
     const baseUrl = process.env.VERCEL_URL
       ? `https://${process.env.VERCEL_URL}`
+      : process.env.NODE_ENV === 'development'
+      ? 'http://localhost:3000'
       : 'https://daim.site';
 
+    console.log('Fetching vote data from:', `${baseUrl}/api/vote`);
+
     const response = await fetch(`${baseUrl}/api/vote`, {
-      cache: 'no-store' // 常に最新データを取得
+      cache: 'no-store', // 常に最新データを取得
+      headers: {
+        'Content-Type': 'application/json',
+      }
     });
 
+    console.log('Vote API response status:', response.status);
+
     if (response.ok) {
-      return await response.json();
+      const data = await response.json();
+      console.log('Vote data received:', data);
+      return data;
+    } else {
+      console.error('Vote API error:', response.status, response.statusText);
     }
   } catch (error) {
     console.error('Failed to fetch vote data:', error);
