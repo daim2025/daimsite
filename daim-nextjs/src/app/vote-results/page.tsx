@@ -18,11 +18,17 @@ export default function VoteResultsPage() {
   });
   const [loading, setLoading] = useState(true);
 
+  console.log('🔄 VoteResultsPage component loaded - VERSION 2.0');
+
   const fetchVoteData = async () => {
     try {
       console.log('=== Fetching vote data ===');
-      const response = await fetch('/api/vote', {
-        cache: 'no-store'
+      const response = await fetch(`/api/vote?_t=${Date.now()}`, {
+        cache: 'no-store',
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache'
+        }
       });
       console.log('Response status:', response.status);
 
