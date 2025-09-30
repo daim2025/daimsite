@@ -1,8 +1,5 @@
-'use client';
-
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
-import { useEffect, useState } from 'react';
 
 interface VoteData {
   votes: any[];
@@ -10,31 +7,32 @@ interface VoteData {
   voteCounts: Record<string, number>;
 }
 
-export default function VoteResultsPage() {
-  const [voteData, setVoteData] = useState<VoteData>({
+async function getVoteData(): Promise<VoteData> {
+  try {
+    const baseUrl = process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : 'https://daim.site';
+
+    const response = await fetch(`${baseUrl}/api/vote`, {
+      cache: 'no-store' // 常に最新データを取得
+    });
+
+    if (response.ok) {
+      return await response.json();
+    }
+  } catch (error) {
+    console.error('Failed to fetch vote data:', error);
+  }
+
+  return {
     votes: [],
     totalVotes: 0,
     voteCounts: {}
-  });
+  };
+}
 
-  useEffect(() => {
-    // クライアントサイドで投票データを取得
-    const fetchVoteData = async () => {
-      try {
-        const response = await fetch('/api/vote');
-        if (response.ok) {
-          const data = await response.json();
-          setVoteData(data);
-        }
-      } catch (error) {
-        console.error('Failed to fetch vote data:', error);
-      }
-    };
-
-    fetchVoteData();
-  }, []);
-
-  const { votes, totalVotes, voteCounts } = voteData;
+export default async function VoteResultsPage() {
+  const { votes, totalVotes, voteCounts } = await getVoteData();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white">
